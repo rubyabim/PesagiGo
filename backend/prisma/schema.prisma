@@ -29,6 +29,15 @@ enum PaymentStatus {
   FAILED
 }
 
+enum WeatherCondition {
+  SUNNY
+  CLOUDY
+  LIGHT_RAIN
+  HEAVY_RAIN
+  STORM
+  FOG
+}
+
 model User {
   id           String    @id @default(cuid())
   fullName     String
@@ -51,6 +60,7 @@ model Mountain {
   updatedAt   DateTime       @updatedAt
   trails      Trail[]
   sessions    ClimbSession[]
+  forecasts   WeatherForecast[]
 }
 
 model Trail {
@@ -110,4 +120,19 @@ model Payment {
   paidAt      DateTime?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
+}
+
+model WeatherForecast {
+  id            String           @id @default(cuid())
+  mountainId    String
+  mountain      Mountain         @relation(fields: [mountainId], references: [id], onDelete: Cascade)
+  forecastDate  DateTime
+  condition     WeatherCondition
+  temperatureC  Float
+  windKph       Float?
+  note          String?
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+
+  @@unique([mountainId, forecastDate])
 }
