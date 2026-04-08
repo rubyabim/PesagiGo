@@ -4,8 +4,7 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { BookingStatus, PaymentStatus } from '../generated/prisma/enums';
-import { Prisma } from '../generated/prisma/client';
+import { BookingStatus, PaymentStatus, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateBookingDto } from './dto/create-booking.dto';
 import { PayBookingDto } from './dto/pay-booking.dto';

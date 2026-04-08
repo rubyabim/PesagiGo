@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TrailDifficulty } from '../generated/prisma/enums';
+import { TrailDifficulty } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
