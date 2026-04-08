@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { TrailDifficulty } from '@prisma/client';
+import { TrailDifficulty, WeatherCondition } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
@@ -70,6 +70,27 @@ export class SeedService {
           date: secondDate,
           quotaTotal: 120,
           price: 50000,
+        },
+      ],
+    });
+
+    await this.prisma.weatherForecast.createMany({
+      data: [
+        {
+          mountainId: mountain.id,
+          forecastDate: firstDate,
+          condition: WeatherCondition.CLOUDY,
+          temperatureC: 21,
+          windKph: 9,
+          note: 'Cuaca relatif stabil, potensi kabut tipis sore hari.',
+        },
+        {
+          mountainId: mountain.id,
+          forecastDate: secondDate,
+          condition: WeatherCondition.LIGHT_RAIN,
+          temperatureC: 19,
+          windKph: 14,
+          note: 'Siapkan jas hujan ringan dan lapisan tambahan.',
         },
       ],
     });
