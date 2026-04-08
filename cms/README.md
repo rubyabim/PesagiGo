@@ -14,6 +14,8 @@ pnpm dev
 bun dev
 ```
 
+Pada Windows, script `npm run dev` sekarang otomatis menutup proses lama yang masih memakai port `3000` sebelum Next.js dijalankan.
+
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
