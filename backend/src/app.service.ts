@@ -6,6 +6,14 @@ export class AppService {
     return 'PesagiGo API is running';
   }
 
+  getMeta() {
+    return {
+      app: 'PesagiGo',
+      backend: 'NestJS',
+      version: '1.0.0',
+    };
+  }
+
   getHealth() {
     return {
       status: 'ok',
