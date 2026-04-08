@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   ActivityIndicator,
-  Platform,
   Pressable,
   SafeAreaView,
   StatusBar,
@@ -9,20 +8,13 @@ import {
   Text,
   View,
 } from 'react-native';
+import { getApiBaseUrl } from './src/config/api';
 
 type ApiHealth = {
   status: string;
   service: string;
   timestamp: string;
 };
-
-function getApiBaseUrl() {
-  if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:3001';
-  }
-
-  return 'http://localhost:3001';
-}
 
 export default function App() {
   const apiBaseUrl = useMemo(() => getApiBaseUrl(), []);
