@@ -25,10 +25,11 @@ Relasi utama:
 2. Pengguna login: `POST /api/auth/login`
 3. Lihat gunung dan jalur: `GET /api/mountains`, `GET /api/mountains/:id/trails`
 4. Lihat kuota sesi real-time: `GET /api/sessions`
-5. Buat booking (JWT): `POST /api/bookings`
-6. Bayar booking (JWT): `POST /api/bookings/:id/pay`
-7. Ambil tiket (JWT): `GET /api/bookings/:id/ticket`
-8. Lihat riwayat booking (JWT): `GET /api/bookings/my`
+5. Lihat informasi cuaca pendakian: `GET /api/weather`
+6. Buat booking (JWT): `POST /api/bookings`
+7. Bayar booking (JWT): `POST /api/bookings/:id/pay`
+8. Ambil tiket (JWT): `GET /api/bookings/:id/ticket`
+9. Lihat riwayat booking (JWT): `GET /api/bookings/my`
 
 ## 3. Endpoint Seed Data
 
