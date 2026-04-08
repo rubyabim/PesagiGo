@@ -45,7 +45,12 @@ Contoh ada di `.env.example`:
 - `PORT`: port backend.
 - `CORS_ORIGINS`: daftar origin frontend yang diizinkan.
 
-## 5. Catatan Integrasi Web/Mobile
+## 5. Menjalankan Backend (Windows)
+
+- Gunakan `npm run start:dev`.
+- Script `prestart:dev` akan otomatis menutup proses yang memakai port `3001` agar backend langsung jalan.
+
+## 6. Catatan Integrasi Web/Mobile
 
 - Web Next.js gunakan `NEXT_PUBLIC_API_BASE_URL=http://localhost:3001`.
 - Android emulator gunakan host API `http://10.0.2.2:3001`.
