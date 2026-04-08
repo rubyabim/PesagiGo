@@ -7,6 +7,7 @@ import { MountainsModule } from './mountains/mountains.module';
 import { SessionsModule } from './sessions/sessions.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { SeedModule } from './seed/seed.module';
+import { WeatherModule } from './weather/weather.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SeedModule } from './seed/seed.module';
     SessionsModule,
     BookingsModule,
     SeedModule,
+    WeatherModule,
   ],
   controllers: [AppController],
   providers: [AppService],
