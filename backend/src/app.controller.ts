@@ -10,6 +10,11 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @Get('api/meta')
+  getMeta() {
+    return this.appService.getMeta();
+  }
+
   @Get('api/health')
   getHealth() {
     return this.appService.getHealth();
