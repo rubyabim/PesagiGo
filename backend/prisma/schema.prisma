@@ -1,13 +1,114 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+enum TrailDifficulty {
+  EASY
+  MEDIUM
+  HARD
+}
+
+enum BookingStatus {
+  PENDING_PAYMENT
+  PAID
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  fullName     String
+  email        String    @unique
+  phone        String?
+  passwordHash String
+  role         UserRole  @default(USER)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  bookings     Booking[]
+}
+
+model Mountain {
+  id          String         @id @default(cuid())
+  name        String         @unique
+  location    String
+  description String
+  bestSeason  String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  trails      Trail[]
+  sessions    ClimbSession[]
+}
+
+model Trail {
+  id             String          @id @default(cuid())
+  mountainId     String
+  mountain       Mountain        @relation(fields: [mountainId], references: [id], onDelete: Cascade)
+  name           String
+  difficulty     TrailDifficulty
+  distanceKm     Float
+  estimatedHours Float
+  description    String
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  @@unique([mountainId, name])
+}
+
+model ClimbSession {
+  id         String    @id @default(cuid())
+  mountainId String
+  mountain   Mountain  @relation(fields: [mountainId], references: [id], onDelete: Cascade)
+  date       DateTime
+  quotaTotal Int
+  quotaBooked Int      @default(0)
+  price      Decimal   @db.Decimal(10, 2)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  bookings   Booking[]
+
+  @@unique([mountainId, date])
+}
+
+model Booking {
+  id           String        @id @default(cuid())
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Restrict)
+  sessionId    String
+  session      ClimbSession  @relation(fields: [sessionId], references: [id], onDelete: Restrict)
+  quantity     Int
+  totalPrice   Decimal       @db.Decimal(10, 2)
+  status       BookingStatus @default(PENDING_PAYMENT)
+  ticketCode   String?       @unique
+  ticketPdfUrl String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  payment      Payment?
+}
+
+model Payment {
+  id          String        @id @default(cuid())
+  bookingId   String        @unique
+  booking     Booking       @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  method      String
+  providerRef String?
+  amount      Decimal       @db.Decimal(10, 2)
+  status      PaymentStatus @default(PENDING)
+  paidAt      DateTime?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 }
