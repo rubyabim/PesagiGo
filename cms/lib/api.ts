@@ -101,6 +101,7 @@ export type TicketResponse = {
   quantity: number;
 };
 
+// Membaca alamat dasar API dari environment atau nilai lokal.
 export function getApiBaseUrl() {
   return process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || 'http://localhost:3001';
 }
