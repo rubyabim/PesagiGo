@@ -149,6 +149,7 @@ async function apiRequest<T>(
 }
 
 export function fetchApiHealth() {
+  // Endpoint publik untuk cek layanan backend.
   return apiRequest<ApiHealth>('/api/health');
 }
 
