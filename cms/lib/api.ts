@@ -18,6 +18,7 @@ export type AuthResponse = {
   accessToken: string;
 };
 
+// Tipe gunung dan jalur untuk kebutuhan katalog pendakian.
 export type Mountain = {
   id: string;
   name: string;
