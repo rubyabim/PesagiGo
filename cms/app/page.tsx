@@ -233,6 +233,7 @@ export default function Home() {
 
         {/* Grid dua kolom untuk seluruh panel integrasi. */}
         <div className="grid gap-5 lg:grid-cols-2">
+          {/* Panel ini untuk inisialisasi dan sinkron data publik. */}
           <section className="rounded-xl border border-slate-700 bg-slate-900/80 p-4">
             <h2 className="mb-3 text-lg font-semibold">Setup Data</h2>
             <div className="flex flex-wrap gap-2">
