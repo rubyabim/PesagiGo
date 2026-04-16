@@ -16,6 +16,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    /* Menyesuaikan warna saat sistem memakai mode gelap. */
     --background: #0a0a0a;
     --foreground: #ededed;
   }
