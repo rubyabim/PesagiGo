@@ -404,6 +404,7 @@ export default function Home() {
             </div>
           </section>
 
+          {/* Panel ringkasan untuk cuaca, riwayat booking, dan tiket. */}
           <section className="rounded-xl border border-slate-700 bg-slate-900/80 p-4">
             <h2 className="mb-3 text-lg font-semibold">Ringkasan</h2>
             <p className="mb-1 text-sm text-slate-300">Cuaca:</p>
