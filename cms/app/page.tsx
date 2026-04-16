@@ -231,6 +231,7 @@ export default function Home() {
           <p className="rounded-lg border border-rose-500/40 bg-rose-500/10 p-3 text-sm text-rose-200">Error: {error}</p>
         ) : null}
 
+        {/* Grid dua kolom untuk seluruh panel integrasi. */}
         <div className="grid gap-5 lg:grid-cols-2">
           <section className="rounded-xl border border-slate-700 bg-slate-900/80 p-4">
             <h2 className="mb-3 text-lg font-semibold">Setup Data</h2>
