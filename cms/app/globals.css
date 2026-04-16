@@ -23,6 +23,7 @@
 }
 
 body {
+  /* Gaya global elemen body untuk seluruh halaman. */
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
