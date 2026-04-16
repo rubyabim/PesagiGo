@@ -36,6 +36,7 @@ export type Trail = {
   estimatedHours: number;
 };
 
+// Tipe sesi cuaca booking dan tiket untuk alur transaksi.
 export type Session = {
   id: string;
   mountainId: string;
