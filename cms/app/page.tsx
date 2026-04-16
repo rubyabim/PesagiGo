@@ -33,7 +33,10 @@ type IntegrationData = {
 };
 
 export default function Home() {
+  // URL backend dibaca sekali saat komponen dibuat.
   const apiBaseUrl = useMemo(() => getApiBaseUrl(), []);
+
+  // State form autentikasi dan alur booking.
   const [registerForm, setRegisterForm] = useState({
     fullName: 'Pendaki Demo',
     email: `demo.${Date.now()}@pesagigo.local`,
@@ -59,9 +62,11 @@ export default function Home() {
   const [message, setMessage] = useState('Siap menjalankan integrasi.');
   const [error, setError] = useState<string | null>(null);
 
+  // Token dipakai untuk memanggil endpoint yang membutuhkan login.
   const authToken = auth?.accessToken ?? '';
 
   async function refreshPublicData() {
+    // Ambil semua data publik secara paralel agar lebih cepat.
     const [health, mountains, sessions, weather] = await Promise.all([
       fetchApiHealth(),
       fetchMountains(),
@@ -96,6 +101,7 @@ export default function Home() {
   }
 
   async function refreshMyBookings(token: string) {
+    // Ambil booking milik user yang sedang login.
     const bookings = await fetchMyBookings(token);
     setData((prev) => ({
       ...prev,
@@ -106,6 +112,7 @@ export default function Home() {
   }
 
   async function withAction(action: () => Promise<void>) {
+    // Bungkus semua aksi supaya loading dan error konsisten.
     setBusy(true);
     setError(null);
     try {
@@ -120,6 +127,7 @@ export default function Home() {
 
   const handleSeed = () =>
     withAction(async () => {
+      // Menjalankan seed agar data demo siap digunakan.
       const result = await runSeed();
       setMessage(result.message);
       await refreshPublicData();
@@ -127,6 +135,7 @@ export default function Home() {
 
   const handleSyncPublic = () =>
     withAction(async () => {
+      // Sinkron data publik terbaru dari backend.
       await refreshPublicData();
       setMessage('Data publik berhasil disinkronkan.');
     });
@@ -134,6 +143,7 @@ export default function Home() {
   const handleRegister = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     withAction(async () => {
+      // Daftar user baru lalu langsung muat data awal.
       const result = await registerUser(registerForm);
       setAuth(result);
       setLoginForm((prev) => ({ ...prev, email: registerForm.email }));
@@ -146,6 +156,7 @@ export default function Home() {
   const handleLogin = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     withAction(async () => {
+      // Login user lalu ambil data publik dan booking user.
       const result = await loginUser(loginForm);
       setAuth(result);
       setMessage(result.message);
@@ -156,6 +167,7 @@ export default function Home() {
 
   const handleCreateBooking = () =>
     withAction(async () => {
+      // Validasi dasar sebelum membuat booking.
       if (!authToken) {
         throw new Error('Login terlebih dahulu.');
       }
@@ -175,6 +187,7 @@ export default function Home() {
 
   const handlePayBooking = () =>
     withAction(async () => {
+      // Bayar booking yang dipilih oleh user.
       if (!authToken) {
         throw new Error('Login terlebih dahulu.');
       }
@@ -191,6 +204,7 @@ export default function Home() {
 
   const handleGetTicket = () =>
     withAction(async () => {
+      // Ambil detail tiket setelah booking dibayar.
       if (!authToken) {
         throw new Error('Login terlebih dahulu.');
       }
@@ -208,6 +222,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
+      {/* Konsol sederhana untuk uji alur integrasi CMS ke backend. */}
       <section className="mx-auto flex w-full max-w-6xl flex-col gap-5">
         <h1 className="text-3xl font-bold">PesagiGo CMS Integration Console</h1>
         <p className="text-sm text-slate-300">API Base URL: {apiBaseUrl}</p>
