@@ -332,6 +332,7 @@ export default function Home() {
             </p>
           </section>
 
+          {/* Panel alur booking mulai pilih sesi sampai ambil tiket. */}
           <section className="rounded-xl border border-slate-700 bg-slate-900/80 p-4">
             <h2 className="mb-3 text-lg font-semibold">Booking Flow</h2>
             <label className="mb-1 block text-xs text-slate-300">Pilih Session</label>
