@@ -1,3 +1,4 @@
+// Tipe ini menyimpan status kesehatan layanan API.
 export type ApiHealth = {
   status: string;
   service: string;
