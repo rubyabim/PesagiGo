@@ -262,6 +262,7 @@ export default function Home() {
             </div>
           </section>
 
+          {/* Panel autentikasi untuk daftar dan login pengguna. */}
           <section className="rounded-xl border border-slate-700 bg-slate-900/80 p-4">
             <h2 className="mb-3 text-lg font-semibold">Auth</h2>
             <form onSubmit={handleRegister} className="mb-4 grid gap-2">
