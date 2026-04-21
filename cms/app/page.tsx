@@ -1,6 +1,6 @@
 'use client';
 
-import { FormEvent, useMemo, useState } from 'react';
+import { FormEvent, useEffect, useMemo, useState } from 'react';
 import {
   AuthResponse,
   Booking,
@@ -61,9 +61,19 @@ export default function Home() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('Siap menjalankan integrasi.');
   const [error, setError] = useState<string | null>(null);
+  const [pdfPreviewUrl, setPdfPreviewUrl] = useState<string | null>(null);
+  const [showPdfPreview, setShowPdfPreview] = useState(false);
 
   // Token dipakai untuk memanggil endpoint yang membutuhkan login.
   const authToken = auth?.accessToken ?? '';
+
+  useEffect(() => {
+    return () => {
+      if (pdfPreviewUrl) {
+        URL.revokeObjectURL(pdfPreviewUrl);
+      }
+    };
+  }, [pdfPreviewUrl]);
 
   async function refreshPublicData() {
     // Ambil semua data publik secara paralel agar lebih cepat.
@@ -219,6 +229,58 @@ export default function Home() {
       }));
       setMessage(`Tiket didapatkan: ${ticket.ticketCode}`);
     });
+
+  const handlePreviewTicketPdf = () =>
+    withAction(async () => {
+      if (!authToken) {
+        throw new Error('Login terlebih dahulu.');
+      }
+
+      if (!data.ticket?.ticketPdfUrl) {
+        throw new Error('Ambil tiket terlebih dahulu agar URL PDF tersedia.');
+      }
+
+      const response = await fetch(data.ticket.ticketPdfUrl, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+        cache: 'no-store',
+      });
+
+      if (!response.ok) {
+        let messageText = `Gagal mengambil PDF (${response.status})`;
+        try {
+          const payload = (await response.json()) as { message?: string | string[] };
+          if (Array.isArray(payload.message)) {
+            messageText = payload.message.join(', ');
+          } else if (payload.message) {
+            messageText = payload.message;
+          }
+        } catch {
+          // Gunakan pesan default jika response bukan JSON.
+        }
+        throw new Error(messageText);
+      }
+
+      const blob = await response.blob();
+      const objectUrl = URL.createObjectURL(blob);
+
+      if (pdfPreviewUrl) {
+        URL.revokeObjectURL(pdfPreviewUrl);
+      }
+
+      setPdfPreviewUrl(objectUrl);
+      setShowPdfPreview(true);
+      setMessage('Preview PDF tiket berhasil dibuka.');
+    });
+
+  const closePdfPreview = () => {
+    if (pdfPreviewUrl) {
+      URL.revokeObjectURL(pdfPreviewUrl);
+    }
+    setPdfPreviewUrl(null);
+    setShowPdfPreview(false);
+  };
 
   return (
     <main className="min-h-screen bg-slate-950 px-4 py-8 text-slate-100 md:px-8">
@@ -434,9 +496,39 @@ export default function Home() {
             <p className="text-xs text-cyan-300">
               {data.ticket?.ticketPdfUrl ? `PDF: ${data.ticket.ticketPdfUrl}` : ''}
             </p>
+            <button
+              type="button"
+              onClick={handlePreviewTicketPdf}
+              disabled={busy || !data.ticket?.ticketPdfUrl}
+              className="mt-2 rounded bg-cyan-500 px-3 py-2 text-xs font-semibold text-cyan-950 disabled:opacity-60"
+            >
+              Preview PDF + QR
+            </button>
           </section>
         </div>
       </section>
+
+      {showPdfPreview && pdfPreviewUrl ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/85 p-4">
+          <div className="w-full max-w-5xl rounded-xl border border-slate-700 bg-slate-900 p-3 shadow-2xl">
+            <div className="mb-2 flex items-center justify-between">
+              <p className="text-sm font-semibold text-slate-100">Preview Tiket PDF + QR</p>
+              <button
+                type="button"
+                onClick={closePdfPreview}
+                className="rounded bg-rose-500 px-3 py-1 text-xs font-semibold text-rose-950"
+              >
+                Tutup
+              </button>
+            </div>
+            <iframe
+              src={pdfPreviewUrl}
+              title="Preview tiket PDF"
+              className="h-[75vh] w-full rounded border border-slate-700 bg-white"
+            />
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }
