@@ -29,7 +29,8 @@ Relasi utama:
 6. Buat booking (JWT): `POST /api/bookings`
 7. Bayar booking (JWT): `POST /api/bookings/:id/pay`
 8. Ambil tiket (JWT): `GET /api/bookings/:id/ticket`
-9. Lihat riwayat booking (JWT): `GET /api/bookings/my`
+9. Download tiket PDF + QR (JWT): `GET /api/bookings/:id/ticket/pdf`
+10. Lihat riwayat booking (JWT): `GET /api/bookings/my`
 
 ## 3. Endpoint Seed Data
 
