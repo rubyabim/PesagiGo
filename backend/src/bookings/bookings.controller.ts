@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  StreamableFile,
   UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -42,5 +43,18 @@ export class BookingsController {
   @Get(':id/ticket')
   ticket(@CurrentUser() user: { userId: string }, @Param('id') id: string) {
     return this.bookingsService.getTicket(user.userId, id);
+  }
+
+  @Get(':id/ticket/pdf')
+  async ticketPdf(
+    @CurrentUser() user: { userId: string },
+    @Param('id') id: string,
+  ) {
+    const ticket = await this.bookingsService.getTicketPdf(user.userId, id);
+
+    return new StreamableFile(ticket.buffer, {
+      type: 'application/pdf',
+      disposition: `attachment; filename="${ticket.filename}"`,
+    });
   }
 }
