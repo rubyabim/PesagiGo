@@ -9,3 +9,4 @@ import {
  Tooltip,
    XAxis,
    YAxis,
+   } from 'recharts';
