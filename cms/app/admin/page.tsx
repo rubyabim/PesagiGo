@@ -4,3 +4,4 @@ import { useQuery } from '@tanstack/react-query';
 import {
     Bar,
     BarChart,
+    CartesianGrid,
