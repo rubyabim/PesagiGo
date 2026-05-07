@@ -20,3 +20,8 @@ export default function AdminOverviewPage() {
         queryFn: ApiService.dashboardStats,
   });
   // Sample data for the chart (replace with real data from API)
+
+  const announcementsQuery = useQuery({
+    queryKey: ['announcements'],
+    queryFn: ApiService.getAnnouncements,
+  });
