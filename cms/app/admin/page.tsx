@@ -6,3 +6,4 @@ import {
     BarChart,
     CartesianGrid,
     ResponsiveContainer,
+ Tooltip,
