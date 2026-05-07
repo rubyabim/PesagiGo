@@ -10,3 +10,4 @@ import {
    XAxis,
    YAxis,
    } from 'recharts';
+   import StatsCard from '@/components/ui/stats-card';
