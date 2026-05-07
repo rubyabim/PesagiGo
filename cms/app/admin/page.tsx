@@ -8,3 +8,4 @@ import {
     ResponsiveContainer,
  Tooltip,
    XAxis,
+   YAxis,
