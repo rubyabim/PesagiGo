@@ -25,3 +25,4 @@ export default function AdminOverviewPage() {
     queryKey: ['announcements'],
     queryFn: ApiService.getAnnouncements,
   });
+// Contoh data untuk grafik (ganti dengan data sebenarnya dari API)
