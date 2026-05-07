@@ -17,3 +17,5 @@ import {
 export default function AdminOverviewPage() {
     const statsQuery = useQuery({
         queryKey: ['dashboard-stats'],
+        queryFn: ApiService.dashboardStats,
+  });
