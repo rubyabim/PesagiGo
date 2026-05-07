@@ -19,3 +19,4 @@ export default function AdminOverviewPage() {
         queryKey: ['dashboard-stats'],
         queryFn: ApiService.dashboardStats,
   });
+  // Sample data for the chart (replace with real data from API)
