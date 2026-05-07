@@ -14,3 +14,4 @@ import {
    import { ApiService } from '@/lib/services/api-service';
 
    //// Admin dashboard page
+export default function AdminOverviewPage() {
