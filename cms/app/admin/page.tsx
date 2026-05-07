@@ -7,3 +7,4 @@ import {
     CartesianGrid,
     ResponsiveContainer,
  Tooltip,
+   XAxis,
