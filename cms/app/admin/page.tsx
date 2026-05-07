@@ -15,3 +15,4 @@ import {
 
    //// Admin dashboard page
 export default function AdminOverviewPage() {
+    const statsQuery = useQuery({
