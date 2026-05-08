@@ -93,6 +93,15 @@ export type NewsItem = {
   createdAt: string;
 };
 
+export type TrailRoute = {
+  id: string;
+  mountainId: string;
+  name: string;
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+  distanceKm: number;
+  estimatedHours: number;
+  description: string;
+};
 
 export type Booking = {
   id: string;
