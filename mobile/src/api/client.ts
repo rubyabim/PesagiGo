@@ -213,6 +213,10 @@ export function fetchAnnouncements() {
   return apiRequest<Announcement[]>('/api/announcements');
 }
 
+export function fetchRules() {
+  return apiRequest<RuleItem[]>('/api/rules');
+}
+
 export function createBooking(token: string, payload: { sessionId: string; quantity: number }) {
   return apiRequest<Booking>('/api/bookings', {
     method: 'POST',
