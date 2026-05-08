@@ -53,3 +53,13 @@ export type WeatherForecast = {
     location: string;
   };
 };
+
+export type Announcement = {
+  id: string;
+  title: string;
+  content: string;
+  level: 'INFO' | 'WARNING' | 'DANGER';
+  imageUrl?: string | null;
+  mapUrl?: string | null;
+  createdAt: string;
+};
