@@ -39,6 +39,7 @@ export type Session = {
 export type WeatherForecast = {
   id: string;
   forecastDate: string;
+  condition: 'SUNNY' | 'CLOUDY' | 'LIGHT_RAIN' | 'HEAVY_RAIN' | 'STORM' | 'FOG';
   summary: string;
   mountain: {
     id: string;
