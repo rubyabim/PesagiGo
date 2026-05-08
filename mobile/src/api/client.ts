@@ -217,6 +217,10 @@ export function fetchRules() {
   return apiRequest<RuleItem[]>('/api/rules');
 }
 
+export function fetchNews() {
+  return apiRequest<NewsItem[]>('/api/news');
+}
+
 export function createBooking(token: string, payload: { sessionId: string; quantity: number }) {
   return apiRequest<Booking>('/api/bookings', {
     method: 'POST',
