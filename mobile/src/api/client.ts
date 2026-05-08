@@ -53,6 +53,18 @@ export type WeatherForecast = {
   };
 };
 
+export type RealtimeWeather = {
+  location: string;
+  source: string;
+  temperatureC: number;
+  feelsLikeC: number;
+  humidity: number;
+  windKph: number;
+  description: string;
+  condition: string;
+  observedAt: string;
+};
+
 export type Booking = {
   id: string;
   quantity: number;
