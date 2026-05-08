@@ -104,3 +104,9 @@ export type TicketResponse = {
   climbDate: string;
   quantity: number;
 };
+
+type ApiRequestOptions = {
+  method?: 'GET' | 'POST';
+  token?: string;
+  body?: unknown;
+};
