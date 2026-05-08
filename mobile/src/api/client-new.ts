@@ -148,3 +148,7 @@ async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Pro
 export function fetchApiHealth() {
   return apiRequest<ApiHealth>('/api/health');
 }
+
+export function runSeed() {
+  return apiRequest<{ message: string }>('/api/seed', { method: 'POST' });
+}
