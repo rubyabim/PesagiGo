@@ -144,3 +144,7 @@ async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Pro
 
   return (await response.json()) as T;
 }
+
+export function fetchApiHealth() {
+  return apiRequest<ApiHealth>('/api/health');
+}
