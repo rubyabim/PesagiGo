@@ -221,6 +221,10 @@ export function fetchNews() {
   return apiRequest<NewsItem[]>('/api/news');
 }
 
+export function fetchMountainTrails(mountainId: string) {
+  return apiRequest<TrailRoute[]>(`/api/mountains/${mountainId}/trails`);
+}
+
 export function createBooking(token: string, payload: { sessionId: string; quantity: number }) {
   return apiRequest<Booking>('/api/bookings', {
     method: 'POST',
