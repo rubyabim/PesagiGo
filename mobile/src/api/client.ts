@@ -41,7 +41,8 @@ export type WeatherForecast = {
   forecastDate: string;
   condition: 'SUNNY' | 'CLOUDY' | 'LIGHT_RAIN' | 'HEAVY_RAIN' | 'STORM' | 'FOG';
   temperatureC: number;
-  summary: string;
+  windKph?: number | null;
+  note?: string | null;
   mountain: {
     id: string;
     name: string;
