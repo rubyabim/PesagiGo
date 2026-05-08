@@ -53,16 +53,6 @@ export type WeatherForecast = {
   };
 };
 
-export type Announcement = {
-  id: string;
-  title: string;
-  content: string;
-  level: 'INFO' | 'WARNING' | 'DANGER';
-  imageUrl?: string | null;
-  mapUrl?: string | null;
-  createdAt: string;
-};
-
 export type RealtimeWeather = {
   location: string;
   source: string;
@@ -73,6 +63,16 @@ export type RealtimeWeather = {
   description: string;
   condition: string;
   observedAt: string;
+};
+
+export type Announcement = {
+  id: string;
+  title: string;
+  content: string;
+  level: 'INFO' | 'WARNING' | 'DANGER';
+  imageUrl?: string | null;
+  mapUrl?: string | null;
+  createdAt: string;
 };
 
 export type Booking = {
