@@ -39,6 +39,7 @@ export type Session = {
     bestSeason?: string | null;
   };
 };
+
 export type WeatherForecast = {
   id: string;
   forecastDate: string;
