@@ -81,3 +81,17 @@ export type NewsItem = {
   publishedAt?: string | null;
   createdAt: string;
 };
+
+export type Booking = {
+  id: string;
+  quantity: number;
+  status: string;
+  totalPrice: number;
+  ticketCode?: string | null;
+  session: {
+    mountain: {
+      name: string;
+    };
+    date: string;
+  };
+};
