@@ -75,6 +75,14 @@ export type Announcement = {
   createdAt: string;
 };
 
+export type RuleItem = {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl?: string | null;
+  createdAt: string;
+};
+
 export type Booking = {
   id: string;
   quantity: number;
