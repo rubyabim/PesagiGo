@@ -63,3 +63,11 @@ export type Announcement = {
   mapUrl?: string | null;
   createdAt: string;
 };
+
+export type RuleItem = {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl?: string | null;
+  createdAt: string;
+};
