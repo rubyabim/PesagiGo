@@ -16,3 +16,26 @@ export type AuthResponse = {
   };
   accessToken: string;
 };
+
+export type Mountain = {
+  id: string;
+  name: string;
+  location: string;
+};
+
+export type Session = {
+  id: string;
+  mountainId: string;
+  date: string;
+  quotaTotal: number;
+  quotaBooked: number;
+  quotaAvailable: number;
+  price: number;
+  mountain: {
+    id: string;
+    name: string;
+    location: string;
+    description?: string;
+    bestSeason?: string | null;
+  };
+};
