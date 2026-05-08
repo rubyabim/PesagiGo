@@ -5,3 +5,14 @@ export type ApiHealth = {
   service: string;
   timestamp: string;
 };
+
+export type AuthResponse = {
+  message: string;
+  user: {
+    id: string;
+    fullName: string;
+    email: string;
+    role: string;
+  };
+  accessToken: string;
+};
