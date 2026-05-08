@@ -39,3 +39,17 @@ export type Session = {
     bestSeason?: string | null;
   };
 };
+
+export type WeatherForecast = {
+  id: string;
+  forecastDate: string;
+  condition: 'SUNNY' | 'CLOUDY' | 'LIGHT_RAIN' | 'HEAVY_RAIN' | 'STORM' | 'FOG';
+  temperatureC: number;
+  windKph?: number | null;
+  note?: string | null;
+  mountain: {
+    id: string;
+    name: string;
+    location: string;
+  };
+};
