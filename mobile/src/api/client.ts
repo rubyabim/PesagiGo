@@ -205,6 +205,10 @@ export function fetchWeather() {
   return apiRequest<WeatherForecast[]>('/api/weather');
 }
 
+export function fetchRealtimePesagiWeather() {
+  return apiRequest<RealtimeWeather | null>('/api/weather/lampung-barat');
+}
+
 export function createBooking(token: string, payload: { sessionId: string; quantity: number }) {
   return apiRequest<Booking>('/api/bookings', {
     method: 'POST',
