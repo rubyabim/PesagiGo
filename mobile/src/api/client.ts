@@ -27,15 +27,18 @@ export type Session = {
   id: string;
   mountainId: string;
   date: string;
+  quotaTotal: number;
+  quotaBooked: number;
   quotaAvailable: number;
   price: number;
   mountain: {
     id: string;
     name: string;
     location: string;
+    description?: string;
+    bestSeason?: string | null;
   };
 };
-
 export type WeatherForecast = {
   id: string;
   forecastDate: string;
