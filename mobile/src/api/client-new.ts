@@ -95,3 +95,12 @@ export type Booking = {
     date: string;
   };
 };
+
+export type TicketResponse = {
+  ticketCode: string;
+  ticketPdfUrl: string;
+  bookingId: string;
+  mountain: string;
+  climbDate: string;
+  quantity: number;
+};
