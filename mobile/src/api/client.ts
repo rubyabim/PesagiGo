@@ -83,6 +83,17 @@ export type RuleItem = {
   createdAt: string;
 };
 
+export type NewsItem = {
+  id: string;
+  title: string;
+  description: string;
+  imageUrl?: string | null;
+  mapUrl?: string | null;
+  publishedAt?: string | null;
+  createdAt: string;
+};
+
+
 export type Booking = {
   id: string;
   quantity: number;
