@@ -101,12 +101,12 @@ export type TicketResponse = {
   quantity: number;
 };
 
-// Membaca alamat dasar API dari environment atau nilai lokal.
+
 export function getApiBaseUrl() {
   return process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || 'http://localhost:3001';
 }
 
-// Auth service bisa dipisah dari API utama, jadi base URL-nya punya override sendiri.
+
 export function getAuthBaseUrl() {
   return process.env.NEXT_PUBLIC_AUTH_BASE_URL?.trim() || getApiBaseUrl();
 }
@@ -120,7 +120,7 @@ async function requestJson<T>(
     body?: unknown;
   } = {},
 ): Promise<T> {
-  // Helper request umum untuk semua pemanggilan endpoint.
+
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
@@ -146,7 +146,7 @@ async function requestJson<T>(
         message = errorData.message;
       }
     } catch {
-      // Ignore parsing errors and use default status-based message.
+   
     }
     throw new Error(message);
   }
@@ -177,7 +177,7 @@ async function authRequest<T>(
 }
 
 export function fetchApiHealth() {
-  // Endpoint publik untuk cek layanan backend.
+
   return apiRequest<ApiHealth>('/api/health');
 }
 
