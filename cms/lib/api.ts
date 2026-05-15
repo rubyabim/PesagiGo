@@ -101,11 +101,11 @@ export type TicketResponse = {
   quantity: number;
 };
 
-
 export function getApiBaseUrl() {
-  return process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || 'http://localhost:3001';
+  return (
+    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || "http://localhost:3001"
+  );
 }
-
 
 export function getAuthBaseUrl() {
   return process.env.NEXT_PUBLIC_AUTH_BASE_URL?.trim() || getApiBaseUrl();
@@ -115,14 +115,13 @@ async function requestJson<T>(
   baseUrl: string,
   path: string,
   options: {
-    method?: 'GET' | 'POST';
+    method?: "GET" | "POST";
     token?: string;
     body?: unknown;
   } = {},
 ): Promise<T> {
-
   const headers: HeadersInit = {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   };
 
   if (options.token) {
@@ -130,24 +129,24 @@ async function requestJson<T>(
   }
 
   const response = await fetch(`${baseUrl}${path}`, {
-    method: options.method ?? 'GET',
+    method: options.method ?? "GET",
     headers,
     body: options.body ? JSON.stringify(options.body) : undefined,
-    cache: 'no-store',
+    cache: "no-store",
   });
 
   if (!response.ok) {
     let message = `API returned ${response.status}`;
     try {
-      const errorData = (await response.json()) as { message?: string | string[] };
+      const errorData = (await response.json()) as {
+        message?: string | string[];
+      };
       if (Array.isArray(errorData.message)) {
-        message = errorData.message.join(', ');
+        message = errorData.message.join(", ");
       } else if (errorData.message) {
         message = errorData.message;
       }
-    } catch {
-   
-    }
+    } catch {}
     throw new Error(message);
   }
 
@@ -157,7 +156,7 @@ async function requestJson<T>(
 async function apiRequest<T>(
   path: string,
   options: {
-    method?: 'GET' | 'POST';
+    method?: "GET" | "POST";
     token?: string;
     body?: unknown;
   } = {},
@@ -168,7 +167,7 @@ async function apiRequest<T>(
 async function authRequest<T>(
   path: string,
   options: {
-    method?: 'GET' | 'POST';
+    method?: "GET" | "POST";
     token?: string;
     body?: unknown;
   } = {},
@@ -177,8 +176,7 @@ async function authRequest<T>(
 }
 
 export function fetchApiHealth() {
-
-  return apiRequest<ApiHealth>('/api/health');
+  return apiRequest<ApiHealth>("/api/health");
 }
 
 export function registerUser(payload: {
@@ -187,50 +185,50 @@ export function registerUser(payload: {
   password: string;
   phone?: string;
 }) {
-  return authRequest<AuthResponse>('/api/auth/register', {
-    method: 'POST',
+  return authRequest<AuthResponse>("/api/auth/register", {
+    method: "POST",
     body: payload,
   });
 }
 
 export function loginUser(payload: { email: string; password: string }) {
-  return authRequest<AuthResponse>('/api/auth/login', {
-    method: 'POST',
+  return authRequest<AuthResponse>("/api/auth/login", {
+    method: "POST",
     body: payload,
   });
 }
 
 export function fetchCurrentUser(token: string) {
-  return authRequest<ApiUser>('/api/auth/me', {
+  return authRequest<ApiUser>("/api/auth/me", {
     token,
   });
 }
 
 export function fetchMountains() {
-  return apiRequest<Mountain[]>('/api/mountains');
+  return apiRequest<Mountain[]>("/api/mountains");
 }
 
 export function fetchSessions(params?: { mountainId?: string; date?: string }) {
   const query = new URLSearchParams();
   if (params?.mountainId) {
-    query.set('mountainId', params.mountainId);
+    query.set("mountainId", params.mountainId);
   }
   if (params?.date) {
-    query.set('date', params.date);
+    query.set("date", params.date);
   }
-  const suffix = query.size > 0 ? `?${query.toString()}` : '';
+  const suffix = query.size > 0 ? `?${query.toString()}` : "";
   return apiRequest<Session[]>(`/api/sessions${suffix}`);
 }
 
 export function fetchWeather(params?: { mountainId?: string; date?: string }) {
   const query = new URLSearchParams();
   if (params?.mountainId) {
-    query.set('mountainId', params.mountainId);
+    query.set("mountainId", params.mountainId);
   }
   if (params?.date) {
-    query.set('date', params.date);
+    query.set("date", params.date);
   }
-  const suffix = query.size > 0 ? `?${query.toString()}` : '';
+  const suffix = query.size > 0 ? `?${query.toString()}` : "";
   return apiRequest<WeatherForecast[]>(`/api/weather${suffix}`);
 }
 
@@ -238,8 +236,8 @@ export function createBooking(
   token: string,
   payload: { sessionId: string; quantity: number },
 ) {
-  return apiRequest<Booking>('/api/bookings', {
-    method: 'POST',
+  return apiRequest<Booking>("/api/bookings", {
+    method: "POST",
     token,
     body: payload,
   });
@@ -251,14 +249,14 @@ export function payBooking(
   payload: { method: string },
 ) {
   return apiRequest<BookingPaymentResponse>(`/api/bookings/${bookingId}/pay`, {
-    method: 'POST',
+    method: "POST",
     token,
     body: payload,
   });
 }
 
 export function fetchMyBookings(token: string) {
-  return apiRequest<Booking[]>('/api/bookings/my', {
+  return apiRequest<Booking[]>("/api/bookings/my", {
     token,
   });
 }
@@ -270,7 +268,7 @@ export function fetchTicket(token: string, bookingId: string) {
 }
 
 export function runSeed() {
-  return apiRequest<{ message: string }>('/api/seed', {
-    method: 'POST',
+  return apiRequest<{ message: string }>("/api/seed", {
+    method: "POST",
   });
 }
