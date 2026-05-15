@@ -101,12 +101,18 @@ export type TicketResponse = {
   quantity: number;
 };
 
-// Membaca alamat dasar API dari environment atau nilai lokal.
+
 export function getApiBaseUrl() {
   return process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || 'http://localhost:3001';
 }
 
-async function apiRequest<T>(
+
+export function getAuthBaseUrl() {
+  return process.env.NEXT_PUBLIC_AUTH_BASE_URL?.trim() || getApiBaseUrl();
+}
+
+async function requestJson<T>(
+  baseUrl: string,
   path: string,
   options: {
     method?: 'GET' | 'POST';
@@ -114,7 +120,7 @@ async function apiRequest<T>(
     body?: unknown;
   } = {},
 ): Promise<T> {
-  // Helper request umum untuk semua pemanggilan endpoint.
+
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
   };
@@ -123,7 +129,7 @@ async function apiRequest<T>(
     headers.Authorization = `Bearer ${options.token}`;
   }
 
-  const response = await fetch(`${getApiBaseUrl()}${path}`, {
+  const response = await fetch(`${baseUrl}${path}`, {
     method: options.method ?? 'GET',
     headers,
     body: options.body ? JSON.stringify(options.body) : undefined,
@@ -140,7 +146,7 @@ async function apiRequest<T>(
         message = errorData.message;
       }
     } catch {
-      // Ignore parsing errors and use default status-based message.
+   
     }
     throw new Error(message);
   }
@@ -148,8 +154,30 @@ async function apiRequest<T>(
   return (await response.json()) as T;
 }
 
+async function apiRequest<T>(
+  path: string,
+  options: {
+    method?: 'GET' | 'POST';
+    token?: string;
+    body?: unknown;
+  } = {},
+): Promise<T> {
+  return requestJson<T>(getApiBaseUrl(), path, options);
+}
+
+async function authRequest<T>(
+  path: string,
+  options: {
+    method?: 'GET' | 'POST';
+    token?: string;
+    body?: unknown;
+  } = {},
+): Promise<T> {
+  return requestJson<T>(getAuthBaseUrl(), path, options);
+}
+
 export function fetchApiHealth() {
-  // Endpoint publik untuk cek layanan backend.
+
   return apiRequest<ApiHealth>('/api/health');
 }
 
@@ -159,16 +187,22 @@ export function registerUser(payload: {
   password: string;
   phone?: string;
 }) {
-  return apiRequest<AuthResponse>('/api/auth/register', {
+  return authRequest<AuthResponse>('/api/auth/register', {
     method: 'POST',
     body: payload,
   });
 }
 
 export function loginUser(payload: { email: string; password: string }) {
-  return apiRequest<AuthResponse>('/api/auth/login', {
+  return authRequest<AuthResponse>('/api/auth/login', {
     method: 'POST',
     body: payload,
+  });
+}
+
+export function fetchCurrentUser(token: string) {
+  return authRequest<ApiUser>('/api/auth/me', {
+    token,
   });
 }
 

@@ -77,6 +77,23 @@ export class AuthService {
     };
   }
 
+  async me(userId: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('User tidak ditemukan');
+    }
+
+    return {
+      id: user.id,
+      fullName: user.fullName,
+      email: user.email,
+      role: user.role,
+    };
+  }
+
   private async signToken(userId: string, email: string, role: string) {
     return this.jwtService.signAsync({
       sub: userId,
