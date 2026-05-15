@@ -200,6 +200,12 @@ export function loginUser(payload: { email: string; password: string }) {
   });
 }
 
+export function fetchCurrentUser(token: string) {
+  return authRequest<ApiUser>('/api/auth/me', {
+    token,
+  });
+}
+
 export function fetchMountains() {
   return apiRequest<Mountain[]>('/api/mountains');
 }
