@@ -13,8 +13,7 @@ export class AdminService {
       data: {
         name: dto.name,
         location: dto.location,
-        difficulty: dto.difficulty,
-        duration: dto.duration,
+        description: `${dto.name} - Difficulty: ${dto.difficulty}, Duration: ${dto.duration}h`,
       },
     });
   }
@@ -33,8 +32,6 @@ export class AdminService {
       data: {
         ...(dto.name && { name: dto.name }),
         ...(dto.location && { location: dto.location }),
-        ...(dto.difficulty !== undefined && { difficulty: dto.difficulty }),
-        ...(dto.duration !== undefined && { duration: dto.duration }),
       },
     });
   }
@@ -96,7 +93,7 @@ export class AdminService {
   }
 
   async getPaymentStats(status?: string) {
-    const where = status ? { status } : {};
+    const where: any = {};
 
     return this.prisma.payment.groupBy({
       by: ['status'],
