@@ -1,9 +1,4 @@
-import {
-  All,
-  Controller,
-  Req,
-  Res,
-} from '@nestjs/common';
+import { All, Controller, Req, Res } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { GatewayService } from './gateway.service';
 

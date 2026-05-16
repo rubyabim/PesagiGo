@@ -236,7 +236,9 @@ export class BookingsService {
     }
 
     if (booking.status === BookingStatus.PAID) {
-      throw new BadRequestException('Booking yang sudah dibayar tidak bisa dibatalkan');
+      throw new BadRequestException(
+        'Booking yang sudah dibayar tidak bisa dibatalkan',
+      );
     }
 
     const updated = await this.prisma.$transaction(async (tx) => {

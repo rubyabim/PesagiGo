@@ -90,7 +90,8 @@ export class GatewayService {
       return response.data;
     } catch (error: any) {
       const statusCode = error.response?.status ?? 502;
-      const message = error.response?.data?.message ?? `Service ${service} unavailable`;
+      const message =
+        error.response?.data?.message ?? `Service ${service} unavailable`;
 
       return {
         error: true,

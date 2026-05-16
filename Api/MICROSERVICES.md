@@ -1,6 +1,7 @@
 # PesagiGo Microservices Architecture
 
 ## Overview
+
 PesagiGo backend is now structured as a set of independent microservices, each handling a specific domain:
 
 - **API Gateway** (port 3000) — Routes requests to appropriate services
@@ -57,6 +58,7 @@ docker-compose up -d
 ```
 
 This will:
+
 - Build all services
 - Create PostgreSQL databases (main + auth)
 - Start all services on their respective ports
@@ -65,10 +67,12 @@ This will:
 ## Architecture Decisions
 
 ### Separate Databases
+
 - **Auth Service**: Separate PostgreSQL for sensitive auth data
 - **Other Services**: Share main PostgreSQL (can be split later if needed)
 
 ### API Gateway Pattern
+
 - Single entry point at `http://localhost:3000`
 - Routes `/api/auth/*` → Auth Service (port 3002)
 - Routes `/api/bookings/*` → Booking Service (port 3003)
@@ -76,6 +80,7 @@ This will:
 - And so on...
 
 ### Service Communication
+
 - Services are stateless and communicate via HTTP
 - Environment variables point to service URLs
 - Each service validates JWT tokens independently
@@ -104,12 +109,15 @@ BOOKING_DATABASE_URL=postgresql://...
 ## Scaling
 
 ### Horizontal Scaling
+
 - Each service can be replicated independently
 - Use load balancer (nginx, HAProxy) in front of API Gateway
 - Services are stateless
 
 ### Database per Service
+
 To fully decouple services:
+
 1. Create separate PostgreSQL instances for each service
 2. Update `*_DATABASE_URL` environment variables
 3. Run Prisma migrations per service:
