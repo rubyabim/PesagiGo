@@ -185,6 +185,103 @@ export class BookingsService {
     }));
   }
 
+  async getBooking(userId: string, bookingId: string) {
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        session: {
+          include: {
+            mountain: true,
+          },
+        },
+        payment: true,
+      },
+    });
+
+    if (!booking) {
+      throw new NotFoundException('Booking tidak ditemukan');
+    }
+
+    if (booking.userId !== userId) {
+      throw new ForbiddenException('Anda tidak memiliki akses ke booking ini');
+    }
+
+    return {
+      ...booking,
+      totalPrice: Number(booking.totalPrice),
+      payment: booking.payment
+        ? {
+            ...booking.payment,
+            amount: Number(booking.payment.amount),
+          }
+        : null,
+    };
+  }
+
+  async cancelBooking(userId: string, bookingId: string) {
+    const booking = await this.prisma.booking.findUnique({
+      where: { id: bookingId },
+      include: {
+        session: true,
+        payment: true,
+      },
+    });
+
+    if (!booking) {
+      throw new NotFoundException('Booking tidak ditemukan');
+    }
+
+    if (booking.userId !== userId) {
+      throw new ForbiddenException('Anda tidak memiliki akses ke booking ini');
+    }
+
+    if (booking.status === BookingStatus.PAID) {
+      throw new BadRequestException('Booking yang sudah dibayar tidak bisa dibatalkan');
+    }
+
+    const updated = await this.prisma.$transaction(async (tx) => {
+      await tx.climbSession.update({
+        where: { id: booking.sessionId },
+        data: {
+          quotaBooked: {
+            decrement: booking.quantity,
+          },
+        },
+      });
+
+      if (booking.payment) {
+        await tx.payment.delete({
+          where: { bookingId },
+        });
+      }
+
+      return tx.booking.update({
+        where: { id: bookingId },
+        data: {
+          status: BookingStatus.CANCELLED,
+          ticketCode: null,
+          ticketPdfUrl: null,
+        },
+        include: {
+          session: {
+            include: {
+              mountain: true,
+            },
+          },
+          payment: true,
+        },
+      });
+    });
+
+    return {
+      message: 'Booking berhasil dibatalkan',
+      booking: {
+        ...updated,
+        totalPrice: Number(updated.totalPrice),
+      },
+    };
+  }
+
   async payBooking(userId: string, bookingId: string, dto: PayBookingDto) {
     const booking = await this.prisma.booking.findUnique({
       where: { id: bookingId },

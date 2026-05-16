@@ -4,10 +4,11 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import * as bcrypt from 'bcrypt';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { AuthPrismaService } from './prisma/auth-prisma.service';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -91,6 +92,36 @@ export class AuthService {
       fullName: user.fullName,
       email: user.email,
       role: user.role,
+    };
+  }
+
+  async resetPassword(dto: ResetPasswordDto) {
+    const user = await this.prisma.user.findUnique({
+      where: { email: dto.email },
+    });
+
+    if (!user) {
+      throw new UnauthorizedException('Email atau password salah');
+    }
+
+    const passwordValid = await bcrypt.compare(
+      dto.currentPassword,
+      user.passwordHash,
+    );
+
+    if (!passwordValid) {
+      throw new UnauthorizedException('Email atau password salah');
+    }
+
+    const passwordHash = await bcrypt.hash(dto.newPassword, 10);
+
+    await this.prisma.user.update({
+      where: { id: user.id },
+      data: { passwordHash },
+    });
+
+    return {
+      message: 'Password berhasil diubah',
     };
   }
 

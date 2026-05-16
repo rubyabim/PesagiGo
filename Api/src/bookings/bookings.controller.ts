@@ -31,6 +31,16 @@ export class BookingsController {
     return this.bookingsService.myBookings(user.userId);
   }
 
+  @Get(':id')
+  detail(@CurrentUser() user: { userId: string }, @Param('id') id: string) {
+    return this.bookingsService.getBooking(user.userId, id);
+  }
+
+  @Post(':id/cancel')
+  cancel(@CurrentUser() user: { userId: string }, @Param('id') id: string) {
+    return this.bookingsService.cancelBooking(user.userId, id);
+  }
+
   @Post(':id/pay')
   pay(
     @CurrentUser() user: { userId: string },
