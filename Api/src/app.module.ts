@@ -8,6 +8,7 @@ import { SessionsModule } from './sessions/sessions.module';
 import { BookingsModule } from './bookings/bookings.module';
 import { SeedModule } from './seed/seed.module';
 import { WeatherModule } from './weather/weather.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { WeatherModule } from './weather/weather.module';
     MountainsModule,
     SessionsModule,
     BookingsModule,
+    PaymentsModule,
     SeedModule,
     WeatherModule,
   ],
