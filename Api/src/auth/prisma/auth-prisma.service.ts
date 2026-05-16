@@ -6,11 +6,11 @@ import {
 } from '@nestjs/common';
 import { join } from 'node:path';
 import { PrismaPg } from '@prisma/adapter-pg';
+import type { PrismaClient as GeneratedAuthPrismaClient } from '../../generated/auth-prisma/client';
 
-const { PrismaClient } = require(join(
-  process.cwd(),
-  'src/generated/auth-prisma/client.js',
-)) as typeof import('../../generated/auth-prisma/client');
+const { PrismaClient } = require(
+  join(process.cwd(), 'src/generated/auth-prisma/client.js'),
+) as { PrismaClient: typeof GeneratedAuthPrismaClient };
 
 @Injectable()
 export class AuthPrismaService
