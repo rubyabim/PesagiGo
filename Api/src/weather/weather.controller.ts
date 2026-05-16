@@ -12,4 +12,17 @@ export class WeatherController {
   ) {
     return this.weatherService.findAll({ mountainId, date });
   }
+
+  @Get('current')
+  current(@Query('mountainId') mountainId?: string) {
+    return this.weatherService.current({ mountainId });
+  }
+
+  @Get('forecast')
+  forecast(
+    @Query('mountainId') mountainId?: string,
+    @Query('date') date?: string,
+  ) {
+    return this.weatherService.forecast({ mountainId, date });
+  }
 }

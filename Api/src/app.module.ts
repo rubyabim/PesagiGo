@@ -10,6 +10,7 @@ import { SeedModule } from './seed/seed.module';
 import { WeatherModule } from './weather/weather.module';
 import { PaymentsModule } from './payments/payments.module';
 import { TicketsModule } from './tickets/tickets.module';
+import { QuotasModule } from './quotas/quotas.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { TicketsModule } from './tickets/tickets.module';
     BookingsModule,
     PaymentsModule,
     TicketsModule,
+    QuotasModule,
     SeedModule,
     WeatherModule,
   ],
