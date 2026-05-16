@@ -1,0 +1,209 @@
+version: '3.8'
+
+services:
+  postgres-main:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pesagi_user
+      POSTGRES_PASSWORD: pesagi_pass
+      POSTGRES_DB: pesagi_main
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_main_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U pesagi_user -d pesagi_main']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres-auth:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pesagi_user
+      POSTGRES_PASSWORD: pesagi_pass
+      POSTGRES_DB: pesagi_auth
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_auth_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U pesagi_user -d pesagi_auth']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  auth-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile.service
+      args:
+        SERVICE_NAME: auth
+    ports:
+      - '3002:3002'
+    environment:
+      AUTH_DATABASE_URL: postgresql://pesagi_user:pesagi_pass@postgres-auth:5432/pesagi_auth
+      AUTH_PORT: 3002
+      JWT_SECRET: dev-secret-key-change-in-prod
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+    depends_on:
+      postgres-auth:
+        condition: service_healthy
+    command: npm run start:auth
+
+  booking-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile.service
+      args:
+        SERVICE_NAME: booking
+    ports:
+      - '3003:3003'
+    environment:
+      DATABASE_URL: postgresql://pesagi_user:pesagi_pass@postgres-main:5432/pesagi_main
+      BOOKING_PORT: 3003
+      JWT_SECRET: dev-secret-key-change-in-prod
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+    depends_on:
+      postgres-main:
+        condition: service_healthy
+    command: npm run start:booking
+
+  payment-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile.service
+      args:
+        SERVICE_NAME: payment
+    ports:
+      - '3004:3004'
+    environment:
+      DATABASE_URL: postgresql://pesagi_user:pesagi_pass@postgres-main:5432/pesagi_main
+      PAYMENT_PORT: 3004
+      JWT_SECRET: dev-secret-key-change-in-prod
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+    depends_on:
+      postgres-main:
+        condition: service_healthy
+    command: npm run start:payment
+
+  ticket-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile.service
+      args:
+        SERVICE_NAME: ticket
+    ports:
+      - '3005:3005'
+    environment:
+      DATABASE_URL: postgresql://pesagi_user:pesagi_pass@postgres-main:5432/pesagi_main
+      TICKET_PORT: 3005
+      JWT_SECRET: dev-secret-key-change-in-prod
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+    depends_on:
+      postgres-main:
+        condition: service_healthy
+    command: npm run start:ticket
+
+  catalog-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile.service
+      args:
+        SERVICE_NAME: catalog
+    ports:
+      - '3006:3006'
+    environment:
+      DATABASE_URL: postgresql://pesagi_user:pesagi_pass@postgres-main:5432/pesagi_main
+      CATALOG_PORT: 3006
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+    depends_on:
+      postgres-main:
+        condition: service_healthy
+    command: npm run start:catalog
+
+  weather-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile.service
+      args:
+        SERVICE_NAME: weather
+    ports:
+      - '3007:3007'
+    environment:
+      DATABASE_URL: postgresql://pesagi_user:pesagi_pass@postgres-main:5432/pesagi_main
+      WEATHER_PORT: 3007
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+    depends_on:
+      postgres-main:
+        condition: service_healthy
+    command: npm run start:weather
+
+  quota-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile.service
+      args:
+        SERVICE_NAME: quota
+    ports:
+      - '3008:3008'
+    environment:
+      DATABASE_URL: postgresql://pesagi_user:pesagi_pass@postgres-main:5432/pesagi_main
+      QUOTA_PORT: 3008
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+    depends_on:
+      postgres-main:
+        condition: service_healthy
+    command: npm run start:quota
+
+  admin-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile.service
+      args:
+        SERVICE_NAME: admin
+    ports:
+      - '3009:3009'
+    environment:
+      DATABASE_URL: postgresql://pesagi_user:pesagi_pass@postgres-main:5432/pesagi_main
+      ADMIN_PORT: 3009
+      JWT_SECRET: dev-secret-key-change-in-prod
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+    depends_on:
+      postgres-main:
+        condition: service_healthy
+    command: npm run start:admin
+
+  api-gateway:
+    build:
+      context: ./
+      dockerfile: Dockerfile.service
+      args:
+        SERVICE_NAME: gateway
+    ports:
+      - '3000:3000'
+    environment:
+      GATEWAY_PORT: 3000
+      AUTH_SERVICE_URL: http://auth-service:3002
+      BOOKING_SERVICE_URL: http://booking-service:3003
+      PAYMENT_SERVICE_URL: http://payment-service:3004
+      TICKET_SERVICE_URL: http://ticket-service:3005
+      CATALOG_SERVICE_URL: http://catalog-service:3006
+      WEATHER_SERVICE_URL: http://weather-service:3007
+      QUOTA_SERVICE_URL: http://quota-service:3008
+      ADMIN_SERVICE_URL: http://admin-service:3009
+      CORS_ORIGINS: http://localhost:3000,http://localhost:3001
+    depends_on:
+      - auth-service
+      - booking-service
+      - payment-service
+      - ticket-service
+      - catalog-service
+      - weather-service
+      - quota-service
+      - admin-service
+    command: npm run start:gateway
+
+volumes:
+  postgres_main_data:
+  postgres_auth_data:
