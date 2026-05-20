@@ -13,6 +13,13 @@ export default function AdminFeatureDeletePage() {
 
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(true);
+  import {
+    fetchAdminBookings,
+    fetchAdminPayments,
+    fetchAdminQuotas,
+    fetchAdminRoutes,
+    fetchAdminWeather,
+  } from "@/lib/api";
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [message, setMessage] = useState("");
@@ -62,4 +69,79 @@ export default function AdminFeatureDeletePage() {
       </div>
     </main>
   );
+    useEffect(() => {
+      if (!token) {
+        return;
+      }
+
+      const loadData = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+          if (![
+            "routes",
+            "bookings",
+            "payments",
+            "quotas",
+            "weather",
+          ].includes(feature)) {
+            throw new Error("Fitur tidak valid.");
+          }
+
+          if (feature === "routes") {
+            const rows = await fetchAdminRoutes(token);
+            const target = rows.find((item) => item.id === id);
+            if (!target) {
+              throw new Error("Route tidak ditemukan.");
+            }
+            setTargetLabel(`${target.name} (${target.mountain.name})`);
+          }
+
+          if (feature === "bookings") {
+            const rows = await fetchAdminBookings(token);
+            const target = rows.find((item) => item.id === id);
+            if (!target) {
+              throw new Error("Booking tidak ditemukan.");
+            }
+            setTargetLabel(`${target.user.fullName} - ${target.session.mountain.name}`);
+          }
+
+          if (feature === "payments") {
+            const rows = await fetchAdminPayments(token);
+            const target = rows.find((item) => item.id === id);
+            if (!target) {
+              throw new Error("Payment tidak ditemukan.");
+            }
+            setTargetLabel(`${target.method} - ${target.booking.user.email}`);
+          }
+
+          if (feature === "quotas") {
+            const rows = await fetchAdminQuotas(token);
+            const target = rows.find((item) => item.id === id);
+            if (!target) {
+              throw new Error("Quota tidak ditemukan.");
+            }
+            setTargetLabel(
+              `${target.mountain.name} - ${new Date(target.date).toLocaleString("id-ID")}`,
+            );
+          }
+
+          if (feature === "weather") {
+            const rows = await fetchAdminWeather(token);
+            const target = rows.find((item) => item.id === id);
+            if (!target) {
+              throw new Error("Weather tidak ditemukan.");
+            }
+            setTargetLabel(`${target.mountain.name} - ${target.condition}`);
+          }
+        } catch (err) {
+          setError(err instanceof Error ? err.message : "Terjadi kesalahan.");
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      loadData();
+    }, [feature, id, token]);
 }
