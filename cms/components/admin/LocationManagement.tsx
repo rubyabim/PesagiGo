@@ -151,3 +151,155 @@ const LocationManagement = () => {
                 <input
                   {...register('name')}
                   type="text"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Contoh: Puncak Rinjani"
+                />
+                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Tipe Lokasi</label>
+                <input
+                  {...register('type')}
+                  type="text"
+                  defaultValue="POI"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="POI, RestStop, etc"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Latitude *</label>
+                <input
+                  {...register('latitude', { valueAsNumber: true })}
+                  type="number"
+                  step="0.0001"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="-1.2557"
+                />
+                {errors.latitude && <p className="text-red-500 text-sm mt-1">{errors.latitude.message}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Longitude *</label>
+                <input
+                  {...register('longitude', { valueAsNumber: true })}
+                  type="number"
+                  step="0.0001"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="116.7"
+                />
+                {errors.longitude && <p className="text-red-500 text-sm mt-1">{errors.longitude.message}</p>}
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium mb-1">Alamat *</label>
+                <input
+                  {...register('address')}
+                  type="text"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Alamat lengkap"
+                />
+                {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium mb-1">Deskripsi</label>
+                <textarea
+                  {...register('description')}
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Deskripsi lokasi"
+                  rows={3}
+                />
+              </div>
+
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium mb-1">URL Gambar</label>
+                <input
+                  {...register('imageUrl')}
+                  type="text"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                disabled={createMutation.isPending || updateMutation.isPending}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition"
+              >
+                {editingId ? 'Update' : 'Simpan'}
+              </button>
+              <button
+                type="button"
+                onClick={handleCloseForm}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition"
+              >
+                Batal
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Locations List */}
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="bg-gray-100 border-b">
+              <tr>
+                <th className="px-4 py-2 text-left">Nama</th>
+                <th className="px-4 py-2 text-left">Tipe</th>
+                <th className="px-4 py-2 text-left">Alamat</th>
+                <th className="px-4 py-2 text-left">Koordinat</th>
+                <th className="px-4 py-2 text-center">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={5} className="px-4 py-3 text-center text-gray-500">
+                    Loading...
+                  </td>
+                </tr>
+              ) : locations.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="px-4 py-3 text-center text-gray-500">
+                    Belum ada lokasi
+                  </td>
+                </tr>
+              ) : (
+                locations.map((location: Location) => (
+                  <tr key={location.id} className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-3 font-medium">{location.name}</td>
+                    <td className="px-4 py-3">{location.type}</td>
+                    <td className="px-4 py-3 text-xs text-gray-600">{location.address}</td>
+                    <td className="px-4 py-3 text-xs">
+                      {location.latitude.toFixed(4)}, {location.longitude.toFixed(4)}
+                    </td>
+                    <td className="px-4 py-3 text-center space-x-2">
+                      <button
+                        onClick={() => handleEdit(location)}
+                        className="text-blue-600 hover:text-blue-800"
+                      >
+                        <Edit className="w-4 h-4 inline" />
+                      </button>
+                      <button
+                        onClick={() => deleteMutation.mutate(location.id)}
+                        className="text-red-600 hover:text-red-800"
+                      >
+                        <Trash className="w-4 h-4 inline" />
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default LocationManagement;
