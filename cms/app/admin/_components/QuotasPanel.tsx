@@ -72,3 +72,77 @@ export default function QuotasPanel({
             type="datetime-local"
             value={form.date}
             onChange={(event) => setForm((prev) => ({ ...prev, date: event.target.value }))}
+          />
+        </label>
+
+        <label>
+          <span>Quota Total</span>
+          <input
+            className="field"
+            min={0}
+            required
+            type="number"
+            value={form.quotaTotal}
+            onChange={(event) =>
+              setForm((prev) => ({ ...prev, quotaTotal: Number(event.target.value || 0) }))
+            }
+          />
+        </label>
+
+        <label>
+          <span>Harga</span>
+          <input
+            className="field"
+            min={0}
+            required
+            type="number"
+            value={form.price}
+            onChange={(event) => setForm((prev) => ({ ...prev, price: Number(event.target.value || 0) }))}
+          />
+        </label>
+
+        <div className="admin-form-actions full">
+          <button className="btn btn-primary" disabled={busy || !tokenReady} type="submit">
+            Simpan Quota
+          </button>
+          <button className="btn btn-muted" disabled={busy} onClick={onReset} type="button">
+            Reset
+          </button>
+        </div>
+      </form>
+
+      {loading ? (
+        <div className="admin-skeleton-grid">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <article className="admin-skeleton-card" key={`quota-s-${index}`}>
+              <div className="admin-skeleton admin-skeleton-line" />
+              <div className="admin-skeleton admin-skeleton-line short" />
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="admin-list-grid">
+          {quotas.length === 0 ? <p className="admin-empty">Belum ada quota.</p> : null}
+          {quotas.map((item) => (
+            <article className="admin-list-card" key={item.id}>
+              <div>
+                <h3>{item.mountain.name}</h3>
+                <p>
+                  {new Date(item.date).toLocaleString('id-ID')} ΓÇó Sisa {item.quotaAvailable} ΓÇó Rp{numberFormat.format(item.price)}
+                </p>
+              </div>
+              <div className="admin-list-actions">
+                <Link className="btn btn-muted" href={`/admin/quotas/${item.id}/edit`}>
+                  Edit
+                </Link>
+                <Link className="btn btn-danger" href={`/admin/quotas/${item.id}/delete`}>
+                  Delete
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
