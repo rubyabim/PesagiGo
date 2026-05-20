@@ -14,3 +14,18 @@ export default function BookingsPage() {
         { key: 'status', label: 'Status', required: true },
         { key: 'quantity', label: 'Quantity', type: 'number', required: true },
         { key: 'totalPrice', label: 'Total Price', type: 'number', required: true },
+      ]}
+      columns={[
+        { key: 'id', header: 'ID' },
+        { key: 'userName', header: 'User' },
+        { key: 'status', header: 'Status' },
+        { key: 'quantity', header: 'Qty' },
+        { key: 'totalPrice', header: 'Total' },
+      ]}
+      getList={ApiService.getBookings}
+      createItem={ApiService.createBooking}
+      updateItem={ApiService.updateBooking}
+      deleteItem={ApiService.deleteBooking}
+    />
+  );
+}
