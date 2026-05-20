@@ -7,3 +7,11 @@ export default function AdminSectionSkeleton() {
       <div className="admin-skeleton-grid">
         {Array.from({ length: 4 }).map((_, index) => (
           <article className="admin-skeleton-card" key={`s-${index}`}>
+            <div className="admin-skeleton admin-skeleton-line" />
+            <div className="admin-skeleton admin-skeleton-line short" />
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
