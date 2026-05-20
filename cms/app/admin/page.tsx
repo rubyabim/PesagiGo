@@ -72,3 +72,40 @@ export default function AdminOverviewPage() {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="label" />
               <YAxis />
+              <Tooltip />
+              <Bar dataKey="value" fill="#38bdf8" radius={[8, 8, 0, 0]} />
+            </BarChart>
+          </ResponsiveContainer>
+        </div>
+      </section>
+
+      <section className="grid gap-3 lg:grid-cols-3">
+        <article className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+          <div className="mb-2 flex items-center justify-between">
+            <h3 className="font-semibold">Informasi Penting</h3>
+            <Link href="/admin/announcements" className="text-xs text-sky-600 underline">
+              Kelola
+            </Link>
+          </div>
+          <div className="space-y-2">
+            {(announcementsQuery.data ?? []).slice(0, 4).map((item) => (
+              <div
+                key={item.id}
+                className="rounded-xl border border-sky-200 bg-sky-50 p-2 text-sm text-sky-800 dark:border-sky-900/40 dark:bg-sky-950/20 dark:text-sky-200"
+              >
+                <p className="font-semibold">{item.title}</p>
+                <p className="line-clamp-2 text-xs">{item.content}</p>
+              </div>
+            ))}
+          </div>
+        </article>
+
+        <article className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+          <div className="mb-2 flex items-center justify-between">
+            <h3 className="font-semibold">Larangan</h3>
+            <Link href="/admin/rules" className="text-xs text-sky-600 underline">
+              Kelola
+            </Link>
+          </div>
+          <ul className="space-y-2 text-sm">
+            {(rulesQuery.data ?? []).slice(0, 5).map((item) => (
