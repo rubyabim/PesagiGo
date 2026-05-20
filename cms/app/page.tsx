@@ -220,3 +220,74 @@ export default function AuthPage() {
               </p>
             </form>
           ) : null}
+
+          {mode === 'reset' ? (
+            <form
+              className="space-y-3"
+              onSubmit={resetForm.handleSubmit((values) =>
+                resetMutation.mutate({
+                  email: values.email,
+                  newPassword: values.newPassword,
+                }),
+              )}
+            >
+              <h2 className="text-center text-xl font-semibold text-slate-800">Reset Password</h2>
+              <input
+                className="w-full rounded-full border border-slate-300 px-4 py-2.5 text-sm"
+                placeholder="Email akun"
+                {...resetForm.register('email')}
+              />
+              <div className="relative">
+                <input
+                  className="w-full rounded-full border border-slate-300 px-4 py-2.5 pr-18 text-sm"
+                  placeholder="Password baru"
+                  type={showResetPassword ? 'text' : 'password'}
+                  {...resetForm.register('newPassword')}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowResetPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-blue-600"
+                >
+                  {showResetPassword ? 'Sembunyi' : 'Lihat'}
+                </button>
+              </div>
+              <div className="relative">
+                <input
+                  className="w-full rounded-full border border-slate-300 px-4 py-2.5 pr-18 text-sm"
+                  placeholder="Konfirmasi password baru"
+                  type={showResetConfirmPassword ? 'text' : 'password'}
+                  {...resetForm.register('confirmPassword')}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowResetConfirmPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-blue-600"
+                >
+                  {showResetConfirmPassword ? 'Sembunyi' : 'Lihat'}
+                </button>
+              </div>
+              <button
+                type="submit"
+                className="w-full rounded-full bg-linear-to-r from-blue-600 to-cyan-500 px-4 py-2.5 text-base font-bold text-white"
+                disabled={resetMutation.isPending}
+              >
+                {resetMutation.isPending ? 'Loading...' : 'Reset Password'}
+              </button>
+              <p className="text-center text-sm text-slate-500">
+                Kembali ke{' '}
+                <button
+                  type="button"
+                  onClick={() => setMode('login')}
+                  className="font-semibold text-blue-600 hover:underline"
+                >
+                  Login
+                </button>
+              </p>
+            </form>
+          ) : null}
+        </div>
+      </section>
+    </main>
+  );
+}
