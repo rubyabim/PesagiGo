@@ -1,4 +1,2 @@
-import { redirect } from 'next/navigation';
-export default function RegisterRoutePage() {
-      redirect('/?mode=register');
-}
+﻿import { redirect } from 'next/navigation';
+
