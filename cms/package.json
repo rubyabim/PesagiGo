@@ -1,9 +1,9 @@
-﻿{
+{
   "name": "cms",
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "predev": "lsof -ti:3000 | xargs kill -9 2>/dev/null || true",
+    "predev": "powershell -ExecutionPolicy Bypass -File .\\scripts\\free-port.ps1 3000",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
