@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 type FeatureKey = "routes" | "bookings" | "payments" | "quotas" | "weather";
@@ -11,6 +11,7 @@ export default function AdminFeatureDeletePage() {
   const feature = (params.feature || "") as FeatureKey;
   const id = params.id || "";
 
+  const [token, setToken] = useState("");
   const [loading, setLoading] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -35,6 +36,20 @@ export default function AdminFeatureDeletePage() {
     }
     return "Feature Tidak Dikenal";
   }, [feature]);
+
+  useEffect(() => {
+    const storedToken =
+      localStorage.getItem("cms_access_token") ??
+      sessionStorage.getItem("cms_access_token") ??
+      "";
+
+    if (!storedToken) {
+      router.replace("/");
+      return;
+    }
+
+    setToken(storedToken);
+  }, [router]);
 
   return (
     <main className="admin-shell">
