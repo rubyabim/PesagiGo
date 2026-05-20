@@ -107,3 +107,112 @@ export default function AdminFeatureDeletePage() {
         if (feature === 'quotas') {
           const rows = await fetchAdminQuotas(token);
           const target = rows.find((item) => item.id === id);
+          if (!target) {
+            throw new Error('Quota tidak ditemukan.');
+          }
+          setTargetLabel(`${target.mountain.name} - ${new Date(target.date).toLocaleString('id-ID')}`);
+        }
+
+        if (feature === 'weather') {
+          const rows = await fetchAdminWeather(token);
+          const target = rows.find((item) => item.id === id);
+          if (!target) {
+            throw new Error('Weather tidak ditemukan.');
+          }
+          setTargetLabel(`${target.mountain.name} - ${target.condition}`);
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Terjadi kesalahan.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadData();
+  }, [feature, id, token]);
+
+  const onDelete = async () => {
+    if (!token) {
+      return;
+    }
+
+    setBusy(true);
+    setError(null);
+
+    try {
+      if (feature === 'routes') {
+        await deleteAdminRoute(token, id);
+      }
+
+      if (feature === 'bookings') {
+        await deleteAdminBooking(token, id);
+      }
+
+      if (feature === 'payments') {
+        await deleteAdminPayment(token, id);
+      }
+
+      if (feature === 'quotas') {
+        await deleteAdminQuota(token, id);
+      }
+
+      if (feature === 'weather') {
+        await deleteAdminWeather(token, id);
+      }
+
+      setMessage('Data berhasil dihapus.');
+      setTimeout(() => {
+        router.push('/admin');
+      }, 800);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Gagal menghapus data.');
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <main className="admin-shell">
+      <div className="container admin-editor-wrap">
+        <section className="card admin-editor-card danger">
+          <div className="admin-editor-head">
+            <h1>{title}</h1>
+            <button className="btn btn-muted" onClick={() => router.push('/admin')} type="button">
+              Kembali ke Dashboard
+            </button>
+          </div>
+
+          {message ? <p className="admin-alert success">{message}</p> : null}
+          {error ? <p className="admin-alert error">{error}</p> : null}
+
+          {loading ? (
+            <div className="admin-skeleton-grid">
+              {Array.from({ length: 2 }).map((_, index) => (
+                <article className="admin-skeleton-card" key={`dl-s-${index}`}>
+                  <div className="admin-skeleton admin-skeleton-line" />
+                  <div className="admin-skeleton admin-skeleton-line short" />
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="admin-delete-wrap">
+              <p>
+                Anda akan menghapus data:
+              </p>
+              <h2>{targetLabel || id}</h2>
+              <p>Tindakan ini tidak bisa dibatalkan.</p>
+              <div className="admin-form-actions">
+                <button className="btn btn-danger" disabled={busy} onClick={onDelete} type="button">
+                  {busy ? 'Menghapus...' : 'Ya, Hapus Sekarang'}
+                </button>
+                <button className="btn btn-muted" onClick={() => router.push('/admin')} type="button">
+                  Batal
+                </button>
+              </div>
+            </div>
+          )}
+        </section>
+      </div>
+    </main>
+  );
+}
