@@ -33,3 +33,38 @@ const MapView: React.FC<MapViewProps> = ({ locations, onMarkerClick }) => {
   }, [locations]);
 
   return (
+    <LoadScript googleMapsApiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''}>
+      <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={10}>
+        {locations.map((location) => (
+          <Marker
+            key={location.id}
+            position={{ lat: location.latitude, lng: location.longitude }}
+            onClick={() => {
+              setSelectedMarker(location);
+              onMarkerClick?.(location);
+            }}
+            title={location.name}
+          />
+        ))}
+
+        {selectedMarker && (
+          <InfoWindow
+            position={{
+              lat: selectedMarker.latitude,
+              lng: selectedMarker.longitude,
+            }}
+            onCloseClick={() => setSelectedMarker(null)}
+          >
+            <div className="p-2">
+              <h3 className="font-bold">{selectedMarker.name}</h3>
+              <p className="text-sm text-gray-600">{selectedMarker.address}</p>
+              <p className="text-xs text-gray-500">Type: {selectedMarker.type}</p>
+            </div>
+          </InfoWindow>
+        )}
+      </GoogleMap>
+    </LoadScript>
+  );
+};
+
+export default MapView;
