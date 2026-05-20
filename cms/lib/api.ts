@@ -148,3 +148,153 @@ async function requestJson<T>(
       }
     } catch {}
     throw new Error(message);
+  }
+
+  return (await response.json()) as T;
+}
+
+async function apiRequest<T>(
+  path: string,
+  options: {
+    method?: "GET" | "POST" | "PATCH" | "DELETE";
+    token?: string;
+    body?: unknown;
+  } = {},
+): Promise<T> {
+  return requestJson<T>(getApiBaseUrl(), path, options);
+}
+
+async function authRequest<T>(
+  path: string,
+  options: {
+    method?: "GET" | "POST" | "PATCH" | "DELETE";
+    token?: string;
+    body?: unknown;
+  } = {},
+): Promise<T> {
+  return requestJson<T>(getAuthBaseUrl(), path, options);
+}
+
+export function fetchApiHealth() {
+  return apiRequest<ApiHealth>("/api/health");
+}
+
+export function registerUser(payload: {
+  fullName: string;
+  email: string;
+  password: string;
+  phone?: string;
+}) {
+  return authRequest<AuthResponse>("/api/auth/register", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function loginUser(payload: { email: string; password: string }) {
+  return authRequest<AuthResponse>("/api/auth/login", {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function fetchCurrentUser(token: string) {
+  return authRequest<ApiUser>("/api/auth/me", {
+    token,
+  });
+}
+
+export function fetchMountains() {
+  return apiRequest<Mountain[]>("/api/mountains");
+}
+
+export function fetchSessions(params?: { mountainId?: string; date?: string }) {
+  const query = new URLSearchParams();
+  if (params?.mountainId) {
+    query.set("mountainId", params.mountainId);
+  }
+  if (params?.date) {
+    query.set("date", params.date);
+  }
+  const suffix = query.size > 0 ? `?${query.toString()}` : "";
+  return apiRequest<Session[]>(`/api/sessions${suffix}`);
+}
+
+export function fetchWeather(params?: { mountainId?: string; date?: string }) {
+  const query = new URLSearchParams();
+  if (params?.mountainId) {
+    query.set("mountainId", params.mountainId);
+  }
+  if (params?.date) {
+    query.set("date", params.date);
+  }
+  const suffix = query.size > 0 ? `?${query.toString()}` : "";
+  return apiRequest<WeatherForecast[]>(`/api/weather${suffix}`);
+}
+
+export function createBooking(
+  token: string,
+  payload: { sessionId: string; quantity: number },
+) {
+  return apiRequest<Booking>("/api/bookings", {
+    method: "POST",
+    token,
+    body: payload,
+  });
+}
+
+export function payBooking(
+  token: string,
+  bookingId: string,
+  payload: { method: string },
+) {
+  return apiRequest<BookingPaymentResponse>(`/api/bookings/${bookingId}/pay`, {
+    method: "POST",
+    token,
+    body: payload,
+  });
+}
+
+export function fetchMyBookings(token: string) {
+  return apiRequest<Booking[]>("/api/bookings/my", {
+    token,
+  });
+}
+
+export function fetchTicket(token: string, bookingId: string) {
+  return apiRequest<TicketResponse>(`/api/bookings/${bookingId}/ticket`, {
+    token,
+  });
+}
+
+export function runSeed() {
+  return apiRequest<{ message: string }>("/api/seed", {
+    method: "POST",
+  });
+}
+
+export type AdminTrail = {
+  id: string;
+  mountainId: string;
+  name: string;
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+  distanceKm: number;
+  estimatedHours: number;
+  description: string;
+  mountain: {
+    id: string;
+    name: string;
+    location: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminBooking = {
+  id: string;
+  userId: string;
+  sessionId: string;
+  quantity: number;
+  totalPrice: number;
+  status: 'PENDING_PAYMENT' | 'PAID' | 'CANCELLED';
+  ticketCode: string | null;
