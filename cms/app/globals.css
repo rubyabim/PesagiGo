@@ -229,3 +229,234 @@ a {
   outline: 2px solid rgba(111, 176, 255, 0.72);
   outline-offset: 1px;
 }
+
+.auth-help-row {
+  margin-top: 0.72rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgba(234, 242, 255, 0.91);
+  font-size: 0.78rem;
+}
+
+.auth-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+}
+
+.auth-cta {
+  margin-top: 1rem;
+  width: 100%;
+  border: 0;
+  border-radius: 3px;
+  background: #2b86ed;
+  color: #f7fbff;
+  padding: 0.68rem 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.auth-cta:hover {
+  background: #2375cf;
+}
+
+.auth-cta:disabled {
+  opacity: 0.72;
+  cursor: not-allowed;
+}
+
+.auth-error {
+  margin-top: 0.72rem;
+  font-size: 0.8rem;
+  color: #fff2f6;
+  background: rgba(132, 24, 57, 0.52);
+  border: 1px solid rgba(255, 213, 226, 0.45);
+  border-radius: 8px;
+  padding: 0.48rem 0.56rem;
+}
+
+.auth-links {
+  margin-top: 0.78rem;
+  text-align: center;
+  color: rgba(236, 244, 255, 0.92);
+  font-size: 0.8rem;
+}
+
+.auth-divider {
+  margin: 0.82rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: rgba(240, 245, 255, 0.88);
+  font-size: 0.78rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  height: 1px;
+  flex: 1;
+  background: rgba(238, 245, 255, 0.54);
+}
+
+.admin-screen {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 16% 14%, rgba(94, 155, 255, 0.16) 0%, rgba(94, 155, 255, 0) 34%),
+    radial-gradient(circle at 84% 90%, rgba(62, 121, 233, 0.2) 0%, rgba(62, 121, 233, 0) 36%),
+    linear-gradient(180deg, #f4f7fe 0%, #edf3ff 100%);
+}
+
+.admin-stack {
+  gap: 1rem;
+}
+
+.admin-hero {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(244, 250, 255, 0.98) 100%);
+}
+
+.admin-kpis .card {
+  box-shadow: 0 10px 22px rgba(22, 31, 54, 0.08);
+}
+
+.admin-workspace {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(250, 253, 255, 0.98) 100%);
+}
+
+.admin-tabs {
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+}
+
+.admin-tabs .btn {
+  white-space: nowrap;
+}
+
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #dfe8f8;
+}
+
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.65) 50%, rgba(255, 255, 255, 0) 100%);
+  animation: skeleton-shimmer 1.2s infinite;
+}
+
+.skeleton-card {
+  border-color: #d8e2f6;
+}
+
+.skeleton-line {
+  display: block;
+}
+
+@keyframes skeleton-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-screen {
+    padding: 0.7rem;
+  }
+
+  .auth-scene {
+    width: 100%;
+    min-height: 100dvh;
+    border-radius: 0;
+    padding: 1rem;
+    background-image:
+      linear-gradient(180deg, rgba(17, 33, 57, 0.56) 0%, rgba(17, 33, 57, 0.3) 54%, rgba(17, 33, 57, 0.52) 100%),
+      url('/pesagi-hero.svg');
+  }
+
+  .auth-scene-grid {
+    grid-template-columns: 1fr;
+    align-content: start;
+  }
+
+  .auth-brand {
+    padding: 0.35rem;
+  }
+
+  .auth-brand-headline {
+    font-size: clamp(1.85rem, 10vw, 2.8rem);
+  }
+
+  .auth-brand-copy {
+    max-width: none;
+    font-size: 0.88rem;
+  }
+
+  .auth-panel {
+    justify-self: stretch;
+    width: 100%;
+  }
+
+  .admin-screen {
+    padding-top: 0.9rem;
+  }
+
+  .admin-hero,
+  .admin-workspace {
+    border-radius: 14px;
+  }
+
+  .btn {
+    padding: 0.58rem 0.82rem;
+    font-size: 0.86rem;
+  }
+}
+
+.admin-shell {
+  min-height: 100vh;
+  padding: 20px 0 32px;
+  background:
+    radial-gradient(circle at 10% 8%, rgba(176, 224, 255, 0.46) 0%, rgba(176, 224, 255, 0) 34%),
+    radial-gradient(circle at 90% 88%, rgba(125, 195, 252, 0.34) 0%, rgba(125, 195, 252, 0) 36%),
+    linear-gradient(180deg, #f5fbff 0%, #ecf6ff 100%);
+}
+
+.admin-dashboard-wrap {
+  display: grid;
+  gap: 14px;
+}
+
+.admin-hero-box {
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98) 0%, rgba(244, 251, 255, 1) 100%);
+  border-color: #d6e8fb;
+}
+
+.admin-hero-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-label {
+  margin: 0;
+  color: #4d6887;
+  font-size: 13px;
+}
+
+.admin-hero-box h1 {
+  margin: 4px 0 0;
+  font-size: 29px;
+  letter-spacing: 0.01em;
+  color: #0f2942;
+}
+
+.admin-userline {
