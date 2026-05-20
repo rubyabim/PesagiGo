@@ -26,3 +26,31 @@ export default function WeatherPage() {
         <article className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
           <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Condition</p>
           <p className="mt-1 text-lg font-semibold">{currentQuery.data?.condition ?? '-'}</p>
+        </article>
+        <article className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+          <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Temperature</p>
+          <p className="mt-1 text-lg font-semibold">{currentQuery.data?.temperatureC ?? '-'} C</p>
+        </article>
+        <article className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+          <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Humidity</p>
+          <p className="mt-1 text-lg font-semibold">{currentQuery.data?.humidity ?? '-'}%</p>
+        </article>
+        <article className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+          <p className="text-xs uppercase tracking-[0.16em] text-slate-500">Wind</p>
+          <p className="mt-1 text-lg font-semibold">{currentQuery.data?.windKph ?? '-'} kph</p>
+        </article>
+      </section>
+
+      <DataTable
+        title="Weather Forecast"
+        data={forecastQuery.data ?? []}
+        loading={forecastQuery.isLoading}
+        columns={[
+          { key: 'date', header: 'Date' },
+          { key: 'condition', header: 'Condition' },
+          { key: 'temperatureC', header: 'Temperature' },
+        ]}
+      />
+    </div>
+  );
+}
