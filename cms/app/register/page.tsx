@@ -2,3 +2,4 @@
 
 export default function RegisterRoutePage() {
   redirect('/?mode=register');
+}
