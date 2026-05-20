@@ -448,3 +448,153 @@ export function updateAdminBooking(
   payload: Partial<{ status: 'PENDING_PAYMENT' | 'PAID' | 'CANCELLED'; quantity: number }>,
 ) {
   return apiRequest<AdminBooking>(`/api/admin/bookings/${id}`, {
+    method: 'PATCH',
+    token,
+    body: payload,
+  });
+}
+
+export function deleteAdminBooking(token: string, id: string) {
+  return apiRequest<{ message: string }>(`/api/admin/bookings/${id}`, {
+    method: 'DELETE',
+    token,
+  });
+}
+
+export function fetchAdminPayments(token: string) {
+  return apiRequest<AdminPayment[]>('/api/admin/payments', { token });
+}
+
+export function createAdminPayment(
+  token: string,
+  payload: {
+    bookingId: string;
+    method: string;
+    amount: number;
+    status: 'PENDING' | 'SUCCESS' | 'FAILED';
+    providerRef?: string;
+    paidAt?: string;
+  },
+) {
+  return apiRequest<AdminPayment>('/api/admin/payments', {
+    method: 'POST',
+    token,
+    body: payload,
+  });
+}
+
+export function updateAdminPayment(
+  token: string,
+  id: string,
+  payload: Partial<{
+    method: string;
+    amount: number;
+    status: 'PENDING' | 'SUCCESS' | 'FAILED';
+    providerRef: string;
+    paidAt: string;
+  }>,
+) {
+  return apiRequest<AdminPayment>(`/api/admin/payments/${id}`, {
+    method: 'PATCH',
+    token,
+    body: payload,
+  });
+}
+
+export function deleteAdminPayment(token: string, id: string) {
+  return apiRequest<{ message: string }>(`/api/admin/payments/${id}`, {
+    method: 'DELETE',
+    token,
+  });
+}
+
+export function fetchAdminQuotas(token: string) {
+  return apiRequest<AdminQuota[]>('/api/admin/quotas', { token });
+}
+
+export function createAdminQuota(
+  token: string,
+  payload: {
+    mountainId: string;
+    date: string;
+    quotaTotal: number;
+    price: number;
+  },
+) {
+  return apiRequest<AdminQuota>('/api/admin/quotas', {
+    method: 'POST',
+    token,
+    body: payload,
+  });
+}
+
+export function updateAdminQuota(
+  token: string,
+  id: string,
+  payload: Partial<{
+    date: string;
+    quotaTotal: number;
+    quotaBooked: number;
+    price: number;
+  }>,
+) {
+  return apiRequest<AdminQuota>(`/api/admin/quotas/${id}`, {
+    method: 'PATCH',
+    token,
+    body: payload,
+  });
+}
+
+export function deleteAdminQuota(token: string, id: string) {
+  return apiRequest<{ message: string }>(`/api/admin/quotas/${id}`, {
+    method: 'DELETE',
+    token,
+  });
+}
+
+export function fetchAdminWeather(token: string) {
+  return apiRequest<AdminWeather[]>('/api/admin/weather', { token });
+}
+
+export function createAdminWeather(
+  token: string,
+  payload: {
+    mountainId: string;
+    forecastDate: string;
+    condition: 'SUNNY' | 'CLOUDY' | 'LIGHT_RAIN' | 'HEAVY_RAIN' | 'STORM' | 'FOG';
+    temperatureC: number;
+    windKph?: number;
+    note?: string;
+  },
+) {
+  return apiRequest<AdminWeather>('/api/admin/weather', {
+    method: 'POST',
+    token,
+    body: payload,
+  });
+}
+
+export function updateAdminWeather(
+  token: string,
+  id: string,
+  payload: Partial<{
+    forecastDate: string;
+    condition: 'SUNNY' | 'CLOUDY' | 'LIGHT_RAIN' | 'HEAVY_RAIN' | 'STORM' | 'FOG';
+    temperatureC: number;
+    windKph: number;
+    note: string;
+  }>,
+) {
+  return apiRequest<AdminWeather>(`/api/admin/weather/${id}`, {
+    method: 'PATCH',
+    token,
+    body: payload,
+  });
+}
+
+export function deleteAdminWeather(token: string, id: string) {
+  return apiRequest<{ message: string }>(`/api/admin/weather/${id}`, {
+    method: 'DELETE',
+    token,
+  });
+}
