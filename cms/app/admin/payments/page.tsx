@@ -38,3 +38,43 @@ export default function PaymentsPage() {
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     createMutation.mutate({ bookingId, method, amount });
+  };
+
+  const rows = paymentQuery.data ? [paymentQuery.data, ...history] : history;
+
+  return (
+    <div className="space-y-4">
+      <section className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+        <h1 className="text-2xl font-bold">Payments</h1>
+        <p className="mt-1 text-sm text-slate-500">Integrasi endpoint POST /payments, GET /payments/:id, POST /payments/webhook.</p>
+      </section>
+
+      <section className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
+        <form className="grid gap-3 md:grid-cols-4" onSubmit={onSubmit}>
+          <input className="rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900" placeholder="Booking ID" value={bookingId} onChange={(e) => setBookingId(e.target.value)} required />
+          <input className="rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900" placeholder="Method" value={method} onChange={(e) => setMethod(e.target.value)} required />
+          <input type="number" className="rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900" placeholder="Amount" value={amount} onChange={(e) => setAmount(Number(e.target.value || 0))} required />
+          <button className="rounded-xl bg-sky-500 px-3 py-2 text-sm font-semibold text-white hover:bg-sky-600 active:scale-[0.98]" type="submit" disabled={createMutation.isPending}>Create Payment</button>
+        </form>
+
+        <div className="mt-3 flex flex-wrap gap-2">
+          <input className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm md:w-[260px] dark:border-slate-700 dark:bg-slate-900" placeholder="Cari payment by ID" value={paymentId} onChange={(e) => setPaymentId(e.target.value)} />
+          <button type="button" className="rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-700" onClick={() => webhookMutation.mutate({ paymentId, event: 'PAYMENT_STATUS_UPDATE' })} disabled={!paymentId || webhookMutation.isPending}>Send Webhook</button>
+        </div>
+      </section>
+
+      <DataTable
+        title="Payment Status"
+        data={rows}
+        loading={paymentQuery.isLoading}
+        columns={[
+          { key: 'id', header: 'ID' },
+          { key: 'bookingId', header: 'Booking ID' },
+          { key: 'method', header: 'Method' },
+          { key: 'amount', header: 'Amount' },
+          { key: 'status', header: 'Status' },
+        ]}
+      />
+    </div>
+  );
+}
