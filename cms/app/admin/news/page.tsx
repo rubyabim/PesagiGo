@@ -19,3 +19,24 @@ export default function NewsPage() {
             ]}
       columns={[
         { key: 'title', header: 'Judul' },
+        {
+          key: 'description',
+          header: 'Deskripsi',
+          render: (row) => <span className="line-clamp-2">{row.description}</span>,
+        },
+        {
+          key: 'imageUrl',
+          header: 'Gambar',
+          render: (row) => row.imageUrl ? (
+            <Image src={String(row.imageUrl)} alt={String(row.title)} width={64} height={40} unoptimized className="h-10 w-16 rounded object-cover" />
+          ) : '-'
+        },
+        { key: 'publishedAt', header: 'Tanggal' },
+      ]}
+      getList={ApiService.getNews}
+      createItem={ApiService.createNews}
+      updateItem={ApiService.updateNews}
+      deleteItem={ApiService.deleteNews}
+    />
+  );
+}
