@@ -99,3 +99,103 @@ export default function DataTable<T extends Record<string, unknown>>({
                   <div className="mt-4 flex gap-2">
                     {onEdit ? (
                       <button
+                        type="button"
+                        onClick={() => onEdit(row)}
+                        className="flex-1 rounded-lg border border-slate-200 px-3 py-2 text-xs font-semibold transition hover:bg-slate-100 active:scale-[0.98] dark:border-slate-700 dark:hover:bg-slate-800"
+                      >
+                        Edit
+                      </button>
+                    ) : null}
+                    {onDelete ? (
+                      <button
+                        type="button"
+                        onClick={() => onDelete(row)}
+                        className="flex-1 rounded-lg border border-rose-200 px-3 py-2 text-xs font-semibold text-rose-600 transition hover:bg-rose-50 active:scale-[0.98] dark:border-rose-900/50 dark:hover:bg-rose-950/30"
+                      >
+                        Delete
+                      </button>
+                    ) : null}
+                  </div>
+                ) : null}
+              </article>
+            ))}
+          </div>
+
+          <div className="hidden overflow-x-auto md:block">
+            <table className="min-w-full border-collapse text-left text-sm">
+            <thead>
+              <tr className="border-b border-slate-200 dark:border-slate-800">
+                {columns.map((col) => (
+                  <th key={String(col.key)} className="px-3 py-2 font-semibold text-slate-600 dark:text-slate-300">
+                    {col.header}
+                  </th>
+                ))}
+                {(onEdit || onDelete) ? <th className="px-3 py-2">Actions</th> : null}
+              </tr>
+            </thead>
+            <tbody>
+              {paged.map((row, idx) => (
+                <tr key={`row-${idx}`} className="border-b border-slate-100 dark:border-slate-800/70">
+                  {columns.map((col) => (
+                    <td key={`${String(col.key)}-${idx}`} className="px-3 py-2">
+                      {col.render ? col.render(row) : String(row[col.key as keyof T] ?? '-')}
+                    </td>
+                  ))}
+                  {(onEdit || onDelete) ? (
+                    <td className="px-3 py-2">
+                      <div className="flex gap-2">
+                        {onEdit ? (
+                          <button
+                            type="button"
+                            onClick={() => onEdit(row)}
+                            className="rounded-lg border border-slate-200 px-2 py-1 text-xs transition hover:bg-slate-100 active:scale-[0.98] dark:border-slate-700 dark:hover:bg-slate-800"
+                          >
+                            Edit
+                          </button>
+                        ) : null}
+                        {onDelete ? (
+                          <button
+                            type="button"
+                            onClick={() => onDelete(row)}
+                            className="rounded-lg border border-rose-200 px-2 py-1 text-xs text-rose-600 transition hover:bg-rose-50 active:scale-[0.98] dark:border-rose-900/50 dark:hover:bg-rose-950/30"
+                          >
+                            Delete
+                          </button>
+                        ) : null}
+                      </div>
+                    </td>
+                  ) : null}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+
+            {paged.length === 0 ? <p className="px-3 py-4 text-sm text-slate-500">No data found.</p> : null}
+          </div>
+        </>
+      )}
+
+      <div className="mt-3 flex flex-wrap items-center justify-end gap-2 text-xs">
+        <button
+          type="button"
+          disabled={safePage <= 1}
+          onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+          className="rounded-lg border border-slate-200 px-2 py-1 disabled:opacity-50 dark:border-slate-700"
+        >
+          Prev
+        </button>
+        <span>
+          Page {safePage} / {pageCount}
+        </span>
+        <button
+          type="button"
+          disabled={safePage >= pageCount}
+          onClick={() => setPage((prev) => Math.min(pageCount, prev + 1))}
+          className="rounded-lg border border-slate-200 px-2 py-1 disabled:opacity-50 dark:border-slate-700"
+        >
+          Next
+        </button>
+      </div>
+    </section>
+  );
+}
