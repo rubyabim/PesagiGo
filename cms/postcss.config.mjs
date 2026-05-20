@@ -2,3 +2,5 @@
   plugins: {
     "@tailwindcss/postcss": {},
   },
+};
+
