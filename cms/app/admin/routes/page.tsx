@@ -30,3 +30,35 @@ export default function RoutesPage() {
         },
         { key: 'name', label: 'Nama Route', required: true },
         {
+          key: 'difficulty',
+          label: 'Difficulty',
+          type: 'select',
+          required: true,
+          options: [
+            { value: 'EASY', label: 'Easy' },
+            { value: 'MEDIUM', label: 'Medium' },
+            { value: 'HARD', label: 'Hard' },
+          ],
+        },
+        { key: 'distanceKm', label: 'Distance (km)', type: 'number', required: true },
+        { key: 'estimatedHours', label: 'Estimasi Jam', type: 'number', required: true },
+        { key: 'description', label: 'Deskripsi Jalur', type: 'textarea', required: true },
+      ]}
+      columns={[
+        {
+          key: 'mountain',
+          header: 'Gunung',
+          render: (row) => row.mountain?.name ?? row.mountainId ?? '-',
+        },
+        { key: 'name', header: 'Route' },
+        { key: 'difficulty', header: 'Difficulty' },
+        { key: 'distanceKm', header: 'Distance' },
+        { key: 'estimatedHours', header: 'Hours' },
+      ]}
+      getList={ApiService.getRoutes}
+      createItem={ApiService.createRoute}
+      updateItem={ApiService.updateRoute}
+      deleteItem={ApiService.deleteRoute}
+    />
+  );
+}
