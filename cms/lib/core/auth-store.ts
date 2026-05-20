@@ -38,3 +38,42 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
     set({ token, user });
   },
+  clearAuth: () => {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(USER_KEY);
+    sessionStorage.removeItem(TOKEN_KEY);
+    sessionStorage.removeItem(USER_KEY);
+    set({ token: null, user: null });
+  },
+  hydrate: () => {
+    const token =
+      localStorage.getItem(TOKEN_KEY) ??
+      sessionStorage.getItem(TOKEN_KEY) ??
+      null;
+    const rawUser =
+      localStorage.getItem(USER_KEY) ??
+      sessionStorage.getItem(USER_KEY);
+
+    if (!token || isTokenExpired(token)) {
+      localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem(USER_KEY);
+      sessionStorage.removeItem(TOKEN_KEY);
+      sessionStorage.removeItem(USER_KEY);
+      set({ hydrated: true, token: null, user: null });
+      return;
+    }
+
+    let parsedUser: AuthUser | null = null;
+    if (rawUser) {
+      try {
+        parsedUser = JSON.parse(rawUser) as AuthUser;
+      } catch {
+        parsedUser = null;
+      }
+    }
+
+    set({ hydrated: true, token, user: parsedUser });
+  },
+}));
+
+export type { AuthUser };
