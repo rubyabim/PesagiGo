@@ -25,3 +25,30 @@ export default function TicketsPage() {
         </div>
       </section>
 
+      <DataTable
+        title="Ticket History"
+        data={ticketsQuery.data ?? []}
+        loading={ticketsQuery.isLoading}
+        columns={[
+          { key: 'id', header: 'ID' },
+          { key: 'code', header: 'Ticket Code' },
+          { key: 'status', header: 'Status' },
+          {
+            key: 'download',
+            header: 'Download',
+            render: (row) => (
+              <a
+                href={ApiService.getTicketDownloadUrl(String(row.id))}
+                className="text-sky-600 underline"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Download
+              </a>
+            ),
+          },
+        ]}
+      />
+    </div>
+  );
+}
