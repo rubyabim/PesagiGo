@@ -185,3 +185,190 @@ const WeatherManagement = () => {
             >
               <Plus className="w-4 h-4" />
               Tambah Prakiraan
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* Form */}
+      {isOpen && (
+        <div className="bg-white rounded-lg shadow p-6">
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium mb-1">Gunung *</label>
+                <select
+                  {...register('mountainId')}
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Pilih Gunung</option>
+                  {mountains.map((mountain: Mountain) => (
+                    <option key={mountain.id} value={mountain.id}>
+                      {mountain.name}
+                    </option>
+                  ))}
+                </select>
+                {errors.mountainId && <p className="text-red-500 text-sm mt-1">{errors.mountainId.message}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Tanggal *</label>
+                <input
+                  {...register('forecastDate')}
+                  type="date"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                {errors.forecastDate && <p className="text-red-500 text-sm mt-1">{errors.forecastDate.message}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Kondisi Cuaca *</label>
+                <select
+                  {...register('condition')}
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="">Pilih Kondisi</option>
+                  <option value="SUNNY">Cerah ΓÿÇ∩╕Å</option>
+                  <option value="CLOUDY">Berawan Γÿü∩╕Å</option>
+                  <option value="LIGHT_RAIN">Hujan Ringan ≡ƒîª∩╕Å</option>
+                  <option value="HEAVY_RAIN">Hujan Lebat ≡ƒîº∩╕Å</option>
+                  <option value="STORM">Badai Γ¢ê∩╕Å</option>
+                  <option value="FOG">Kabut ≡ƒî½∩╕Å</option>
+                </select>
+                {errors.condition && <p className="text-red-500 text-sm mt-1">{errors.condition.message}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Suhu (┬░C) *</label>
+                <input
+                  {...register('temperatureC', { valueAsNumber: true })}
+                  type="number"
+                  step="0.1"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="25.5"
+                />
+                {errors.temperatureC && <p className="text-red-500 text-sm mt-1">{errors.temperatureC.message}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Kecepatan Angin (km/h)</label>
+                <input
+                  {...register('windKph', { valueAsNumber: true })}
+                  type="number"
+                  step="0.1"
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="10.5"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Catatan</label>
+                <textarea
+                  {...register('note')}
+                  className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Catatan tambahan"
+                  rows={2}
+                />
+              </div>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                disabled={createMutation.isPending || updateMutation.isPending}
+                className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition"
+              >
+                {editingId ? 'Update' : 'Simpan'}
+              </button>
+              <button
+                type="button"
+                onClick={handleCloseForm}
+                className="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 transition"
+              >
+                Batal
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Weather Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {weatherLoading ? (
+          <div className="col-span-full text-center py-8 text-gray-500">Loading...</div>
+        ) : weatherData.length === 0 ? (
+          <div className="col-span-full text-center py-8 text-gray-500">Belum ada prakiraan cuaca</div>
+        ) : (
+          weatherData.map((weather: Weather) => (
+            <div key={weather.id} className="bg-white rounded-lg shadow p-4 hover:shadow-lg transition">
+              <div className="flex justify-between items-start mb-3">
+                <div>
+                  <h4 className="font-semibold">{weather.mountain?.name}</h4>
+                  <p className="text-sm text-gray-600">
+                    {new Date(weather.forecastDate).toLocaleDateString('id-ID')}
+                  </p>
+                </div>
+                <span className="text-3xl">{getWeatherIcon(weather.condition)}</span>
+              </div>
+
+              <div className="space-y-2 mb-4">
+                <p className="text-sm">
+                  <span className="font-medium">Kondisi:</span> {weather.condition}
+                </p>
+                <p className="text-sm">
+                  <span className="font-medium">Suhu:</span> {weather.temperatureC}┬░C
+                </p>
+                {weather.windKph && (
+                  <p className="text-sm">
+                    <span className="font-medium">Angin:</span> {weather.windKph} km/h
+                  </p>
+                )}
+                {weather.note && <p className="text-xs text-gray-600 italic">{weather.note}</p>}
+              </div>
+
+              <div className="flex gap-2 justify-end">
+                <button
+                  onClick={() => handleEdit(weather)}
+                  className="text-blue-600 hover:text-blue-800 p-1"
+                >
+                  <Edit className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => deleteMutation.mutate(weather.id)}
+                  className="text-red-600 hover:text-red-800 p-1"
+                >
+                  <Trash className="w-4 h-4" />
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+
+      {/* Sync Section */}
+      <div className="bg-blue-50 rounded-lg shadow p-6 border border-blue-200">
+        <h4 className="font-semibold mb-3 flex items-center gap-2">
+          <Sync className="w-5 h-5" />
+          Sinkronisasi Data Cuaca Real-time
+        </h4>
+        <p className="text-sm text-gray-700 mb-4">
+          Sinkronkan data cuaca terbaru dari API weather untuk setiap gunung
+        </p>
+        <div className="flex flex-wrap gap-2">
+          {mountains.map((mountain: Mountain) => (
+            <button
+              key={mountain.id}
+              onClick={() => syncMutation.mutate(mountain.id)}
+              disabled={syncMutation.isPending}
+              className="text-sm bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700 disabled:opacity-50 transition"
+            >
+              Sync {mountain.name}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default WeatherManagement;
