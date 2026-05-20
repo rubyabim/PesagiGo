@@ -18,3 +18,23 @@
       <stop offset="100%" stop-color="#25384E"/>
     </linearGradient>
     <radialGradient id="mist" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(820 590) rotate(90) scale(200 650)">
+      <stop offset="0%" stop-color="#D4E6F5" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#D4E6F5" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1600" height="1000" fill="url(#sky)"/>
+  <rect width="1600" height="1000" fill="url(#sunset)"/>
+
+  <ellipse cx="1100" cy="130" rx="340" ry="110" fill="#FFFFFF" fill-opacity="0.16"/>
+  <ellipse cx="640" cy="190" rx="410" ry="130" fill="#FFFFFF" fill-opacity="0.1"/>
+
+  <path d="M0 640L180 510L280 560L420 430L610 560L760 470L930 590L1090 510L1240 620L1430 500L1600 620V1000H0V640Z" fill="url(#mountB)"/>
+  <path d="M0 710L170 590L300 670L460 540L620 690L820 520L980 700L1180 560L1360 690L1600 570V1000H0V710Z" fill="url(#mountA)"/>
+
+  <path d="M0 780C140 760 230 790 340 810C460 832 570 820 700 802C850 780 960 760 1120 784C1240 802 1370 850 1600 825V1000H0V780Z" fill="#17283F" fill-opacity="0.88"/>
+
+  <ellipse cx="810" cy="620" rx="760" ry="230" fill="url(#mist)"/>
+
+  <path d="M0 920C180 865 310 928 510 898C680 872 820 910 970 932C1160 958 1330 944 1600 900V1000H0V920Z" fill="#0F1D2F" fill-opacity="0.88"/>
+</svg>
