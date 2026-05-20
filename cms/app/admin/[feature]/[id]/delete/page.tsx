@@ -69,7 +69,51 @@ export default function AdminFeatureDeletePage() {
         <section className="card admin-editor-card danger">
           <div className="admin-editor-head">
             <h1>{title}</h1>
+            <button
+              className="btn btn-muted"
+              onClick={() => router.push("/admin")}
+              type="button"
+            >
+              Kembali ke Dashboard
+            </button>
           </div>
+
+          {message ? <p className="admin-alert success">{message}</p> : null}
+          {error ? <p className="admin-alert error">{error}</p> : null}
+
+          {loading ? (
+            <div className="admin-skeleton-grid">
+              {Array.from({ length: 2 }).map((_, index) => (
+                <article className="admin-skeleton-card" key={`dl-s-${index}`}>
+                  <div className="admin-skeleton admin-skeleton-line" />
+                  <div className="admin-skeleton admin-skeleton-line short" />
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="admin-delete-wrap">
+              <p>Anda akan menghapus data:</p>
+              <h2>{targetLabel || id}</h2>
+              <p>Tindakan ini tidak bisa dibatalkan.</p>
+              <div className="admin-form-actions">
+                <button
+                  className="btn btn-danger"
+                  disabled={busy}
+                  onClick={onDelete}
+                  type="button"
+                >
+                  {busy ? "Menghapus..." : "Ya, Hapus Sekarang"}
+                </button>
+                <button
+                  className="btn btn-muted"
+                  onClick={() => router.push("/admin")}
+                  type="button"
+                >
+                  Batal
+                </button>
+              </div>
+            </div>
+          )}
         </section>
       </div>
     </main>
