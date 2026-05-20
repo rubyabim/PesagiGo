@@ -298,3 +298,153 @@ export type AdminBooking = {
   totalPrice: number;
   status: 'PENDING_PAYMENT' | 'PAID' | 'CANCELLED';
   ticketCode: string | null;
+  ticketStatus: 'ACTIVE' | 'EXPIRED' | 'NOT_AVAILABLE';
+  ticketExpiresAt: string;
+  createdAt: string;
+  user: {
+    id: string;
+    fullName: string;
+    email: string;
+  };
+  session: {
+    id: string;
+    date: string;
+    mountain: {
+      id: string;
+      name: string;
+    };
+  };
+  payment: {
+    id: string;
+    method: string;
+    amount: number;
+    status: 'PENDING' | 'SUCCESS' | 'FAILED';
+    paidAt: string | null;
+  } | null;
+};
+
+export type AdminPayment = {
+  id: string;
+  bookingId: string;
+  method: string;
+  providerRef: string | null;
+  amount: number;
+  status: 'PENDING' | 'SUCCESS' | 'FAILED';
+  paidAt: string | null;
+  createdAt: string;
+  booking: {
+    id: string;
+    status: string;
+    user: {
+      id: string;
+      fullName: string;
+      email: string;
+    };
+  };
+};
+
+export type AdminQuota = {
+  id: string;
+  mountainId: string;
+  date: string;
+  quotaTotal: number;
+  quotaBooked: number;
+  quotaAvailable: number;
+  price: number;
+  mountain: {
+    id: string;
+    name: string;
+    location: string;
+  };
+};
+
+export type AdminTicketSalesSummary = {
+  soldDaily: number;
+  soldMonthly: number;
+  soldTotal: number;
+  generatedAt: string;
+};
+
+export type AdminWeather = {
+  id: string;
+  mountainId: string;
+  forecastDate: string;
+  condition: 'SUNNY' | 'CLOUDY' | 'LIGHT_RAIN' | 'HEAVY_RAIN' | 'STORM' | 'FOG';
+  temperatureC: number;
+  windKph: number | null;
+  note: string | null;
+  mountain: {
+    id: string;
+    name: string;
+    location: string;
+  };
+};
+
+export function fetchAdminRoutes(token: string) {
+  return apiRequest<AdminTrail[]>('/api/admin/routes', { token });
+}
+
+export function createAdminRoute(
+  token: string,
+  payload: {
+    mountainId: string;
+    name: string;
+    difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+    distanceKm: number;
+    estimatedHours: number;
+    description: string;
+  },
+) {
+  return apiRequest<AdminTrail>('/api/admin/routes', {
+    method: 'POST',
+    token,
+    body: payload,
+  });
+}
+
+export function updateAdminRoute(
+  token: string,
+  id: string,
+  payload: Partial<{
+    mountainId: string;
+    name: string;
+    difficulty: 'EASY' | 'MEDIUM' | 'HARD';
+    distanceKm: number;
+    estimatedHours: number;
+    description: string;
+  }>,
+) {
+  return apiRequest<AdminTrail>(`/api/admin/routes/${id}`, {
+    method: 'PATCH',
+    token,
+    body: payload,
+  });
+}
+
+export function deleteAdminRoute(token: string, id: string) {
+  return apiRequest<{ message: string }>(`/api/admin/routes/${id}`, {
+    method: 'DELETE',
+    token,
+  });
+}
+
+export function fetchAdminBookings(token: string) {
+  return apiRequest<AdminBooking[]>('/api/admin/bookings', { token });
+}
+
+export function fetchAdminTicketSalesSummary(token: string) {
+  return apiRequest<AdminTicketSalesSummary>('/api/admin/analytics/tickets', {
+    token,
+  });
+}
+
+export function fetchAdminTicketHistory(token: string) {
+  return apiRequest<AdminBooking[]>('/api/admin/tickets/history', { token });
+}
+
+export function updateAdminBooking(
+  token: string,
+  id: string,
+  payload: Partial<{ status: 'PENDING_PAYMENT' | 'PAID' | 'CANCELLED'; quantity: number }>,
+) {
+  return apiRequest<AdminBooking>(`/api/admin/bookings/${id}`, {
