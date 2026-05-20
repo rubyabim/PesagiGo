@@ -83,3 +83,88 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
               >
                 <span className="inline-flex items-center gap-2"><SunMoon size={14} />{theme === 'dark' ? 'Light' : 'Dark'}</span>
               </button>
+              <button
+                type="button"
+                onClick={() => {
+                  clearAuth();
+                  router.replace('/');
+                }}
+                className="flex-1 rounded-xl bg-rose-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-rose-600 active:scale-[0.98] sm:flex-none"
+              >
+                Logout
+              </button>
+            </div>
+          </header>
+
+          {children}
+        </main>
+      </div>
+
+      {mobileNavOpen ? (
+        <div className="fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-sm md:hidden" role="presentation" onClick={() => setMobileNavOpen(false)}>
+          <aside
+            className="ml-auto flex h-full w-[86%] max-w-sm flex-col border-l border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-6 flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-sky-500">PesagiGo</p>
+                <h2 className="text-lg font-bold">Admin Dashboard</h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => setMobileNavOpen(false)}
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition hover:bg-slate-100 active:scale-[0.98] dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+                aria-label="Close navigation"
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            <nav className="flex-1 space-y-1 overflow-y-auto pr-1">
+              {navItems.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileNavOpen(false)}
+                    className={clsx(
+                      'flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition active:scale-[0.98]',
+                      pathname === item.href
+                        ? 'bg-sky-500 text-white shadow-md shadow-sky-500/30'
+                        : 'text-slate-600 hover:bg-sky-50 dark:text-slate-300 dark:hover:bg-slate-800',
+                    )}
+                  >
+                    <Icon size={16} />
+                    <span>{item.label}</span>
+                  </Link>
+                );
+              })}
+            </nav>
+
+            <div className="mt-4 flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                className="flex-1 rounded-xl border border-slate-200 px-3 py-2 text-sm transition hover:bg-slate-100 active:scale-[0.98] dark:border-slate-700 dark:hover:bg-slate-800"
+              >
+                <span className="inline-flex items-center justify-center gap-2"><SunMoon size={14} />{theme === 'dark' ? 'Light' : 'Dark'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  clearAuth();
+                  router.replace('/');
+                }}
+                className="flex-1 rounded-xl bg-rose-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-rose-600 active:scale-[0.98]"
+              >
+                Logout
+              </button>
+            </div>
+          </aside>
+        </div>
+      ) : null}
+    </div>
+  );
+}
