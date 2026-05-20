@@ -46,3 +46,50 @@ export default function BookingsPanel({
             <article className="admin-skeleton-card" key={`booking-s-${index}`}>
               <div className="admin-skeleton admin-skeleton-line" />
               <div className="admin-skeleton admin-skeleton-line short" />
+            </article>
+          ))}
+        </div>
+      ) : (
+        <>
+          <div className="admin-list-grid">
+            {bookings.length === 0 ? <p className="admin-empty">Belum ada booking.</p> : null}
+            {bookings.map((item) => (
+              <article className="admin-list-card" key={item.id}>
+                <div>
+                  <h3>{item.user.fullName}</h3>
+                  <p>
+                    {item.session.mountain.name} ΓÇó {item.status} ΓÇó Qty {item.quantity} ΓÇó Rp{numberFormat.format(item.totalPrice)}
+                  </p>
+                </div>
+                <div className="admin-list-actions">
+                  <Link className="btn btn-muted" href={`/admin/bookings/${item.id}/edit`}>
+                    Edit
+                  </Link>
+                  <Link className="btn btn-danger" href={`/admin/bookings/${item.id}/delete`}>
+                    Delete
+                  </Link>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          {ticketHistory.length > 0 ? (
+            <section className="card admin-history-card">
+              <h3>Ticket History</h3>
+              <div className="admin-history-list">
+                {ticketHistory.slice(0, 12).map((item) => (
+                  <article className="admin-history-item" key={`h-${item.id}`}>
+                    <p>{item.user.fullName} ΓÇó {item.session.mountain.name}</p>
+                    <span>
+                      Ticket: {item.ticketCode ?? '-'} ΓÇó Status: {item.ticketStatus} ΓÇó {new Date(item.createdAt).toLocaleString('id-ID')}
+                    </span>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ) : null}
+        </>
+      )}
+    </section>
+  );
+}
