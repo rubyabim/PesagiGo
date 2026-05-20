@@ -18,3 +18,22 @@ export default function AnnouncementsPage() {
                 type: 'select',
                 options: [
                   { value: 'INFO', label: 'Info' },
+                  { value: 'WARNING', label: 'Warning' },
+                  { value: 'DANGER', label: 'Danger' },
+                ],
+              },
+              { key: 'imageUrl', label: 'Foto (URL atau upload)', type: 'url' },
+              { key: 'mapUrl', label: 'Google Maps (URL embed)', type: 'url' },
+            ]}
+      columns={[
+        { key: 'title', header: 'Judul' },
+        { key: 'content', header: 'Isi' },
+        { key: 'level', header: 'Level' },
+      ]}
+      getList={ApiService.getAnnouncements}
+      createItem={ApiService.createAnnouncement}
+      updateItem={ApiService.updateAnnouncement}
+      deleteItem={ApiService.deleteAnnouncement}
+    />
+  );
+}
