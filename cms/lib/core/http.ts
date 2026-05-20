@@ -19,3 +19,24 @@ http.interceptors.request.use((config) => {
   }
   return config;
 });
+
+http.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error?.response?.status === 401) {
+      const { clearAuth } = useAuthStore.getState();
+      clearAuth();
+      if (typeof window !== 'undefined') {
+        window.location.href = '/';
+      }
+    }
+
+    const apiMessage =
+      error?.response?.data?.message ||
+      error?.response?.data?.error ||
+      error?.message ||
+      'Terjadi kesalahan API';
+
+    return Promise.reject(new Error(Array.isArray(apiMessage) ? apiMessage.join(', ') : apiMessage));
+  },
+);
