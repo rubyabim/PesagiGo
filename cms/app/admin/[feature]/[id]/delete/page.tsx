@@ -14,6 +14,11 @@ export default function AdminFeatureDeletePage() {
   const [token, setToken] = useState("");
   const [loading, setLoading] = useState(true);
   import {
+    deleteAdminBooking,
+    deleteAdminPayment,
+    deleteAdminQuota,
+    deleteAdminRoute,
+    deleteAdminWeather,
     fetchAdminBookings,
     fetchAdminPayments,
     fetchAdminQuotas,
@@ -144,4 +149,44 @@ export default function AdminFeatureDeletePage() {
 
       loadData();
     }, [feature, id, token]);
+
+    const onDelete = async () => {
+      if (!token) {
+        return;
+      }
+
+      setBusy(true);
+      setError(null);
+
+      try {
+        if (feature === "routes") {
+          await deleteAdminRoute(token, id);
+        }
+
+        if (feature === "bookings") {
+          await deleteAdminBooking(token, id);
+        }
+
+        if (feature === "payments") {
+          await deleteAdminPayment(token, id);
+        }
+
+        if (feature === "quotas") {
+          await deleteAdminQuota(token, id);
+        }
+
+        if (feature === "weather") {
+          await deleteAdminWeather(token, id);
+        }
+
+        setMessage("Data berhasil dihapus.");
+        setTimeout(() => {
+          router.push("/admin");
+        }, 800);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Gagal menghapus data.");
+      } finally {
+        setBusy(false);
+      }
+    };
 }
