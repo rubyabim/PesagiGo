@@ -88,3 +88,93 @@ export default function WeatherPanel({
                 condition: event.target.value as
                   | 'SUNNY'
                   | 'CLOUDY'
+                  | 'LIGHT_RAIN'
+                  | 'HEAVY_RAIN'
+                  | 'STORM'
+                  | 'FOG',
+              }))
+            }
+          >
+            {['SUNNY', 'CLOUDY', 'LIGHT_RAIN', 'HEAVY_RAIN', 'STORM', 'FOG'].map((condition) => (
+              <option key={condition} value={condition}>
+                {condition}
+              </option>
+            ))}
+          </select>
+        </label>
+
+        <label>
+          <span>Temperature (C)</span>
+          <input
+            className="field"
+            required
+            type="number"
+            value={form.temperatureC}
+            onChange={(event) => setForm((prev) => ({ ...prev, temperatureC: Number(event.target.value || 0) }))}
+          />
+        </label>
+
+        <label>
+          <span>Wind (kph)</span>
+          <input
+            className="field"
+            type="number"
+            value={form.windKph}
+            onChange={(event) => setForm((prev) => ({ ...prev, windKph: Number(event.target.value || 0) }))}
+          />
+        </label>
+
+        <label>
+          <span>Note</span>
+          <input
+            className="field"
+            value={form.note}
+            onChange={(event) => setForm((prev) => ({ ...prev, note: event.target.value }))}
+          />
+        </label>
+
+        <div className="admin-form-actions full">
+          <button className="btn btn-primary" disabled={busy || !tokenReady} type="submit">
+            Simpan Weather
+          </button>
+          <button className="btn btn-muted" disabled={busy} onClick={onReset} type="button">
+            Reset
+          </button>
+        </div>
+      </form>
+
+      {loading ? (
+        <div className="admin-skeleton-grid">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <article className="admin-skeleton-card" key={`weather-s-${index}`}>
+              <div className="admin-skeleton admin-skeleton-line" />
+              <div className="admin-skeleton admin-skeleton-line short" />
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div className="admin-list-grid">
+          {weathers.length === 0 ? <p className="admin-empty">Belum ada weather.</p> : null}
+          {weathers.map((item) => (
+            <article className="admin-list-card" key={item.id}>
+              <div>
+                <h3>{item.mountain.name}</h3>
+                <p>
+                  {new Date(item.forecastDate).toLocaleString('id-ID')} ΓÇó {item.condition} ΓÇó {item.temperatureC}C
+                </p>
+              </div>
+              <div className="admin-list-actions">
+                <Link className="btn btn-muted" href={`/admin/weather/${item.id}/edit`}>
+                  Edit
+                </Link>
+                <Link className="btn btn-danger" href={`/admin/weather/${item.id}/delete`}>
+                  Delete
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      )}
+    </section>
+  );
+}
