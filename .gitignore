@@ -3,5 +3,6 @@ dist
 build
 coverage
 .env
+*.log
 .DS_Store
 mobile.rar
