@@ -93,6 +93,16 @@ export type TicketItem = {
   createdAt?: string;
 };
 
+export type ScanTicketResult = {
+  ticketCode: string | null;
+  status: string;
+  bookingId: string;
+  mountain: string;
+  climbDate: string;
+  holder: string;
+  paymentStatus: string | null;
+};
+
 export type QuotaItem = {
   id: string;
   mountainId?: string;
@@ -231,6 +241,7 @@ export const ApiService = {
   getTickets: () => getData<TicketItem[]>('/tickets'),
   getTicketById: (id: string) => getData<TicketItem>(`/tickets/${id}`),
   getTicketDownloadUrl: (id: string) => `/tickets/${id}/download`,
+  scanTicket: (code: string) => postData<ScanTicketResult>('/tickets/scan', { code }),
 
   getQuotas: () => getData<QuotaItem[]>('/quotas'),
   getAdminQuotas: () => getData<QuotaItem[]>('/admin/quotas'),
