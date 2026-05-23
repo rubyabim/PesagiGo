@@ -40,6 +40,7 @@ local.properties
 node_modules/
 npm-debug.log
 yarn-error.log
+.expo/
 
 # fastlane
 #
@@ -65,6 +66,8 @@ yarn-error.log
 
 # testing
 /coverage
+/dist-test
+/expo-start.log
 
 # Yarn
 .yarn/*
