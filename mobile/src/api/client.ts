@@ -54,6 +54,51 @@ export type WeatherForecast = {
   };
 };
 
+export type BmkgLocation = {
+  adm1: string;
+  adm2: string;
+  adm3: string;
+  adm4: string;
+  provinsi: string;
+  kotkab: string;
+  kecamatan: string;
+  desa: string;
+  lon: number;
+  lat: number;
+  timezone: string;
+  type?: string;
+};
+
+export type BmkgForecastItem = {
+  datetime: string;
+  t: number;
+  tcc: number;
+  tp: number;
+  weather: number;
+  weather_desc: string;
+  weather_desc_en: string;
+  wd_deg: number;
+  wd: string;
+  wd_to: string;
+  ws: number;
+  hu: number;
+  vs: number;
+  vs_text: string;
+  time_index: string;
+  analysis_date: string;
+  image: string;
+  utc_datetime: string;
+  local_datetime: string;
+};
+
+export type BmkgForecastResponse = {
+  lokasi: BmkgLocation;
+  data: Array<{
+    lokasi: BmkgLocation;
+    cuaca: BmkgForecastItem[][];
+  }>;
+};
+
 export type RealtimeWeather = {
   location: string;
   source: string;
@@ -65,6 +110,8 @@ export type RealtimeWeather = {
   condition: string;
   observedAt: string;
 };
+
+type ApiRequestError = Error & { statusCode?: number };
 
 export type Announcement = {
   id: string;
@@ -127,6 +174,16 @@ export type TicketResponse = {
   quantity: number;
 };
 
+export type TicketScanResponse = {
+  ticketCode: string | null;
+  status: string;
+  bookingId: string;
+  mountain: string;
+  climbDate: string;
+  holder: string;
+  paymentStatus: string | null;
+};
+
 type ApiRequestOptions = {
   method?: 'GET' | 'POST';
   token?: string;
@@ -149,6 +206,8 @@ async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Pro
   });
 
   if (!response.ok) {
+    const requestError = new Error(`API returned ${response.status}`) as ApiRequestError;
+    requestError.statusCode = response.status;
     let message = `API returned ${response.status}`;
     try {
       const data = (await response.json()) as { message?: string | string[] };
@@ -161,7 +220,8 @@ async function apiRequest<T>(path: string, options: ApiRequestOptions = {}): Pro
       // Keep default message.
     }
 
-    throw new Error(message);
+    requestError.message = message;
+    throw requestError;
   }
 
   return (await response.json()) as T;
@@ -206,8 +266,54 @@ export function fetchWeather() {
   return apiRequest<WeatherForecast[]>('/api/weather');
 }
 
-export function fetchRealtimePesagiWeather() {
-  return apiRequest<RealtimeWeather | null>('/api/weather/lampung-barat');
+export async function fetchBmkgForecast(adm4: string) {
+  const response = await fetch(`https://api.bmkg.go.id/publik/prakiraan-cuaca?adm4=${encodeURIComponent(adm4)}`);
+  if (!response.ok) {
+    throw new Error(`BMKG API returned ${response.status}`);
+  }
+  return (await response.json()) as BmkgForecastResponse;
+}
+
+function toRealtimeWeather(forecast: WeatherForecast | null): RealtimeWeather | null {
+  if (!forecast) {
+    return null;
+  }
+
+  return {
+    location: forecast.mountain?.location ?? forecast.mountain?.name ?? 'Gunung Pesagi',
+    source: 'Backend Weather Service',
+    temperatureC: forecast.temperatureC,
+    feelsLikeC: forecast.temperatureC,
+    humidity: 0,
+    windKph: forecast.windKph ?? 0,
+    description: forecast.note ?? forecast.condition,
+    condition: forecast.condition,
+    observedAt: forecast.forecastDate,
+  };
+}
+
+export async function fetchRealtimePesagiWeather() {
+  try {
+    const currentForecast = await apiRequest<WeatherForecast | null>('/api/weather/current');
+    return toRealtimeWeather(currentForecast);
+  } catch (error) {
+    const statusCode = (error as ApiRequestError).statusCode;
+    if (statusCode && statusCode !== 404 && statusCode !== 405) {
+      throw error;
+    }
+  }
+
+  try {
+    const forecastList = await apiRequest<WeatherForecast[]>('/api/weather');
+    return toRealtimeWeather(forecastList[0] ?? null);
+  } catch (error) {
+    const statusCode = (error as ApiRequestError).statusCode;
+    if (statusCode && statusCode !== 404 && statusCode !== 405) {
+      throw error;
+    }
+  }
+
+  return null;
 }
 
 export function fetchAnnouncements() {
@@ -238,6 +344,10 @@ export function fetchMyBookings(token: string) {
   return apiRequest<Booking[]>('/api/bookings/my', { token });
 }
 
+export function fetchBookingDetail(token: string, bookingId: string) {
+  return apiRequest<Booking>(`/api/bookings/${bookingId}`, { token });
+}
+
 export function payBooking(token: string, bookingId: string, payload: { method: string }) {
   return apiRequest<{ message: string; booking: Booking }>(`/api/bookings/${bookingId}/pay`, {
     method: 'POST',
@@ -248,4 +358,12 @@ export function payBooking(token: string, bookingId: string, payload: { method: 
 
 export function fetchTicket(token: string, bookingId: string) {
   return apiRequest<TicketResponse>(`/api/bookings/${bookingId}/ticket`, { token });
+}
+
+export function scanTicketCode(token: string, code: string) {
+  return apiRequest<TicketScanResponse>('/api/tickets/scan', {
+    method: 'POST',
+    token,
+    body: { code },
+  });
 }
