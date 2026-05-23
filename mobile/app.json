@@ -1,4 +1,7 @@
 {
   "name": "PesagiGoApp",
-  "displayName": "PesagiGoApp"
+  "slug": "pesagigo-app",
+  "android": {
+    "package": "com.anonymous.pesagigoapp"
+  }
 }
