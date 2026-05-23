@@ -152,3 +152,70 @@ export function fetchApiHealth() {
 export function runSeed() {
   return apiRequest<{ message: string }>('/api/seed', { method: 'POST' });
 }
+
+export function registerUser(payload: {
+  fullName: string;
+  email: string;
+  password: string;
+  phone?: string;
+}) {
+  return apiRequest<AuthResponse>('/api/auth/register', {
+    method: 'POST',
+    body: payload,
+  });
+}
+
+export function loginUser(payload: { email: string; password: string }) {
+  return apiRequest<AuthResponse>('/api/auth/login', {
+    method: 'POST',
+    body: payload,
+  });
+}
+
+export function fetchMountains() {
+  return apiRequest<Mountain[]>('/api/mountains');
+}
+
+export function fetchSessions() {
+  return apiRequest<Session[]>('/api/sessions');
+}
+
+export function fetchWeather() {
+  return apiRequest<WeatherForecast[]>('/api/weather');
+}
+
+export function fetchAnnouncements() {
+  return apiRequest<Announcement[]>('/api/announcements');
+}
+
+export function fetchRules() {
+  return apiRequest<RuleItem[]>('/api/rules');
+}
+
+export function fetchNews() {
+  return apiRequest<NewsItem[]>('/api/news');
+}
+
+export function createBooking(token: string, payload: { sessionId: string; quantity: number }) {
+  return apiRequest<Booking>('/api/bookings', {
+    method: 'POST',
+    token,
+    body: payload,
+  });
+}
+
+export function fetchMyBookings(token: string) {
+  return apiRequest<Booking[]>('/api/bookings/my', { token });
+}
+
+export function payBooking(token: string, bookingId: string, payload: { method: string }) {
+  return apiRequest<{ message: string; booking: Booking }>(`/api/bookings/${bookingId}/pay`, {
+    method: 'POST',
+    token,
+    body: payload,
+  });
+}
+
+export function fetchTicket(token: string, bookingId: string) {
+  return apiRequest<TicketResponse>(`/api/bookings/${bookingId}/ticket`, { token });
+}
