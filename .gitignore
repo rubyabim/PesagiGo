@@ -6,5 +6,6 @@ coverage
 *.log
 *.tsbuildinfo
 .next/
+.expo/
 .DS_Store
 mobile.rar
