@@ -35,10 +35,8 @@ services:
 
   auth-service:
     build:
-      context: ./
-      dockerfile: Dockerfile.service
-      args:
-        SERVICE_NAME: auth
+      context: ./services/auth-service
+      dockerfile: ../../Dockerfile.service
     ports:
       - '3002:3002'
     environment:
@@ -49,14 +47,12 @@ services:
     depends_on:
       postgres-auth:
         condition: service_healthy
-    command: npm run start:auth
+    command: npm run start
 
   booking-service:
     build:
-      context: ./
-      dockerfile: Dockerfile.service
-      args:
-        SERVICE_NAME: booking
+      context: ./services/booking-service
+      dockerfile: ../../Dockerfile.service
     ports:
       - '3003:3003'
     environment:
@@ -67,14 +63,12 @@ services:
     depends_on:
       postgres-main:
         condition: service_healthy
-    command: npm run start:booking
+    command: npm run start
 
   payment-service:
     build:
-      context: ./
-      dockerfile: Dockerfile.service
-      args:
-        SERVICE_NAME: payment
+      context: ./services/payment-service
+      dockerfile: ../../Dockerfile.service
     ports:
       - '3004:3004'
     environment:
@@ -85,14 +79,12 @@ services:
     depends_on:
       postgres-main:
         condition: service_healthy
-    command: npm run start:payment
+    command: npm run start
 
   ticket-service:
     build:
-      context: ./
-      dockerfile: Dockerfile.service
-      args:
-        SERVICE_NAME: ticket
+      context: ./services/ticket-service
+      dockerfile: ../../Dockerfile.service
     ports:
       - '3005:3005'
     environment:
@@ -103,14 +95,12 @@ services:
     depends_on:
       postgres-main:
         condition: service_healthy
-    command: npm run start:ticket
+    command: npm run start
 
   catalog-service:
     build:
-      context: ./
-      dockerfile: Dockerfile.service
-      args:
-        SERVICE_NAME: catalog
+      context: ./services/catalog-service
+      dockerfile: ../../Dockerfile.service
     ports:
       - '3006:3006'
     environment:
@@ -120,14 +110,12 @@ services:
     depends_on:
       postgres-main:
         condition: service_healthy
-    command: npm run start:catalog
+    command: npm run start
 
   weather-service:
     build:
-      context: ./
-      dockerfile: Dockerfile.service
-      args:
-        SERVICE_NAME: weather
+      context: ./services/weather-service
+      dockerfile: ../../Dockerfile.service
     ports:
       - '3007:3007'
     environment:
@@ -137,14 +125,12 @@ services:
     depends_on:
       postgres-main:
         condition: service_healthy
-    command: npm run start:weather
+    command: npm run start
 
   quota-service:
     build:
-      context: ./
-      dockerfile: Dockerfile.service
-      args:
-        SERVICE_NAME: quota
+      context: ./services/quota-service
+      dockerfile: ../../Dockerfile.service
     ports:
       - '3008:3008'
     environment:
@@ -154,14 +140,12 @@ services:
     depends_on:
       postgres-main:
         condition: service_healthy
-    command: npm run start:quota
+    command: npm run start
 
   admin-service:
     build:
-      context: ./
-      dockerfile: Dockerfile.service
-      args:
-        SERVICE_NAME: admin
+      context: ./services/admin-service
+      dockerfile: ../../Dockerfile.service
     ports:
       - '3009:3009'
     environment:
@@ -172,14 +156,12 @@ services:
     depends_on:
       postgres-main:
         condition: service_healthy
-    command: npm run start:admin
+    command: npm run start
 
   api-gateway:
     build:
-      context: ./
-      dockerfile: Dockerfile.service
-      args:
-        SERVICE_NAME: gateway
+      context: ./api-gateway
+      dockerfile: ../Dockerfile.service
     ports:
       - '3000:3000'
     environment:
@@ -202,7 +184,7 @@ services:
       - weather-service
       - quota-service
       - admin-service
-    command: npm run start:gateway
+    command: npm run start
 
 volumes:
   postgres_main_data:
