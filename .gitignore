@@ -4,5 +4,6 @@ build
 coverage
 .env
 *.log
+*.tsbuildinfo
 .DS_Store
 mobile.rar
