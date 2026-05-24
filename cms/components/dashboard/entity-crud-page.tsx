@@ -14,6 +14,14 @@ type Field = {
   options?: Array<{ value: string; label: string }>;
 };
 
+type CreateHandler = {
+  bivarianceHack(payload: Record<string, unknown>): Promise<unknown>;
+}['bivarianceHack'];
+
+type UpdateHandler = {
+  bivarianceHack(id: string, payload: Record<string, unknown>): Promise<unknown>;
+}['bivarianceHack'];
+
 type Props<T extends Record<string, unknown>> = {
   title: string;
   description?: string;
@@ -21,8 +29,8 @@ type Props<T extends Record<string, unknown>> = {
   fields: Field[];
   columns: Array<{ key: keyof T | string; header: string; render?: (row: T) => React.ReactNode }>;
   getList: () => Promise<T[]>;
-  createItem: (payload: Record<string, unknown>) => Promise<unknown>;
-  updateItem: (id: string, payload: Record<string, unknown>) => Promise<unknown>;
+  createItem: CreateHandler;
+  updateItem: UpdateHandler;
   deleteItem: (id: string) => Promise<unknown>;
 };
 
@@ -119,19 +127,20 @@ export default function EntityCrudPage<T extends Record<string, unknown>>({
 
   return (
     <div className="space-y-4">
-      <section className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-        <h1 className="text-2xl font-bold">{title}</h1>
-        {description ? <p className="mt-1 text-sm text-slate-500">{description}</p> : null}
+      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <h1 className="text-[18px] font-bold text-slate-950">{title}</h1>
+        {description ? <p className="mt-1 text-[12px] text-slate-500">{description}</p> : null}
       </section>
 
       <DataTable
-        title={`Manage ${title}`}
+        title={title}
         data={data ?? []}
         columns={columns}
         loading={isLoading}
         onCreate={onCreate}
         onEdit={onEdit}
         onDelete={onDelete}
+        createLabel={`Tambah ${title}`}
       />
 
       <CrudModal
@@ -142,11 +151,11 @@ export default function EntityCrudPage<T extends Record<string, unknown>>({
         <form className="space-y-3" onSubmit={onSubmit}>
           {fields.map((field) => (
             <label className="block" key={field.key}>
-              <span className="mb-1 block text-xs text-slate-500">{field.label}</span>
+              <span className="mb-1 block text-[12px] font-semibold text-slate-600">{field.label}</span>
               {field.type === 'file' ? (
                 <input
                   type="file"
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900"
+                  className="w-full rounded-md border border-slate-200 px-3 py-2 text-[13px] outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
                   required={field.required}
                   accept="image/*"
                   onChange={(event) => {
@@ -162,7 +171,7 @@ export default function EntityCrudPage<T extends Record<string, unknown>>({
                 />
               ) : field.type === 'textarea' ? (
                 <textarea
-                  className="min-h-24 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900"
+                  className="min-h-24 w-full rounded-md border border-slate-200 px-3 py-2 text-[13px] outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
                   required={field.required}
                   value={String(form[field.key] ?? '')}
                   onChange={(event) =>
@@ -171,7 +180,7 @@ export default function EntityCrudPage<T extends Record<string, unknown>>({
                 />
               ) : field.type === 'select' ? (
                 <select
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900"
+                  className="h-10 w-full rounded-md border border-slate-200 px-3 text-[13px] outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
                   required={field.required}
                   value={String(form[field.key] ?? '')}
                   onChange={(event) =>
@@ -188,7 +197,7 @@ export default function EntityCrudPage<T extends Record<string, unknown>>({
               ) : (
                 <input
                   type={field.type ?? 'text'}
-                  className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900"
+                  className="h-10 w-full rounded-md border border-slate-200 px-3 text-[13px] outline-none transition focus:border-blue-400 focus:ring-2 focus:ring-blue-100"
                   required={field.required}
                   value={String(form[field.key] ?? '')}
                   onChange={(event) =>
@@ -207,9 +216,9 @@ export default function EntityCrudPage<T extends Record<string, unknown>>({
           <button
             type="submit"
             disabled={isSubmitting}
-            className="rounded-xl bg-sky-500 px-3 py-2 text-sm font-semibold text-white transition hover:bg-sky-600 active:scale-[0.98]"
+            className="h-10 rounded-md bg-blue-600 px-4 text-[13px] font-semibold text-white transition hover:bg-blue-700 active:scale-[0.98] disabled:opacity-60"
           >
-            {isSubmitting ? 'Saving...' : editingId ? 'Update' : 'Create'}
+            {isSubmitting ? 'Menyimpan...' : editingId ? 'Simpan Perubahan' : 'Tambah Data'}
           </button>
         </form>
       </CrudModal>

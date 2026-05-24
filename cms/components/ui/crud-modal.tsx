@@ -1,6 +1,7 @@
-﻿'use client';
+'use client';
 
 import { ReactNode } from 'react';
+import { X } from 'lucide-react';
 
 type Props = {
   open: boolean;
@@ -16,15 +17,16 @@ export default function CrudModal({ open, title, children, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-50 grid place-items-center bg-slate-900/60 p-4 backdrop-blur-sm">
-      <div className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl border border-slate-200 bg-white p-4 shadow-xl dark:border-slate-800 dark:bg-slate-900">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-lg font-semibold">{title}</h3>
+      <div className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-lg border border-slate-200 bg-white p-4 shadow-xl">
+        <div className="mb-4 flex items-center justify-between border-b border-slate-100 pb-3">
+          <h3 className="text-[15px] font-bold text-slate-950">{title}</h3>
           <button
             type="button"
             onClick={onClose}
-            className="rounded-lg border border-slate-200 px-2 py-1 text-xs dark:border-slate-700"
+            className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-slate-200 text-slate-500 transition hover:bg-slate-50"
+            aria-label="Tutup"
           >
-            Close
+            <X size={14} />
           </button>
         </div>
         {children}

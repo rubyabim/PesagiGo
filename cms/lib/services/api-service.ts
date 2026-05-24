@@ -15,7 +15,9 @@ export type Announcement = {
   id: string;
   title: string;
   content: string;
-  level?: 'info' | 'warning' | 'danger';
+  level?: 'INFO' | 'WARNING' | 'DANGER';
+  imageUrl?: string;
+  mapUrl?: string;
   createdAt?: string;
 };
 
@@ -23,6 +25,7 @@ export type Rule = {
   id: string;
   title: string;
   description: string;
+  imageUrl?: string;
   createdAt?: string;
 };
 
@@ -31,6 +34,7 @@ export type News = {
   title: string;
   description: string;
   imageUrl?: string;
+  mapUrl?: string;
   publishedAt?: string;
 };
 

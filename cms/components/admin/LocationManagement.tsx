@@ -20,12 +20,12 @@ const locationSchema = z.object({
   type: z.string().default('POI'),
 });
 
-type LocationFormData = z.infer<typeof locationSchema>;
+type LocationFormData = z.input<typeof locationSchema>;
 
-interface Location extends LocationFormData {
+type Location = z.output<typeof locationSchema> & {
   id: string;
   createdAt: string;
-}
+};
 
 const LocationManagement = () => {
   const queryClient = useQueryClient();

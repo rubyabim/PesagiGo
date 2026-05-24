@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { toast } from 'sonner';
-import { Plus, Edit, Trash, Cloud, Sync } from 'lucide-react';
+import { Plus, Edit, Trash, Cloud, RefreshCw } from 'lucide-react';
 import axios from 'axios';
 
 const weatherSchema = z.object({
@@ -348,7 +348,7 @@ const WeatherManagement = () => {
       {/* Sync Section */}
       <div className="bg-blue-50 rounded-lg shadow p-6 border border-blue-200">
         <h4 className="font-semibold mb-3 flex items-center gap-2">
-          <Sync className="w-5 h-5" />
+          <RefreshCw className="w-5 h-5" />
           Sinkronisasi Data Cuaca Real-time
         </h4>
         <p className="text-sm text-gray-700 mb-4">
