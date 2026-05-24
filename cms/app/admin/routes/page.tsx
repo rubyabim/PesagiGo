@@ -17,8 +17,8 @@ export default function RoutesPage() {
 
   return (
     <EntityCrudPage<RouteItem>
-      title="Routes"
-      description="CRUD jalur pendakian melalui endpoint admin."
+      title="Gunung Pesagi via Papahan"
+      description="Kelola informasi jalur pendakian yang tampil di CMS dan aplikasi mobile."
       queryKey={['routes']}
       fields={[
         {
@@ -28,19 +28,19 @@ export default function RoutesPage() {
           required: true,
           options: mountainOptions,
         },
-        { key: 'name', label: 'Nama Route', required: true },
+        { key: 'name', label: 'Nama Jalur', required: true },
         {
           key: 'difficulty',
-          label: 'Difficulty',
+          label: 'Tingkat Kesulitan',
           type: 'select',
           required: true,
           options: [
-            { value: 'EASY', label: 'Easy' },
-            { value: 'MEDIUM', label: 'Medium' },
-            { value: 'HARD', label: 'Hard' },
+            { value: 'EASY', label: 'Mudah' },
+            { value: 'MEDIUM', label: 'Sedang' },
+            { value: 'HARD', label: 'Sulit' },
           ],
         },
-        { key: 'distanceKm', label: 'Distance (km)', type: 'number', required: true },
+        { key: 'distanceKm', label: 'Jarak (km)', type: 'number', required: true },
         { key: 'estimatedHours', label: 'Estimasi Jam', type: 'number', required: true },
         { key: 'description', label: 'Deskripsi Jalur', type: 'textarea', required: true },
       ]}
@@ -50,10 +50,10 @@ export default function RoutesPage() {
           header: 'Gunung',
           render: (row) => row.mountain?.name ?? row.mountainId ?? '-',
         },
-        { key: 'name', header: 'Route' },
-        { key: 'difficulty', header: 'Difficulty' },
-        { key: 'distanceKm', header: 'Distance' },
-        { key: 'estimatedHours', header: 'Hours' },
+        { key: 'name', header: 'Jalur' },
+        { key: 'difficulty', header: 'Kesulitan' },
+        { key: 'distanceKm', header: 'Jarak' },
+        { key: 'estimatedHours', header: 'Jam' },
       ]}
       getList={ApiService.getRoutes}
       createItem={ApiService.createRoute}
