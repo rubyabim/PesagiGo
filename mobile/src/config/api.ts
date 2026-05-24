@@ -21,13 +21,13 @@ export function getApiBaseUrl() {
   }
 
   if (Platform.OS === 'android') {
-    return 'http://10.0.2.2:3000';
+    return 'http://10.0.2.2:3001';
   }
 
   const expoHost = getExpoHost();
   if (expoHost) {
-    return `http://${expoHost}:3000`;
+    return `http://${expoHost}:3001`;
   }
 
-  return 'http://localhost:3000';
+  return 'http://localhost:3001';
 }
