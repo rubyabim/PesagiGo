@@ -9,12 +9,26 @@ if (-not $connections) {
   exit 0
 }
 
+function Stop-ProcessTree {
+  param(
+    [Parameter(Mandatory = $true)]
+    [int]$ProcessId
+  )
+
+  $children = Get-CimInstance Win32_Process -Filter "ParentProcessId = $ProcessId" -ErrorAction SilentlyContinue
+  foreach ($child in $children) {
+    Stop-ProcessTree -ProcessId $child.ProcessId
+  }
+
+  try {
+    Stop-Process -Id $ProcessId -Force -ErrorAction Stop
+    Write-Output "Stopped process $ProcessId"
+  } catch {
+    Write-Output "Cannot stop process $ProcessId"
+  }
+}
+
 $processIds = $connections | Select-Object -ExpandProperty OwningProcess -Unique
 foreach ($id in $processIds) {
-  try {
-    Stop-Process -Id $id -Force -ErrorAction Stop
-    Write-Output "Stopped process $id on port $Port"
-  } catch {
-    Write-Output "Cannot stop process $id on port $Port"
-  }
+  Stop-ProcessTree -ProcessId $id
 }

@@ -48,6 +48,8 @@ lerna-debug.log*
 
 # Runtime data
 pids
+data/
+services/admin-service/data/
 *.pid
 *.seed
 *.pid.lock
