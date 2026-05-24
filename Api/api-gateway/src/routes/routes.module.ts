@@ -9,6 +9,7 @@ import { CatalogProxyController } from './catalog.proxy';
 import { WeatherProxyController } from './weather.proxy';
 import { QuotasProxyController } from './quotas.proxy';
 import { AdminProxyController } from './admin.proxy';
+import { ContentProxyController } from './content.proxy';
 
 @Module({
   imports: [HttpModule],
@@ -21,6 +22,7 @@ import { AdminProxyController } from './admin.proxy';
     WeatherProxyController,
     QuotasProxyController,
     AdminProxyController,
+    ContentProxyController,
   ],
   providers: [GatewayService],
 })

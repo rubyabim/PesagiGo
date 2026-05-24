@@ -91,6 +91,11 @@ export class GatewayService {
             this.httpService.put(targetUrl, body, { headers: commonHeaders }),
           );
           break;
+        case 'PATCH':
+          response = await firstValueFrom(
+            this.httpService.patch(targetUrl, body, { headers: commonHeaders }),
+          );
+          break;
         case 'DELETE':
           response = await firstValueFrom(
             this.httpService.delete(targetUrl, { headers: commonHeaders }),
