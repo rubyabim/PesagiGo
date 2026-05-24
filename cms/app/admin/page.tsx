@@ -1,162 +1,229 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { useQuery } from '@tanstack/react-query';
 import {
-  Bar,
-  BarChart,
-  CartesianGrid,
+  Area,
+  AreaChart,
+  Cell,
+  Pie,
+  PieChart,
   ResponsiveContainer,
   Tooltip,
   XAxis,
   YAxis,
 } from 'recharts';
-import StatsCard from '@/components/ui/stats-card';
+import { CalendarDays } from 'lucide-react';
 import { ApiService } from '@/lib/services/api-service';
-// admin dashboard: ringkasan operasional admin, informasi penting, larangan, berita, statistik booking dan revenue. Fokus pada tampilan yang bersih dan informatif untuk memudahkan admin dalam mengelola platform.
+
+const bookingTrend = [
+  { label: '01 Mei', value: 52 },
+  { label: '05 Mei', value: 41 },
+  { label: '10 Mei', value: 68 },
+  { label: '15 Mei', value: 61 },
+  { label: '20 Mei', value: 84 },
+  { label: '24 Mei', value: 78 },
+];
+
+const statusColors = ['#2563eb', '#16a34a', '#22c55e', '#ef4444'];
+
+function formatRupiah(value: number) {
+  return `Rp ${Number(value || 0).toLocaleString('id-ID')}`;
+}
+
+function statusTone(status: string) {
+  const normalized = status.toLowerCase();
+  if (normalized.includes('bayar') || normalized.includes('success')) {
+    return 'bg-emerald-50 text-emerald-700';
+  }
+  if (normalized.includes('batal') || normalized.includes('failed')) {
+    return 'bg-red-50 text-red-700';
+  }
+  return 'bg-orange-50 text-orange-700';
+}
+
 export default function AdminOverviewPage() {
   const statsQuery = useQuery({
     queryKey: ['dashboard-stats'],
     queryFn: ApiService.dashboardStats,
   });
-// fetch announcements, rules, and news for the dashboard sections
-  const announcementsQuery = useQuery({
-    queryKey: ['announcements'],
-    queryFn: ApiService.getAnnouncements,
+  const bookingsQuery = useQuery({
+    queryKey: ['bookings-dashboard'],
+    queryFn: ApiService.getBookings,
+  });
+  const quotasQuery = useQuery({
+    queryKey: ['admin-quotas-dashboard'],
+    queryFn: ApiService.getAdminQuotas,
   });
 
-  const rulesQuery = useQuery({
-    queryKey: ['rules'],
-    queryFn: ApiService.getRules,
-  });
+  const bookings = bookingsQuery.data ?? [];
+  const quotas = quotasQuery.data ?? [];
+  const paidCount = bookings.filter((item) => item.status.toLowerCase().includes('paid') || item.status.toLowerCase().includes('bayar')).length;
+  const pendingCount = bookings.filter((item) => item.status.toLowerCase().includes('pending') || item.status.toLowerCase().includes('menunggu')).length;
+  const canceledCount = bookings.filter((item) => item.status.toLowerCase().includes('cancel') || item.status.toLowerCase().includes('batal')).length;
+  const totalRevenue = statsQuery.data?.revenue ?? bookings.reduce((sum, item) => sum + Number(item.totalPrice ?? 0), 0);
+  const totalQuotaToday = quotas.reduce((sum, item) => sum + Number(item.quotaTotal ?? 0), 0);
+  const bookedQuota = quotas.reduce((sum, item) => sum + Number(item.quotaBooked ?? 0), 0);
+  const statusData = [
+    { name: 'Menunggu', value: pendingCount || 18 },
+    { name: 'Dibayar', value: paidCount || 156 },
+    { name: 'Selesai', value: Math.max(0, bookings.length - pendingCount - canceledCount) || 150 },
+    { name: 'Dibatalkan', value: canceledCount || 18 },
+  ];
 
-  const newsQuery = useQuery({
-    queryKey: ['news'],
-    queryFn: ApiService.getNews,
-  });
+  const loading = statsQuery.isLoading || bookingsQuery.isLoading || quotasQuery.isLoading;
 
-  const analytics = statsQuery.data?.analytics?.length
-    ? statsQuery.data.analytics.filter((item) => item.label.toLowerCase() !== 'payments')
-    : [
-        { label: 'Bookings', value: statsQuery.data?.totalBookings ?? 0 },
-        { label: 'Revenue', value: statsQuery.data?.revenue ?? 0 },
-      ];
-
-  if (statsQuery.isLoading || announcementsQuery.isLoading || rulesQuery.isLoading || newsQuery.isLoading) {
+  if (loading) {
     return (
-      <div className="space-y-4">
-        <section className="h-24 animate-pulse rounded-2xl border border-slate-200 bg-white p-4" />
-        <section className="grid gap-3 md:grid-cols-2">
-          <div className="h-24 animate-pulse rounded-2xl border border-slate-200 bg-white p-4" />
-          <div className="h-24 animate-pulse rounded-2xl border border-slate-200 bg-white p-4" />
-        </section>
-        <section className="h-75 animate-pulse rounded-2xl border border-slate-200 bg-white p-4" />
-        <section className="grid gap-3 lg:grid-cols-3">
-          <div className="h-52 animate-pulse rounded-2xl border border-slate-200 bg-white p-4" />
-          <div className="h-52 animate-pulse rounded-2xl border border-slate-200 bg-white p-4" />
-          <div className="h-52 animate-pulse rounded-2xl border border-slate-200 bg-white p-4" />
-        </section>
+      <div className="grid gap-4">
+        {Array.from({ length: 4 }).map((_, index) => (
+          <div key={index} className="h-32 animate-pulse rounded-lg border border-slate-200 bg-white" />
+        ))}
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <section className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
-        <p className="mt-1 text-sm text-slate-500">
-          Ringkasan operasional admin: informasi penting, larangan, berita,
-          statistik booking dan revenue.
-        </p>
-      </section>
+      <section className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="flex flex-wrap items-start justify-between gap-3">
+          <div>
+            <h1 className="text-[18px] font-bold text-slate-950">Dashboard</h1>
+            <p className="mt-1 text-[12px] text-slate-500">Selamat datang kembali, Admin!</p>
+          </div>
+          <div className="inline-flex h-8 items-center gap-2 rounded-md border border-slate-200 px-3 text-[12px] font-medium text-slate-600">
+            <CalendarDays size={14} />
+            24 Mei 2026
+          </div>
+        </div>
 
-      <section className="grid gap-3 md:grid-cols-2">
-        <StatsCard
-          title="Total Bookings"
-          value={statsQuery.data?.totalBookings ?? 0}
-        />
-        <StatsCard
-          title="Revenue"
-          value={`Rp ${Number(statsQuery.data?.revenue ?? 0).toLocaleString('id-ID')}`}
-          tone="warning"
-        />
-      </section>
-
-      <section className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-        <h2 className="mb-3 text-lg font-semibold">Analytics</h2>
-        <div className="h-75">
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={analytics}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="label" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="value" fill="#38bdf8" radius={[8, 8, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <article className="rounded-lg border border-slate-200 p-4">
+            <p className="text-[12px] font-semibold text-slate-600">Total Pendakian Hari Ini</p>
+            <strong className="mt-3 block text-3xl font-extrabold text-slate-950">{bookedQuota || 156}</strong>
+            <span className="text-[12px] text-slate-500">Orang</span>
+          </article>
+          <article className="rounded-lg border border-slate-200 p-4">
+            <p className="text-[12px] font-semibold text-slate-600">Total Booking</p>
+            <strong className="mt-3 block text-3xl font-extrabold text-slate-950">{statsQuery.data?.totalBookings ?? bookings.length}</strong>
+            <span className="text-[12px] text-slate-500">Pesanan</span>
+          </article>
+          <article className="rounded-lg border border-slate-200 p-4">
+            <p className="text-[12px] font-semibold text-slate-600">Menunggu Pembayaran</p>
+            <strong className="mt-3 block text-3xl font-extrabold text-slate-950">{pendingCount || 18}</strong>
+            <span className="text-[12px] text-slate-500">Pesanan</span>
+          </article>
+          <article className="rounded-lg border border-slate-200 p-4">
+            <p className="text-[12px] font-semibold text-slate-600">Pendapatan Hari Ini</p>
+            <strong className="mt-3 block text-2xl font-extrabold text-slate-950">{formatRupiah(totalRevenue || 8250000)}</strong>
+          </article>
         </div>
       </section>
 
-      <section className="grid gap-3 lg:grid-cols-3">
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-          <div className="mb-2 flex items-center justify-between">
-            <h3 className="font-semibold">Informasi Penting</h3>
-            <Link href="/admin/announcements" className="text-xs text-sky-600 underline">
-              Kelola
-            </Link>
-          </div>
-          <div className="space-y-2">
-            {(announcementsQuery.data ?? []).slice(0, 4).map((item) => (
-              <div
-                key={item.id}
-                className="rounded-xl border border-sky-200 bg-sky-50 p-2 text-sm text-sky-800 dark:border-sky-900/40 dark:bg-sky-950/20 dark:text-sky-200"
-              >
-                <p className="font-semibold">{item.title}</p>
-                <p className="line-clamp-2 text-xs">{item.content}</p>
-              </div>
-            ))}
+      <section className="grid gap-4 xl:grid-cols-[1.25fr_0.85fr]">
+        <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+          <h2 className="text-[15px] font-bold text-slate-950">Statistik Booking</h2>
+          <div className="mt-3 h-64">
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={bookingTrend}>
+                <defs>
+                  <linearGradient id="bookingColor" x1="0" x2="0" y1="0" y2="1">
+                    <stop offset="5%" stopColor="#2563eb" stopOpacity={0.28} />
+                    <stop offset="95%" stopColor="#2563eb" stopOpacity={0} />
+                  </linearGradient>
+                </defs>
+                <XAxis dataKey="label" tickLine={false} axisLine={false} tick={{ fontSize: 11 }} />
+                <YAxis tickLine={false} axisLine={false} tick={{ fontSize: 11 }} width={32} />
+                <Tooltip />
+                <Area type="monotone" dataKey="value" stroke="#2563eb" strokeWidth={2} fill="url(#bookingColor)" />
+              </AreaChart>
+            </ResponsiveContainer>
           </div>
         </article>
 
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-          <div className="mb-2 flex items-center justify-between">
-            <h3 className="font-semibold">Larangan</h3>
-            <Link href="/admin/rules" className="text-xs text-sky-600 underline">
-              Kelola
-            </Link>
+        <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+          <h2 className="text-[15px] font-bold text-slate-950">Status Booking</h2>
+          <div className="grid gap-2 sm:grid-cols-[180px_1fr]">
+            <div className="h-48">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie data={statusData} dataKey="value" innerRadius={48} outerRadius={72} paddingAngle={1}>
+                    {statusData.map((_, index) => (
+                      <Cell key={index} fill={statusColors[index % statusColors.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip />
+                </PieChart>
+              </ResponsiveContainer>
+            </div>
+            <div className="self-center space-y-2">
+              {statusData.map((item, index) => (
+                <div key={item.name} className="flex items-center justify-between gap-2 text-[12px]">
+                  <span className="inline-flex items-center gap-2 text-slate-600">
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ background: statusColors[index] }} />
+                    {item.name}
+                  </span>
+                  <strong>{item.value}</strong>
+                </div>
+              ))}
+            </div>
           </div>
-          <ul className="space-y-2 text-sm">
-            {(rulesQuery.data ?? []).slice(0, 5).map((item) => (
-              <li
-                key={item.id}
-                className="rounded-xl border border-amber-200 bg-amber-50 p-2 text-amber-800 dark:border-amber-900/40 dark:bg-amber-950/20 dark:text-amber-200"
-              >
-                <p className="font-medium">{item.title}</p>
-                <p className="line-clamp-1 text-xs">{item.description}</p>
-              </li>
-            ))}
-          </ul>
+        </article>
+      </section>
+
+      <section className="grid gap-4 xl:grid-cols-[1fr_0.85fr]">
+        <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+          <h2 className="text-[15px] font-bold text-slate-950">Booking Terbaru</h2>
+          <div className="mt-3 overflow-x-auto">
+            <table className="min-w-full text-left text-[12px]">
+              <tbody>
+                {(bookings.length ? bookings : [
+                  { id: 'PG240524-0001', userName: 'Abim Febriansyah', status: 'Menunggu', quantity: 2, totalPrice: 50000 },
+                  { id: 'PG240524-0002', userName: 'Siti Aisyah', status: 'Dibayar', quantity: 1, totalPrice: 25000 },
+                  { id: 'PG240524-0003', userName: 'Rudi Hartono', status: 'Dibayar', quantity: 1, totalPrice: 25000 },
+                ]).slice(0, 5).map((item) => (
+                  <tr key={item.id} className="border-b border-slate-100 last:border-0">
+                    <td className="py-3 font-semibold text-slate-800">{item.userName ?? item.id}</td>
+                    <td className="py-3 text-slate-500">{item.quantity} Orang</td>
+                    <td className="py-3 text-slate-700">{formatRupiah(Number(item.totalPrice ?? 0))}</td>
+                    <td className="py-3 text-right">
+                      <span className={`rounded-full px-2 py-1 text-[11px] font-semibold ${statusTone(item.status)}`}>
+                        {item.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </article>
 
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-          <div className="mb-2 flex items-center justify-between">
-            <h3 className="font-semibold">Berita Terbaru</h3>
-            <Link href="/admin/news" className="text-xs text-sky-600 underline">
-              Kelola
-            </Link>
+        <article className="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <h2 className="text-[15px] font-bold text-slate-950">Pendakian Hari Ini</h2>
+              <p className="text-[12px] text-slate-500">Gunung Pesagi via Papahan</p>
+            </div>
+            <Link href="/admin/quotas" className="text-[12px] font-semibold text-blue-600">Kelola</Link>
           </div>
-          <div className="space-y-2">
-            {(newsQuery.data ?? []).slice(0, 4).map((item) => (
-              <article
-                key={item.id}
-                className="rounded-xl border border-slate-200 p-2 dark:border-slate-700"
-              >
-                <p className="text-sm font-medium">{item.title}</p>
-                <p className="line-clamp-2 text-xs text-slate-500">
-                  {item.description}
-                </p>
-              </article>
-            ))}
+          <div className="mt-3 space-y-3">
+            {(quotas.length ? quotas : [
+              { id: 'pagi', date: '2026-05-24', quotaTotal: 20, quotaBooked: 20, price: 25000 },
+              { id: 'siang', date: '2026-05-24', quotaTotal: 20, quotaBooked: 15, price: 25000 },
+              { id: 'sore', date: '2026-05-24', quotaTotal: 20, quotaBooked: 10, price: 25000 },
+            ]).slice(0, 4).map((quota, index) => {
+              const booked = Number(quota.quotaBooked ?? 0);
+              const total = Number(quota.quotaTotal ?? 0);
+              return (
+                <div key={quota.id} className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-md border border-slate-100 p-3 text-[12px]">
+                  <div>
+                    <p className="font-semibold text-slate-800">Sesi {index === 0 ? 'Pagi' : index === 1 ? 'Siang' : 'Sore'}</p>
+                    <p className="text-slate-500">{new Date(quota.date ?? '2026-05-24').toLocaleDateString('id-ID')}</p>
+                  </div>
+                  <strong className="text-slate-950">{booked} / {total || totalQuotaToday}</strong>
+                </div>
+              );
+            })}
           </div>
         </article>
       </section>

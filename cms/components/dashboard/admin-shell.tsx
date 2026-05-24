@@ -1,167 +1,177 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Home, Megaphone, ShieldAlert, Newspaper, Route, CalendarCheck2, Ticket, Gauge, CloudSun, SunMoon, Menu, X } from 'lucide-react';
-import { useTheme } from 'next-themes';
+import {
+  BarChart3,
+  CalendarDays,
+  CircleHelp,
+  ClipboardList,
+  CreditCard,
+  Gauge,
+  Home,
+  LogOut,
+  Map,
+  Megaphone,
+  Menu,
+  Mountain,
+  QrCode,
+  Settings,
+  Ticket,
+  Users,
+  X,
+} from 'lucide-react';
 import { useAuthStore } from '@/lib/core/auth-store';
 import clsx from 'clsx';
 
 const navItems = [
-  { href: '/admin', label: 'Overview', icon: Home },
+  { href: '/admin', label: 'Dashboard', icon: Home },
+  { href: '/admin/mountain', label: 'Gunung Pesagi', icon: Mountain },
+  { href: '/admin/schedules', label: 'Jadwal Pendakian', icon: CalendarDays },
+  { href: '/admin/sessions', label: 'Sesi Pendakian', icon: ClipboardList },
+  { href: '/admin/quotas', label: 'Kuota Tiket', icon: Gauge },
+  { href: '/admin/bookings', label: 'Booking/Pesanan', icon: Ticket },
+  { href: '/admin/payments', label: 'Pembayaran', icon: CreditCard },
+  { href: '/admin/tickets', label: 'Tiket & QR Code', icon: QrCode },
+  { href: '/admin/hikers', label: 'Pendaki', icon: Users },
   { href: '/admin/announcements', label: 'Informasi', icon: Megaphone },
-  { href: '/admin/rules', label: 'Larangan', icon: ShieldAlert },
-  { href: '/admin/news', label: 'Berita', icon: Newspaper },
-  { href: '/admin/routes', label: 'Routes', icon: Route },
-  { href: '/admin/bookings', label: 'Bookings', icon: CalendarCheck2 },
-  { href: '/admin/tickets', label: 'Tickets', icon: Ticket },
-  { href: '/admin/quotas', label: 'Quotas', icon: Gauge },
-  { href: '/admin/weather', label: 'Weather', icon: CloudSun },
+  { href: '/admin/rules', label: 'Panduan', icon: Map },
+  { href: '/admin/help', label: 'Bantuan', icon: CircleHelp },
+  { href: '/admin/settings', label: 'Pengaturan', icon: Settings },
+  { href: '/admin/weather', label: 'Cuaca', icon: BarChart3 },
 ];
+
+function SidebarContent({
+  pathname,
+  userName,
+  onNavigate,
+  onLogout,
+}: {
+  pathname: string;
+  userName: string;
+  onNavigate?: () => void;
+  onLogout: () => void;
+}) {
+  return (
+    <div className="flex h-full flex-col bg-[#0c1421] text-slate-100">
+      <div className="px-4 py-5">
+        <p className="text-[11px] font-bold tracking-wide text-white">PesagiGo Admin</p>
+        <div className="mt-6 flex items-center gap-3">
+          <Image
+            src="/pesagi-hero.svg"
+            alt=""
+            width={40}
+            height={40}
+            className="h-10 w-10 rounded-full border border-emerald-300/50 object-cover"
+          />
+          <div className="min-w-0">
+            <p className="truncate text-sm font-semibold">{userName}</p>
+            <p className="text-[11px] text-slate-400">Super Admin</p>
+          </div>
+        </div>
+      </div>
+
+      <nav className="flex-1 space-y-1 overflow-y-auto px-3 pb-4">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const active = pathname === item.href || (item.href !== '/admin' && pathname.startsWith(`${item.href}/`));
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              onClick={onNavigate}
+              className={clsx(
+                'flex h-9 items-center gap-2 rounded-md px-3 text-[12px] font-medium transition',
+                active
+                  ? 'bg-white/10 text-white shadow-[inset_3px_0_0_#2563eb]'
+                  : 'text-slate-300 hover:bg-white/7 hover:text-white',
+              )}
+            >
+              <Icon size={14} />
+              <span className="truncate">{item.label}</span>
+            </Link>
+          );
+        })}
+      </nav>
+
+      <div className="border-t border-white/10 p-3">
+        <button
+          type="button"
+          onClick={onLogout}
+          className="flex h-9 w-full items-center gap-2 rounded-md px-3 text-[12px] font-semibold text-red-300 transition hover:bg-red-500/10 hover:text-red-200"
+        >
+          <LogOut size={14} />
+          Keluar
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, clearAuth } = useAuthStore();
-  const { theme, setTheme } = useTheme();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
-  return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100">
-      <div className="mx-auto grid min-h-screen w-full max-w-screen-2xl grid-cols-1 md:grid-cols-[260px_1fr]">
-        <aside className="hidden border-r border-slate-200 bg-white/90 p-4 dark:border-slate-800 dark:bg-slate-900/90 md:block">
-          <div className="mb-6">
-            <p className="text-xs uppercase tracking-[0.2em] text-sky-500">PesagiGo</p>
-            <h1 className="text-xl font-bold">Admin Dashboard</h1>
-          </div>
+  const logout = () => {
+    clearAuth();
+    router.replace('/');
+  };
 
-          <nav className="space-y-1">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={clsx(
-                    'flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition active:scale-[0.98]',
-                    pathname === item.href
-                      ? 'bg-sky-500 text-white shadow-md shadow-sky-500/30'
-                      : 'text-slate-600 hover:bg-sky-50 dark:text-slate-300 dark:hover:bg-slate-800',
-                  )}
-                >
-                  <Icon size={16} />
-                  <span>{item.label}</span>
-                </Link>
-              );
-            })}
-          </nav>
+  const userName = user?.fullName ?? 'Admin';
+
+  return (
+    <div className="min-h-screen bg-[#eef2f7] text-slate-900">
+      <div className="grid min-h-screen grid-cols-1 lg:grid-cols-[230px_1fr]">
+        <aside className="hidden lg:block">
+          <SidebarContent pathname={pathname} userName={userName} onLogout={logout} />
         </aside>
 
-        <main className="p-3 md:p-6">
-          <header className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-slate-200 bg-white p-3 md:p-4 dark:border-slate-800 dark:bg-slate-900">
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => setMobileNavOpen(true)}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition hover:bg-slate-100 active:scale-[0.98] dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 md:hidden"
-                aria-label="Open navigation"
-              >
-                <Menu size={18} />
-              </button>
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-500">Welcome back</p>
-                <p className="font-semibold">{user?.fullName ?? 'Admin'} ({user?.email ?? '-'})</p>
-              </div>
-            </div>
-
-            <div className="flex w-full flex-wrap items-center gap-2 sm:w-auto sm:flex-nowrap">
-              <button
-                type="button"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="flex-1 rounded-xl border border-slate-200 px-3 py-2 text-sm transition hover:bg-slate-100 active:scale-[0.98] dark:border-slate-700 dark:hover:bg-slate-800 sm:flex-none"
-              >
-                <span className="inline-flex items-center gap-2"><SunMoon size={14} />{theme === 'dark' ? 'Light' : 'Dark'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  clearAuth();
-                  router.replace('/');
-                }}
-                className="flex-1 rounded-xl bg-rose-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-rose-600 active:scale-[0.98] sm:flex-none"
-              >
-                Logout
-              </button>
-            </div>
+        <div className="min-w-0">
+          <header className="sticky top-0 z-30 flex h-12 items-center justify-between border-b border-slate-200 bg-white px-3 shadow-sm lg:hidden">
+            <button
+              type="button"
+              onClick={() => setMobileNavOpen(true)}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-slate-700"
+              aria-label="Buka navigasi"
+            >
+              <Menu size={18} />
+            </button>
+            <p className="text-sm font-bold">PesagiGo Admin</p>
+            <button
+              type="button"
+              onClick={logout}
+              className="inline-flex h-9 w-9 items-center justify-center rounded-md border border-slate-200 text-red-600"
+              aria-label="Keluar"
+            >
+              <LogOut size={16} />
+            </button>
           </header>
 
-          {children}
-        </main>
+          <main className="mx-auto w-full max-w-[1600px] p-3 lg:p-5">{children}</main>
+        </div>
       </div>
 
       {mobileNavOpen ? (
-        <div className="fixed inset-0 z-50 bg-slate-950/50 backdrop-blur-sm md:hidden" role="presentation" onClick={() => setMobileNavOpen(false)}>
+        <div className="fixed inset-0 z-50 bg-slate-950/55 lg:hidden" role="presentation" onClick={() => setMobileNavOpen(false)}>
           <aside
-            className="ml-auto flex h-full w-[86%] max-w-sm flex-col border-l border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900"
+            className="h-full w-[82%] max-w-xs shadow-2xl"
             onClick={(event) => event.stopPropagation()}
           >
-            <div className="mb-6 flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs uppercase tracking-[0.2em] text-sky-500">PesagiGo</p>
-                <h2 className="text-lg font-bold">Admin Dashboard</h2>
-              </div>
+            <div className="absolute left-[calc(min(82%,20rem)-2.75rem)] top-3">
               <button
                 type="button"
                 onClick={() => setMobileNavOpen(false)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-slate-600 transition hover:bg-slate-100 active:scale-[0.98] dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
-                aria-label="Close navigation"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-md bg-white text-slate-800"
+                aria-label="Tutup navigasi"
               >
-                <X size={18} />
+                <X size={17} />
               </button>
             </div>
-
-            <nav className="flex-1 space-y-1 overflow-y-auto pr-1">
-              {navItems.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileNavOpen(false)}
-                    className={clsx(
-                      'flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition active:scale-[0.98]',
-                      pathname === item.href
-                        ? 'bg-sky-500 text-white shadow-md shadow-sky-500/30'
-                        : 'text-slate-600 hover:bg-sky-50 dark:text-slate-300 dark:hover:bg-slate-800',
-                    )}
-                  >
-                    <Icon size={16} />
-                    <span>{item.label}</span>
-                  </Link>
-                );
-              })}
-            </nav>
-
-            <div className="mt-4 flex items-center gap-2">
-              <button
-                type="button"
-                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                className="flex-1 rounded-xl border border-slate-200 px-3 py-2 text-sm transition hover:bg-slate-100 active:scale-[0.98] dark:border-slate-700 dark:hover:bg-slate-800"
-              >
-                <span className="inline-flex items-center justify-center gap-2"><SunMoon size={14} />{theme === 'dark' ? 'Light' : 'Dark'}</span>
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  clearAuth();
-                  router.replace('/');
-                }}
-                className="flex-1 rounded-xl bg-rose-500 px-3 py-2 text-sm font-medium text-white transition hover:bg-rose-600 active:scale-[0.98]"
-              >
-                Logout
-              </button>
-            </div>
+            <SidebarContent pathname={pathname} userName={userName} onLogout={logout} onNavigate={() => setMobileNavOpen(false)} />
           </aside>
         </div>
       ) : null}
