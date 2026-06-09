@@ -163,6 +163,7 @@ export default function LocationsScreen() {
     }, []),
   );
 
+  // Menentukan data yang ditampilkan berdasarkan tab yang sedang aktif
   const activeItems = useMemo(() => {
     if (tab === 'pengumuman') {
       return informationItems;
