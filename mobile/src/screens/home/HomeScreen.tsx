@@ -52,6 +52,13 @@ const fallbackNews: NewsItem[] = [
     imageUrl: 'https://images.unsplash.com/photo-1501555088652-021faa106b9b?auto=format&fit=crop&w=1200&q=80',
     createdAt: new Date().toISOString(),
   },
+  {
+    id: 'news-fallback-4',
+    title: 'Preservasi Flora Endemik di Gunung Pesagi Berjalan Sukses',
+    description: 'Tim konservasi berhasil menanam 500 pohon spesies asli di area puncak.',
+    imageUrl: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80',
+    createdAt: new Date().toISOString(),
+  },
 ];
 
 const parseLocalDateTime = (value?: string) => {
