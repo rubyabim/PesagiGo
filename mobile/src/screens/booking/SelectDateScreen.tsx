@@ -118,6 +118,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
     return 'available';
   };
 
+  // Mengubah bulan pada kalender (maju atau mundur)
   const moveMonth = (delta: number) => {
     const next = new Date(currentYear, currentMonth + delta, 1);
     setCurrentMonth(next.getMonth());
