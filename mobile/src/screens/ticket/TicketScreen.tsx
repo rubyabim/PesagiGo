@@ -118,6 +118,7 @@ export default function TicketScreen() {
     }
   };
 
+  // Mengunduh dan menyimpan PDF tiket ke perangkat pengguna
   const openTicketPdf = async () => {
     if (!ticket?.ticketPdfUrl) {
       setError('PDF tiket belum tersedia.');
