@@ -64,6 +64,7 @@ export default function TicketScreen() {
   // Memuat data tiket berdasarkan ID tiket yang dipilih
   useEffect(() => {
     const load = async () => {
+      // Menggunakan data fallback jika pengguna belum login atau ID tiket tidak tersedia
       if (!session?.accessToken || !ticketId) {
         setTicket(fallbackTicket);
         setLoading(false);
