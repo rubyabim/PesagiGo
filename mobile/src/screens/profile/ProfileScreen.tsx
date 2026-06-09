@@ -22,6 +22,7 @@ export default function ProfileScreen() {
   const [error, setError] = useState<string | null>(null);
   const [bookings, setBookings] = useState<LiteBooking[]>([]);
 
+  // Memuat riwayat booking pengguna setelah berhasil login
   useEffect(() => {
     if (!session?.accessToken) {
       setBookings([]);
