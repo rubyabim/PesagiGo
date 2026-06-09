@@ -25,6 +25,7 @@ export default function PaymentMethodScreen({ route, navigation }: { route: any;
   const [busy, setBusy] = useState(false);
   // State untuk menampilkan pesan error
   const [error, setError] = useState<string | null>(null);
+  // ID booking yang dikirim dari halaman sebelumnya
   const bookingId = route.params?.bookingId as string | undefined;
 
   const onPay = async () => {
