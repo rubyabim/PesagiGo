@@ -34,6 +34,11 @@ const fallbackPromo: PromoCard[] = [
     title: 'Ruang Istirahat dan Makanan Ringan',
     description: 'Basecamp menyediakan ruang istirahat dengan minuman ringan dan camilan untuk persiapan sebelum pendakian.',
   },
+  {
+    id: 'promo-fallback-4',
+    title: 'Layanan Informasi 24 Jam',
+    description: 'Tim basecamp siap membantu informasi jalur, kondisi cuaca, dan jadwal pendakian kapan saja.',
+  },
 ];
 
 // Kartu informasi yang ditampilkan jika data belum tersedia
