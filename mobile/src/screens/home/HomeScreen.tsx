@@ -66,6 +66,13 @@ const fallbackNews: NewsItem[] = [
     imageUrl: 'https://images.unsplash.com/photo-1552519507-da3effeff00c?auto=format&fit=crop&w=1200&q=80',
     createdAt: new Date().toISOString(),
   },
+  {
+    id: 'news-fallback-6',
+    title: 'Jalur Alternatif Pesagi Segera Dibuka Akhir Bulan',
+    description: 'Jalur baru menawarkan pengalaman berbeda dengan pemandangan yang spektakuler.',
+    imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80',
+    createdAt: new Date().toISOString(),
+  },
 ];
 
 const parseLocalDateTime = (value?: string) => {
