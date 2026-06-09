@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { fetchMyBookings } from '../../api/client';
 import { useAuthContext } from '../../context/AuthContext';
 import AppScaffold from '../common/AppScaffold';
@@ -20,11 +20,13 @@ export default function ProfileScreen() {
   const [error, setError] = useState<string | null>(null);
   const [bookings, setBookings] = useState<LiteBooking[]>([]);
 
-  useEffect(() => {
-    if (ready && !session) {
-      navigation.navigate('Auth', { screen: 'Login' });
-    }
-  }, [ready, session, navigation]);
+  useFocusEffect(
+    useCallback(() => {
+      if (ready && !session) {
+        navigation.getParent()?.navigate('Auth', { screen: 'Login' });
+      }
+    }, [ready, session, navigation]),
+  );
 
   useEffect(() => {
     if (!session?.accessToken) {
