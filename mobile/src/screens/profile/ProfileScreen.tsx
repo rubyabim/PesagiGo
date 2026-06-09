@@ -73,6 +73,7 @@ export default function ProfileScreen() {
     );
   }
 
+  // Menghitung total tiket dan total pengeluaran dari seluruh booking
   const totalTicket = bookings.reduce((sum, item) => sum + item.quantity, 0);
   const totalSpend = bookings.reduce((sum, item) => sum + item.totalPrice, 0);
 
