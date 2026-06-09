@@ -37,6 +37,7 @@ export default function PaymentMethodScreen({ route, navigation }: { route: any;
     setBusy(true);
     setError(null);
     try {
+      // Mengirim permintaan pembayaran ke API
       const result = await payBooking(session.accessToken, bookingId, { method: selected });
       navigation.replace('PaymentSuccess', {
         bookingId: result.booking.id,
