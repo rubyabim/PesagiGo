@@ -125,6 +125,7 @@ export default function TicketScreen() {
       setError('PDF tiket belum tersedia.');
       return;
     }
+    // Memastikan pengguna sudah login
     if (!session?.accessToken) {
       setError('Login diperlukan untuk mengunduh PDF tiket resmi.');
       return;
