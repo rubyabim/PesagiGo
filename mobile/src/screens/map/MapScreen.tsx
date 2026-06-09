@@ -27,6 +27,7 @@ export default function MapScreen() {
     const loadMapData = async () => {
       try {
         const [mountains, announcements] = await Promise.all([fetchMountains(), fetchAnnouncements()]);
+        // Mengambil data spot dari CMS (hanya yang memiliki mapUrl)
         const cmsSpots = (announcements as Announcement[])
           .filter((item) => !!item.mapUrl)
           .map((item) => ({
