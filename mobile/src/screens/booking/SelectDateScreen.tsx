@@ -99,6 +99,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
       } catch {
         // Jika gagal, kosongkan data sesi
         setSessionsByDate({});
+        // Mengakhiri proses loading
       } finally {
         setLoadingSessions(false);
       }
