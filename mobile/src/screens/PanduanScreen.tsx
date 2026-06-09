@@ -5,6 +5,7 @@ import AppScaffold from './common/AppScaffold';
 const guides = [
   { title: 'Syarat Administrasi', desc: 'Dokumen, biaya masuk, dan regulasi izin masuk terbaru.' },
   { title: 'Persiapan Sebelum Mendaki', desc: 'Peralatan dan fisik yang disarankan.' },
+  { title: 'Estimasi Waktu', desc: 'Durasi perjalanan, waktu terbaik, dan manajemen time schedule.' },
   { title: 'Selama Pendakian', desc: 'Tips aman, ritme jalan, dan manajemen air.' },
   { title: 'Manajemen Perjalanan', desc: 'Manajemen logistik, checklist perlengkapan, dan manajemen sampah.' },
   { title: 'Etika Pendakian', desc: 'Jaga alam, hormati sesama pendaki.' },
