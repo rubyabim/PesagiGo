@@ -230,6 +230,7 @@ export default function HomeScreen() {
     const loadBmkgForecast = async () => {
       setBmkgLoading(true);
       setBmkgError(null);
+      // Mengambil data prakiraan cuaca dari API BMKG
       try {
         const response = await fetchBmkgForecast(BMKG_ADM4);
         setBmkgHourly(flattenBmkgForecast(response));
