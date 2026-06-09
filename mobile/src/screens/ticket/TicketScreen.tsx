@@ -43,6 +43,7 @@ export default function TicketScreen() {
   const ticketId = route.params?.ticketId as string | undefined;
   const isAdmin = session?.user?.role === 'ADMIN';
 
+  // Membuat tampilan barcode sederhana berdasarkan kode tiket
   const renderBarcode = (value: string) => {
     const bars = value.split('').flatMap((char, index) => {
       const code = char.charCodeAt(0) + index;
