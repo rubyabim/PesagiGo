@@ -17,6 +17,7 @@ type PromoCard = {
   imageUrl?: string | null;
 };
 
+// Kartu promosi yang ditampilkan jika data belum tersedia
 const fallbackPromo: PromoCard[] = [
   {
     id: 'promo-fallback-1',
