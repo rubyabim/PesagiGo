@@ -143,6 +143,7 @@ export default function TicketScreen() {
         .replace(/(^-|-$)/g, '');
       const dateKey = new Date(ticket.climbDate).toISOString().slice(0, 10);
       const filename = `tiket-${safeName}-${ticket.bookingId}-${safeMountain}-${dateKey}.pdf`;
+      // Memastikan direktori penyimpanan tersedia
       if (!FileSystem.documentDirectory) {
         setError('Lokasi penyimpanan tidak tersedia di perangkat ini.');
         return;
