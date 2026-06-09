@@ -78,6 +78,7 @@ export default function TicketScreen() {
         setTicket(data as TicketData);
         setScanCode((data as TicketData).ticketCode);
       } catch (err) {
+        // Menampilkan tiket dummy jika gagal mengambil data
         setTicket(fallbackTicket);
         setError(err instanceof Error ? `${err.message} - menampilkan tiket dummy.` : 'Tiket belum tersedia - menampilkan tiket dummy.');
         setScanCode(fallbackTicket.ticketCode);
