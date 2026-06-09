@@ -36,7 +36,7 @@ export default function LoginScreen() {
       <ScrollView style={styles.page} contentContainerStyle={styles.content}>
       <View style={styles.card}>
         <Text style={styles.title}>Masuk Akun</Text>
-        <Text style={styles.subtitle}>Gunakan akun pendaki untuk akses tiket dan riwayat booking.</Text>
+        <Text style={styles.subtitle}>Gunakan akun pendaki untuk masuk dan melihat tiket serta riwayat pemesanan.</Text>
         <TextInput
           style={styles.input}
           placeholder="Email"
