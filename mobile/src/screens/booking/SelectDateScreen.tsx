@@ -75,6 +75,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
     `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   // Key tanggal yang dipilih (format tanpa padding)
   const selectedKey = selectedDate ? toDateKey(selectedDate) : '';
+  // Key tanggal yang dipilih (format ISO YYYY-MM-DD)
   const selectedIsoKey = selectedDate ? toIsoDateKey(selectedDate) : '';
 
   useEffect(() => {
