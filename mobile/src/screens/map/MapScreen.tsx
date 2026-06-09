@@ -57,6 +57,7 @@ export default function MapScreen() {
     void loadMapData();
   }, []);
 
+  // Menentukan spot utama (featured) dari daftar lokasi peta
   const featured = useMemo(() => spots[0] ?? fallbackSpot, [spots]);
 
   const openMap = (mapUrl: string) => {
