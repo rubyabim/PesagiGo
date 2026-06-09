@@ -161,6 +161,7 @@ export default function TicketScreen() {
       // Menampilkan informasi bahwa file berhasil disimpan
       setDownloadInfo(`PDF tersimpan: ${filename}`);
     } catch {
+      // Menampilkan pesan kesalahan jika proses unduh gagal
       setDownloadInfo(null);
       setError('Gagal mengunduh PDF tiket.');
     }
