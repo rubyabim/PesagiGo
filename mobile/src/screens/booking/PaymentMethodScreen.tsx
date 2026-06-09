@@ -28,6 +28,7 @@ export default function PaymentMethodScreen({ route, navigation }: { route: any;
   // ID booking yang dikirim dari halaman sebelumnya
   const bookingId = route.params?.bookingId as string | undefined;
 
+  // Proses pembayaran booking berdasarkan metode yang dipilih
   const onPay = async () => {
     if (!session?.accessToken || !bookingId) {
       return;
