@@ -81,6 +81,13 @@ const fallbackNews: NewsItem[] = [
     imageUrl: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1200&q=80',
     createdAt: new Date().toISOString(),
   },
+  {
+    id: 'news-fallback-7',
+    title: 'Festival Pendaki Pesagi Kembali Digelar',
+    description: 'Komunitas lokal siap menyambut pendaki dengan bazar kuliner dan edukasi keselamatan gunung.',
+    imageUrl: 'https://images.unsplash.com/photo-1516569421236-0d29dd6a7d78?auto=format&fit=crop&w=1200&q=80',
+    createdAt: new Date().toISOString(),
+  },
 ];
 
 // Mengubah string tanggal/waktu menjadi objek Date dengan penyesuaian format dan zona waktu
