@@ -97,6 +97,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
         });
         setSessionsByDate(next);
       } catch {
+        // Jika gagal, kosongkan data sesi
         setSessionsByDate({});
       } finally {
         setLoadingSessions(false);
