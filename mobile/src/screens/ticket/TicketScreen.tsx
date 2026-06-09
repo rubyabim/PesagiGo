@@ -83,6 +83,7 @@ export default function TicketScreen() {
         setError(err instanceof Error ? `${err.message} - menampilkan tiket dummy.` : 'Tiket belum tersedia - menampilkan tiket dummy.');
         setScanCode(fallbackTicket.ticketCode);
       } finally {
+        // Mengakhiri proses loading
         setLoading(false);
       }
     };
