@@ -59,7 +59,7 @@ const fallbackRules: PromoCard[] = [
   {
     id: 'rules-fallback-3',
     title: 'Jangan Merusak Alam',
-    description: 'Hindari merusak vegetasi, batu, atau fasilitas alam selama pendakian.',
+    description: 'Lindungi alam dengan tidak memetik tumbuhan, merusak batu, atau menyentuh satwa liar.',
   },
   {
     id: 'rules-fallback-4',
