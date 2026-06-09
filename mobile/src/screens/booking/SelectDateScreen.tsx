@@ -18,6 +18,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   // Status loading saat mengambil data sesi pendakian
   const [loadingSessions, setLoadingSessions] = useState(true);
+  // Data ketersediaan kuota per tanggal
   const [sessionsByDate, setSessionsByDate] = useState<Record<string, { available: number; total: number }>>({});
 
   const yearOptions = useMemo(() => {
