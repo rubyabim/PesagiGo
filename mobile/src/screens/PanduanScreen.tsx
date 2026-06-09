@@ -24,7 +24,6 @@ export default function PanduanScreen() {
                 <Text style={styles.itemTitle}>{item.title}</Text>
                 <Text style={styles.itemDesc}>{item.desc}</Text>
               </View>
-              <FontAwesome name="angle-right" size={18} color="#94a3b8" />
             </View>
           </View>
         ))}
