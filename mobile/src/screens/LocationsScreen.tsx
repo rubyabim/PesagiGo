@@ -138,6 +138,7 @@ export default function LocationsScreen() {
   const [ruleItems, setRuleItems] = useState<PromoCard[]>(fallbackRules);
   const [loading, setLoading] = useState(true);
 
+  // Memuat dan menyinkronkan data CMS saat halaman mendapatkan fokus
   useFocusEffect(
     useCallback(() => {
     const syncCms = async () => {
