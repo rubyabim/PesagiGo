@@ -58,11 +58,16 @@ const fallbackRules: PromoCard[] = [
   },
   {
     id: 'rules-fallback-3',
+    title: 'Jangan Merusak Alam',
+    description: 'Hindari merusak vegetasi, batu, atau fasilitas alam selama pendakian.',
+  },
+  {
+    id: 'rules-fallback-4',
     title: 'Larangan Api Unggun',
     description: 'Dilarang menyalakan api di luar area yang ditetapkan untuk mencegah kebakaran hutan.',
   },
   {
-    id: 'rules-fallback-4',
+    id: 'rules-fallback-5',
     title: 'Volume Suara',
     description: 'Jaga kebisingan agar tidak mengganggu satwa dan pendaki lain di jalur.',
   },
