@@ -49,7 +49,7 @@ const fallbackRules: PromoCard[] = [
   {
     id: 'rules-fallback-1',
     title: 'Aturan Dasar Pendakian',
-    description: 'Gunakan jalur resmi, jangan membuang sampah sembarangan, dan ikuti instruksi ranger.',
+    description: 'Ikuti jalur resmi, patuhi petunjuk ranger, dan jaga keamanan bersama selama pendakian.',
   },
   {
     id: 'rules-fallback-2',
