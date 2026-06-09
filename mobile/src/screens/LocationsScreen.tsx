@@ -109,6 +109,7 @@ function mapPromo(news: NewsItem[]): PromoCard[] {
   }));
 }
 
+// Mengonversi data pengumuman menjadi format kartu promosi
 function mapInformation(announcements: Announcement[]): PromoCard[] {
   return announcements.map((item) => ({
     id: item.id,
