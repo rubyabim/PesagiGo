@@ -129,6 +129,7 @@ function mapRules(rules: RuleItem[]): PromoCard[] {
   }));
 }
 
+// Inisialisasi state dan data yang digunakan pada halaman informasi lokasi
 export default function LocationsScreen() {
   const navigation = useNavigation<any>();
   const [tab, setTab] = useState<PromoTab>('pengumuman');
