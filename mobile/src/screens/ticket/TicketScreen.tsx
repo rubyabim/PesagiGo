@@ -132,6 +132,7 @@ export default function TicketScreen() {
     }
 
     try {
+      // Membuat nama file yang aman untuk disimpan
       const safeName = (session?.user?.fullName ?? 'pendaki')
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
