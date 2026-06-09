@@ -46,6 +46,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
       });
     }
 
+    // Mengisi hari pada bulan berjalan
     for (let day = 1; day <= totalDays; day += 1) {
       cells.push({
         day,
