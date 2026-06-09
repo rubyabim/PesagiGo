@@ -16,6 +16,7 @@ const toWeatherIcon = (condition: string): keyof typeof FontAwesome.glyphMap => 
   // maka tampilkan ikon tetesan air
   if (key.includes('HUJAN') || key.includes('RAIN') || key.includes('STORM')) return 'tint';
   // Jika kondisi mengandung kata berawan, cloud, kabut, atau fog
+  // maka tampilkan ikon awan
   if (key.includes('BERAWAN') || key.includes('CLOUD') || key.includes('KABUT') || key.includes('FOG')) return 'cloud';
   return 'sun-o';
 };
