@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { fetchMyBookings } from '../../api/client';
 import { useAuthContext } from '../../context/AuthContext';
 import AppScaffold from '../common/AppScaffold';
@@ -15,18 +15,27 @@ type LiteBooking = {
 
 export default function ProfileScreen() {
   const navigation = useNavigation<any>();
+  const isFocused = useIsFocused();
   const { ready, session, logout } = useAuthContext();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [bookings, setBookings] = useState<LiteBooking[]>([]);
 
-  useFocusEffect(
-    useCallback(() => {
+  useEffect(() => {
+    if (ready && !session && isFocused) {
+      navigation.getParent()?.navigate('Auth', { screen: 'Login' });
+    }
+  }, [ready, session, isFocused, navigation]);
+
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('tabPress', (e: { preventDefault: () => void }) => {
       if (ready && !session) {
+        e.preventDefault();
         navigation.getParent()?.navigate('Auth', { screen: 'Login' });
       }
-    }, [ready, session, navigation]),
-  );
+    });
+    return unsubscribe;
+  }, [navigation, ready, session]);
 
   useEffect(() => {
     if (!session?.accessToken) {
