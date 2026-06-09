@@ -1,6 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import { FontAwesome } from '@expo/vector-icons';
 import { Announcement, fetchAnnouncements, fetchNews, fetchRules, NewsItem, RuleItem } from '../api/client';
 import AppScaffold from './common/AppScaffold';
 import Skeleton from './common/Skeleton';
@@ -111,6 +112,7 @@ function mapRules(rules: RuleItem[]): PromoCard[] {
 }
 
 export default function LocationsScreen() {
+  const navigation = useNavigation<any>();
   const [tab, setTab] = useState<PromoTab>('pengumuman');
   const [promoItems, setPromoItems] = useState<PromoCard[]>(fallbackPromo);
   const [informationItems, setInformationItems] = useState<PromoCard[]>(fallbackInfo);
@@ -155,8 +157,15 @@ export default function LocationsScreen() {
     <AppScaffold title="Informasi">
       <View style={styles.page}>
       <View style={styles.header}>
-        <Text style={styles.title}>Informasi</Text>
-        <Text style={styles.subtitle}>Informasi resmi pendakian Gunung Pesagi</Text>
+        <View style={styles.headerTop}>
+          <View style={styles.headerText}>
+            <Text style={styles.title}>Informasi</Text>
+            <Text style={styles.subtitle}>Informasi resmi pendakian Gunung Pesagi</Text>
+          </View>
+          <Pressable style={styles.infoButton} onPress={() => navigation.getParent()?.navigate('MountainDetail' as never)}>
+            <FontAwesome name="info-circle" size={18} color="#135efd" />
+          </Pressable>
+        </View>
       </View>
 
       <View style={styles.tabBar}>
@@ -207,8 +216,11 @@ export default function LocationsScreen() {
 const styles = StyleSheet.create({
   page: { flex: 1, backgroundColor: '#f3f5f8' },
   header: { paddingHorizontal: 14, paddingTop: 14, paddingBottom: 8 },
+  headerTop: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  headerText: { flex: 1 },
   title: { color: '#0f172a', fontSize: 28, fontWeight: '900' },
   subtitle: { color: '#64748b', fontSize: 13, marginTop: 2 },
+  infoButton: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#e8f7ee', alignItems: 'center', justifyContent: 'center' },
   tabBar: {
     backgroundColor: '#ffffff',
     borderTopWidth: 1,
