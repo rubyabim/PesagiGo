@@ -27,6 +27,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
     return Array.from({ length: 6 }, (_, i) => start + i);
   }, [now]);
 
+  // Membuat struktur grid kalender (termasuk hari dari bulan sebelumnya dan berikutnya)
   const calendarCells = useMemo(() => {
     const firstDay = new Date(currentYear, currentMonth, 1);
     const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
