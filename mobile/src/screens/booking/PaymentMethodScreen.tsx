@@ -4,6 +4,7 @@ import { payBooking } from '../../api/client';
 import { useAuthContext } from '../../context/AuthContext';
 import AppScaffold from '../common/AppScaffold';
 
+// Daftar metode pembayaran yang tersedia
 const methods = [
   { id: 'BRI', label: 'Bank BRI' },
   { id: 'BCA', label: 'Bank BCA' },
