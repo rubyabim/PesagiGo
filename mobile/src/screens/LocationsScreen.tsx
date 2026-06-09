@@ -60,6 +60,7 @@ const fallbackInfo: PromoCard[] = [
   },
 ];
 
+// Kartu aturan yang ditampilkan jika data belum tersedia
 const fallbackRules: PromoCard[] = [
   {
     id: 'rules-fallback-1',
