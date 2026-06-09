@@ -32,6 +32,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
     const firstDay = new Date(currentYear, currentMonth, 1);
     const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
     const firstWeekday = (firstDay.getDay() + 6) % 7; // Mon=0
+    // Menyimpan semua sel kalender (prev month, current month, next month)
     const cells: Array<{ day: number; monthOffset: -1 | 0 | 1; date: Date }> = [];
 
     const prevMonthTotal = new Date(currentYear, currentMonth, 0).getDate();
