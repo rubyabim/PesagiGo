@@ -222,7 +222,7 @@ export default function HomeScreen() {
           <View style={styles.statRow}>
             <Text style={styles.stat}>Ketinggian{'\n'}{'\n'}2.262 mdpl</Text>
             <Text style={styles.stat}>Waktu Tempuh{'\n'}{'\n'}4-6 Jam</Text>
-            <Text style={styles.stat}>Jalur Pendakian{'\n'}Papahan</Text>
+            <Text style={styles.stat}>Jalur Pendakian{'\n'}{'\n'}Papahan</Text>
             <Text style={styles.stat}>Tingkat Kesulitan{'\n'}Menengah</Text>
           </View>
           <Pressable style={styles.primaryButton} onPress={() => navigation.getParent()?.navigate('MountainDetail' as never)}>
