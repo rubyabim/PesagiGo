@@ -99,6 +99,7 @@ const fallbackRules: PromoCard[] = [
   },
 ];
 
+// Mengonversi data berita menjadi format kartu promosi
 function mapPromo(news: NewsItem[]): PromoCard[] {
   return news.map((item) => ({
     id: item.id,
