@@ -44,6 +44,11 @@ const fallbackInfo: PromoCard[] = [
     title: 'Perhatikan Cuaca Sore Hari',
     description: 'Potensi hujan ringan sering muncul menjelang sore. Siapkan jas hujan, pelindung tas, dan lampu kepala.',
   },
+  {
+    id: 'info-fallback-4',
+    title: 'Pemberitahuan Arus Pendaki',
+    description: 'Periksakan status arus pendakian pagi ini sebelum berangkat untuk menghindari kemacetan di jalur utama.',
+  },
 ];
 
 const fallbackRules: PromoCard[] = [
