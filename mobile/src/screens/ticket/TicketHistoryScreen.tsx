@@ -58,6 +58,13 @@ const fallbackBookings: LiteBooking[] = [
     totalPrice: 75000,
     session: { mountain: { name: 'Gunung Pesagi' }, date: '2026-05-30T06:00:00+07:00' },
   },
+  {
+    id: 'booking-dummy-cancelled-1',
+    status: 'CANCELLED',
+    quantity: 3,
+    totalPrice: 225000,
+    session: { mountain: { name: 'Gunung Pesagi' }, date: '2026-06-05T06:00:00+07:00' },
+  },
 ];
 
 export default function TicketHistoryScreen() {
