@@ -38,6 +38,13 @@ const fallbackBookings: LiteBooking[] = [
     session: { mountain: { name: 'Gunung Pesagi' }, date: '2026-06-18T06:00:00+07:00' },
   },
   {
+    id: 'booking-dummy-pending-1',
+    status: 'PENDING_PAYMENT',
+    quantity: 1,
+    totalPrice: 75000,
+    session: { mountain: { name: 'Gunung Pesagi' }, date: '2026-06-20T06:30:00+07:00' },
+  },
+  {
     id: 'booking-dummy-pending',
     status: 'PENDING_PAYMENT',
     quantity: 2,
