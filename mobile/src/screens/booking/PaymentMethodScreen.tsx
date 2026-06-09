@@ -48,6 +48,7 @@ export default function PaymentMethodScreen({ route, navigation }: { route: any;
       // Menampilkan pesan error jika pembayaran gagal
       setError(err instanceof Error ? err.message : 'Pembayaran gagal');
     } finally {
+      // Mengakhiri status loading
       setBusy(false);
     }
   };
