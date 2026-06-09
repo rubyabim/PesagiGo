@@ -181,6 +181,7 @@ export default function HomeScreen() {
     void syncInfo();
   }, []);
 
+  // Mengambil informasi lokasi basecamp dan menggunakan data default jika gagal
   useEffect(() => {
     const loadBasecamp = async () => {
       try {
