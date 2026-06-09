@@ -70,6 +70,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
 
   // Mengubah objek Date menjadi string key untuk kebutuhan mapping data (tanpa padding)
   const toDateKey = (date: Date) => `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+  // Mengubah objek Date menjadi format ISO-like (YYYY-MM-DD)
   const toIsoDateKey = (date: Date) =>
     `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
   const selectedKey = selectedDate ? toDateKey(selectedDate) : '';
