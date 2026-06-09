@@ -53,11 +53,16 @@ const fallbackRules: PromoCard[] = [
   },
   {
     id: 'rules-fallback-2',
+    title: 'Jaga Kebersihan',
+    description: 'Bawa kembali semua sampah Anda dan jangan tinggalkan jejak di sepanjang jalur.',
+  },
+  {
+    id: 'rules-fallback-3',
     title: 'Larangan Api Unggun',
     description: 'Dilarang menyalakan api di luar area yang ditetapkan untuk mencegah kebakaran hutan.',
   },
   {
-    id: 'rules-fallback-3',
+    id: 'rules-fallback-4',
     title: 'Volume Suara',
     description: 'Jaga kebisingan agar tidak mengganggu satwa dan pendaki lain di jalur.',
   },
