@@ -90,6 +90,7 @@ export default function TicketScreen() {
     void load();
   }, [session?.accessToken, ticketId]);
 
+  // Memverifikasi tiket berdasarkan kode yang dimasukkan admin
   const verifyTicket = async () => {
     if (!session?.accessToken) {
       setScanError('Login admin diperlukan untuk verifikasi tiket.');
