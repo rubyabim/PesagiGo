@@ -6,6 +6,7 @@ import { Announcement, fetchAnnouncements, fetchNews, fetchRules, NewsItem, Rule
 import AppScaffold from './common/AppScaffold';
 import Skeleton from './common/Skeleton';
 
+// Tipe kategori tab yang tersedia pada halaman promosi
 type PromoTab = 'pengumuman' | 'aturan' | 'fasilitas';
 
 type PromoCard = {
