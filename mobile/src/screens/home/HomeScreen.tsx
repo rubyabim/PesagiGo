@@ -83,6 +83,7 @@ const fallbackNews: NewsItem[] = [
   },
 ];
 
+// Mengubah string tanggal/waktu menjadi objek Date dengan penyesuaian format dan zona waktu
 const parseLocalDateTime = (value?: string) => {
   if (!value) return null;
   const normalized = value.includes('T') ? value : value.replace(' ', 'T');
