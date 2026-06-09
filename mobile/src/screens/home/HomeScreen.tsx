@@ -2,10 +2,11 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { Image, ImageBackground, Linking, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { fetchAnnouncements, fetchBmkgForecast, fetchMountains, fetchNews } from '../../api/client';
+import { fetchAnnouncements, fetchBmkgForecast, fetchMountains, fetchMyBookings, fetchNews } from '../../api/client';
 import type { BmkgForecastItem, BmkgForecastResponse, NewsItem } from '../../api/client';
 import AppScaffold from '../common/AppScaffold';
 import Skeleton from '../common/Skeleton';
+import { useAuthContext } from '../../context/AuthContext';
 
 const toWeatherIcon = (condition: string): keyof typeof FontAwesome.glyphMap => {
   const key = condition.toUpperCase();
@@ -91,11 +92,15 @@ export default function HomeScreen() {
   const [bmkgLoading, setBmkgLoading] = useState(true);
   const [bmkgError, setBmkgError] = useState<string | null>(null);
   const [bmkgHourly, setBmkgHourly] = useState<BmkgForecastItem[]>([]);
+  const [bookedCount, setBookedCount] = useState(0);
+  const [bookingCountLoading, setBookingCountLoading] = useState(true);
+  const [bookingCountError, setBookingCountError] = useState<string | null>(null);
   const [basecampLabel, setBasecampLabel] = useState('Papahan, Lampung Barat');
   const [basecampMapUrl, setBasecampMapUrl] = useState('https://www.google.com/maps/search/?api=1&query=-5.0426,104.1213');
   const [basecampMapPreviewUrl] = useState(
     'https://staticmap.openstreetmap.de/staticmap.php?center=-5.0426,104.1213&zoom=12&size=640x320&markers=-5.0426,104.1213,red-pushpin',
   );
+  const { session } = useAuthContext();
   const openBasecampMap = () => Linking.openURL(basecampMapUrl).catch(() => undefined);
 
   useEffect(() => {
@@ -157,6 +162,32 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
+    const loadBookingCount = async () => {
+      if (!session?.accessToken) {
+        setBookedCount(0);
+        setBookingCountLoading(false);
+        return;
+      }
+
+      setBookingCountLoading(true);
+      setBookingCountError(null);
+
+      try {
+        const bookings = await fetchMyBookings(session.accessToken);
+        const totalBooked = bookings.reduce((sum, item) => sum + item.quantity, 0);
+        setBookedCount(totalBooked);
+      } catch (error) {
+        setBookingCountError(error instanceof Error ? error.message : 'Gagal memuat kuota tiket');
+        setBookedCount(0);
+      } finally {
+        setBookingCountLoading(false);
+      }
+    };
+
+    void loadBookingCount();
+  }, [session?.accessToken]);
+
+  useEffect(() => {
     const loadBmkgForecast = async () => {
       setBmkgLoading(true);
       setBmkgError(null);
@@ -196,6 +227,21 @@ export default function HomeScreen() {
           <Pressable style={styles.primaryButton} onPress={() => navigation.getParent()?.navigate('MountainDetail' as never)}>
             <Text style={styles.primaryButtonText}>Pesan Tiket Sekarang</Text>
           </Pressable>
+        </View>
+
+        <View style={styles.quotaCard}>
+          <Text style={styles.quotaTitle}>Kuota Pendakian</Text>
+          <Text style={styles.quotaValue}>200 orang</Text>
+          <Text style={styles.quotaMeta}>
+            Terpesan: {bookingCountLoading ? 'Memuat...' : `${bookedCount} orang`}
+          </Text>
+          <Text style={styles.quotaMeta}>
+            Sisa kuota: {bookingCountLoading ? '-' : `${Math.max(0, 200 - bookedCount)} orang`}
+          </Text>
+          {!session?.accessToken ? (
+            <Text style={styles.quotaNote}>Login untuk melihat jumlah tiket yang sudah dipesan.</Text>
+          ) : null}
+          {bookingCountError ? <Text style={styles.errorText}>{bookingCountError}</Text> : null}
         </View>
 
         <View style={styles.sectionCard}>
@@ -372,6 +418,20 @@ const styles = StyleSheet.create({
   featureBox: { borderRadius: 12, borderWidth: 1, borderColor: '#e2e8f0', backgroundColor: '#ffffff', padding: 12, gap: 3 },
   featureTitle: { color: '#0f172a', fontSize: 16, fontWeight: '800' },
   featureBody: { color: '#475569', fontSize: 12, lineHeight: 18 },
+  quotaCard: {
+    backgroundColor: '#ffffff',
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: '#dbe4ef',
+    padding: 16,
+    gap: 6,
+    marginTop: 12,
+  },
+  quotaTitle: { color: '#0f172a', fontSize: 14, fontWeight: '800' },
+  quotaValue: { color: '#135efd', fontSize: 20, fontWeight: '900', marginTop: 2 },
+  quotaMeta: { color: '#475569', fontSize: 13, marginTop: 4 },
+  quotaNote: { color: '#64748b', fontSize: 12, marginTop: 8 },
+  errorText: { color: '#b91c1c', fontSize: 12, marginTop: 6 },
   cmsInfoWrap: { borderRadius: 12, borderWidth: 1, borderColor: '#dbe4ef', backgroundColor: '#f8fbff', padding: 10, gap: 6 },
   cmsInfoTitle: { color: '#0f172a', fontSize: 13, fontWeight: '800' },
   cmsInfoItem: { borderRadius: 10, borderWidth: 1, borderColor: '#e2e8f0', backgroundColor: '#fff', padding: 8 },
