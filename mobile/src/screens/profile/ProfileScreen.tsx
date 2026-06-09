@@ -5,6 +5,7 @@ import { fetchMyBookings } from '../../api/client';
 import { useAuthContext } from '../../context/AuthContext';
 import AppScaffold from '../common/AppScaffold';
 
+// Struktur data ringkas untuk informasi booking pendakian
 type LiteBooking = {
   id: string;
   status: string;
