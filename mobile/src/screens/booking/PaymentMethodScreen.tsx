@@ -30,6 +30,7 @@ export default function PaymentMethodScreen({ route, navigation }: { route: any;
 
   // Proses pembayaran booking berdasarkan metode yang dipilih
   const onPay = async () => {
+    // Validasi akses token dan bookingId
     if (!session?.accessToken || !bookingId) {
       return;
     }
