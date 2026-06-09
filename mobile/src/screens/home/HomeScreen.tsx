@@ -37,6 +37,7 @@ const fallbackInfo = [
   },
 ];
 
+// Data berita cadangan yang ditampilkan saat data dari server tidak tersedia
 const fallbackNews: NewsItem[] = [
   {
     id: 'news-fallback-1',
