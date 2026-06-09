@@ -25,7 +25,7 @@ const tabIcons: Record<keyof BottomTabParamList, keyof typeof FontAwesome.glyphM
   Home: 'home',
   Locations: 'id-card-o',
   Weather: 'ticket',
-  Map: 'life-ring',
+  Map: 'book',
   Profile: 'user-o',
 };
 
