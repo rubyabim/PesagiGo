@@ -61,6 +61,7 @@ export default function TicketScreen() {
     );
   };
 
+  // Memuat data tiket berdasarkan ID tiket yang dipilih
   useEffect(() => {
     const load = async () => {
       if (!session?.accessToken || !ticketId) {
