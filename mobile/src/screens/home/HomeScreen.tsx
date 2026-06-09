@@ -198,6 +198,7 @@ export default function HomeScreen() {
     void loadBasecamp();
   }, []);
 
+  // Mengambil dan menghitung total tiket yang telah dipesan oleh pengguna
   useEffect(() => {
     const loadBookingCount = async () => {
       if (!session?.accessToken) {
