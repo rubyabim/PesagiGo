@@ -8,6 +8,7 @@ import AppScaffold from '../common/AppScaffold';
 import Skeleton from '../common/Skeleton';
 import { useAuthContext } from '../../context/AuthContext';
 
+// Mengubah kondisi cuaca (string) menjadi nama ikon FontAwesome
 const toWeatherIcon = (condition: string): keyof typeof FontAwesome.glyphMap => {
   const key = condition.toUpperCase();
   if (key.includes('HUJAN') || key.includes('RAIN') || key.includes('STORM')) return 'tint';
