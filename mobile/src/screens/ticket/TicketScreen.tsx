@@ -73,6 +73,7 @@ export default function TicketScreen() {
       setLoading(true);
       setError(null);
       try {
+        // Mengambil data tiket dari server
         const data = await fetchTicket(session.accessToken, ticketId);
         setTicket(data as TicketData);
         setScanCode((data as TicketData).ticketCode);
