@@ -111,6 +111,7 @@ const flattenBmkgForecast = (response: BmkgForecastResponse | null): BmkgForecas
 };
 
 export default function HomeScreen() {
+  // Inisialisasi navigasi, state, ref, dan data yang digunakan pada halaman Home
   const navigation = useNavigation<any>();
   const { width } = useWindowDimensions();
   const weatherCardWidth = Math.max(112, Math.floor((width - WEATHER_HORIZONTAL_INSET - CARD_GAP) / 2));
