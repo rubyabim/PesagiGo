@@ -16,6 +16,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
   const [currentYear, setCurrentYear] = useState(now.getFullYear());
   // Menyimpan tanggal yang dipilih oleh pengguna
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  // Status loading saat mengambil data sesi pendakian
   const [loadingSessions, setLoadingSessions] = useState(true);
   const [sessionsByDate, setSessionsByDate] = useState<Record<string, { available: number; total: number }>>({});
 
