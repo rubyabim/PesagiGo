@@ -45,6 +45,7 @@ export default function MapScreen() {
           mapUrl: `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(m.location)}`,
         }));
 
+        // Menggabungkan semua data spot
         const merged = [...cmsSpots, ...mountainSpots];
         setSpots(merged.length > 0 ? merged : [fallbackSpot]);
       } catch {
