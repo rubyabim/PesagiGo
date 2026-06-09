@@ -2,6 +2,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import AppScaffold from './common/AppScaffold';
 
+// Daftar panduan dan informasi penting bagi pendaki Gunung Pesagi
 const guides = [
   { title: 'Syarat Administrasi', desc: 'Dokumen, biaya masuk, dan regulasi izin masuk terbaru.' },
   { title: 'Persiapan Sebelum Mendaki', desc: 'Peralatan dan fisik yang disarankan.' },
