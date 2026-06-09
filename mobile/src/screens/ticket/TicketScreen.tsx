@@ -110,6 +110,7 @@ export default function TicketScreen() {
       const result = await scanTicketCode(session.accessToken, scanCode.trim());
       setScanResult(result);
     } catch (err) {
+      // Menampilkan pesan kesalahan jika verifikasi gagal
       setScanError(err instanceof Error ? err.message : 'Gagal verifikasi tiket');
     } finally {
       setScanLoading(false);
