@@ -54,7 +54,7 @@ const fallbackRules: PromoCard[] = [
   {
     id: 'rules-fallback-2',
     title: 'Jaga Kebersihan',
-    description: 'Bawa kembali semua sampah Anda dan jangan tinggalkan jejak di sepanjang jalur.',
+    description: 'Selalu bawa pulang sampah pribadi dan jangan tinggalkan jejak di alam.',
   },
   {
     id: 'rules-fallback-3',
