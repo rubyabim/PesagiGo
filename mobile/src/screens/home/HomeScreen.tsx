@@ -235,6 +235,7 @@ export default function HomeScreen() {
         const response = await fetchBmkgForecast(BMKG_ADM4);
         setBmkgHourly(flattenBmkgForecast(response));
       } catch (error) {
+        // Menampilkan pesan error dan mengosongkan data jika gagal memuat
         setBmkgError(error instanceof Error ? error.message : 'Gagal memuat cuaca BMKG');
         setBmkgHourly([]);
       } finally {
