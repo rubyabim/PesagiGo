@@ -37,7 +37,7 @@ export default function MapScreen() {
             mapUrl: item.mapUrl as string,
           }));
 
-        // Mengambil data spot dari CMS (hanya yang memiliki mapUrl)
+        // Mengubah data gunung menjadi format MapSpot
         const mountainSpots = mountains.map((m) => ({
           id: m.id,
           title: m.name,
