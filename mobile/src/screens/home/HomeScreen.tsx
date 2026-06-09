@@ -258,7 +258,7 @@ export default function HomeScreen() {
   return (
     <AppScaffold title="Beranda" showWhatsApp>
       <ScrollView style={styles.page} contentContainerStyle={styles.content}>
-        <Text style={styles.welcome}>Selamat Datang!</Text>
+        <Text style={styles.welcome}>Welcome!</Text>
         <Text style={styles.ask}>Siap mendaki Gunung Pesagi?</Text>
 
         <View style={styles.mainCard}>
