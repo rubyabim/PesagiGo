@@ -10,7 +10,7 @@ type MapSpot = {
   subtitle: string;
   mapUrl: string;
 };
-// Model data titik lokasi peta
+// Data lokasi cadangan yang digunakan jika data peta tidak tersedia
 const fallbackSpot: MapSpot = {
   id: 'pesagi-main',
   title: 'Gunung Pesagi via Papahan',
