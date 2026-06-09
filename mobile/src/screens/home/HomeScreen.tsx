@@ -443,6 +443,13 @@ export default function HomeScreen() {
             <Text style={styles.mapButtonText}>Buka Rute ke Basecamp</Text>
           </Pressable>
         </View>
+
+        <View style={styles.descriptionCard}>
+          <Text style={styles.descriptionTitle}>Tentang Gunung Pesagi</Text>
+          <Text style={styles.descriptionText}>
+            Gunung Pesagi adalah puncak tertinggi di Lampung Barat dengan pemandangan alam yang indah dan jalur pendakian menantang. Dikenal karena hutan tropis yang lebat, udara segar, dan panorama sunrise yang memukau, Pesagi menjadi tujuan favorit bagi pendaki yang ingin merasakan pengalaman alam yang otentik.
+          </Text>
+        </View>
       </ScrollView>
     </AppScaffold>
   );
@@ -559,4 +566,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   mapButtonText: { color: '#ffffff', fontSize: 15, fontWeight: '800' },
+  descriptionCard: {
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#dbe5df',
+    backgroundColor: '#ffffff',
+    padding: 16,
+    gap: 10,
+  },
+  descriptionTitle: { color: '#0f172a', fontSize: 18, fontWeight: '800' },
+  descriptionText: { color: '#475569', fontSize: 14, lineHeight: 22 },
 });
