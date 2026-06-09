@@ -9,6 +9,7 @@ import Skeleton from './common/Skeleton';
 // Tipe kategori tab yang tersedia pada halaman promosi
 type PromoTab = 'pengumuman' | 'aturan' | 'fasilitas';
 
+// Struktur data untuk kartu promosi yang ditampilkan
 type PromoCard = {
   id: string;
   title: string;
