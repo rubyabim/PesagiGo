@@ -45,6 +45,7 @@ export default function PaymentMethodScreen({ route, navigation }: { route: any;
         ticketId: result.booking.id,
       });
     } catch (err) {
+      // Menampilkan pesan error jika pembayaran gagal
       setError(err instanceof Error ? err.message : 'Pembayaran gagal');
     } finally {
       setBusy(false);
