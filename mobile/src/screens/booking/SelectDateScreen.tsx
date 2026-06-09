@@ -14,6 +14,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
   // State untuk mengatur bulan dan tahun yang sedang ditampilkan pada kalender
   const [currentMonth, setCurrentMonth] = useState(now.getMonth());
   const [currentYear, setCurrentYear] = useState(now.getFullYear());
+  // Menyimpan tanggal yang dipilih oleh pengguna
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [loadingSessions, setLoadingSessions] = useState(true);
   const [sessionsByDate, setSessionsByDate] = useState<Record<string, { available: number; total: number }>>({});
