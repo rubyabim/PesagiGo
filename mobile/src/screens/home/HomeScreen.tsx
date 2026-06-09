@@ -239,6 +239,7 @@ export default function HomeScreen() {
         setBmkgError(error instanceof Error ? error.message : 'Gagal memuat cuaca BMKG');
         setBmkgHourly([]);
       } finally {
+        // Mengakhiri status loading
         setBmkgLoading(false);
       }
     };
