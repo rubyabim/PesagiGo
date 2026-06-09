@@ -24,6 +24,10 @@ const toWeatherIcon = (condition: string): keyof typeof FontAwesome.glyphMap => 
 const BMKG_ADM4 = '16.09.13.2008';
 const CARD_GAP = 12;
 const WEATHER_HORIZONTAL_INSET = 56;
+const GOOGLE_MAP_PREVIEW_URL =
+  'https://maps.googleapis.com/maps/api/staticmap?center=-5.0426,104.1213&zoom=12&size=640x320&markers=color:red%7Clabel:P%7C-5.0426,104.1213';
+const OPENSTREETMAP_PREVIEW_URL =
+  'https://staticmap.openstreetmap.de/staticmap.php?center=-5.0426,104.1213&zoom=12&size=640x320&markers=-5.0426,104.1213,red-pushpin';
 
 // Data cadangan yang akan ditampilkan jika informasi berita atau pengumuman tidak tersedia dari sumber utama
 const fallbackInfo = [
@@ -137,9 +141,9 @@ export default function HomeScreen() {
   const [bookingCountError, setBookingCountError] = useState<string | null>(null);
   const [basecampLabel, setBasecampLabel] = useState('Papahan, Lampung Barat');
   const [basecampMapUrl, setBasecampMapUrl] = useState('https://www.google.com/maps/search/?api=1&query=-5.0426,104.1213');
-  const [basecampMapPreviewUrl] = useState(
-    'https://staticmap.openstreetmap.de/staticmap.php?center=-5.0426,104.1213&zoom=12&size=640x320&markers=-5.0426,104.1213,red-pushpin',
-  );
+  const [mapPreviewUrl, setMapPreviewUrl] = useState(GOOGLE_MAP_PREVIEW_URL);
+  const [mapPreviewFallback, setMapPreviewFallback] = useState(false);
+  const [mapPreviewError, setMapPreviewError] = useState(false);
   const { session } = useAuthContext();
   const openBasecampMap = () => Linking.openURL(basecampMapUrl).catch(() => undefined);
 
@@ -410,18 +414,36 @@ export default function HomeScreen() {
         <View style={styles.mapCard}>
           <Text style={styles.mapTitle}>Map Basecamp Gunung Pesagi</Text>
           <Pressable style={styles.mapPreview} onPress={openBasecampMap}>
-            <ImageBackground source={{ uri: basecampMapPreviewUrl }} imageStyle={styles.mapImage} style={styles.mapImageWrap}>
-              <View style={styles.mapTopInfo}>
-                <FontAwesome name="tree" size={16} color="#135efd" />
-                <View>
-                  <Text style={styles.mapTopTitle}>Gunung Pesagi</Text>
-                  <Text style={styles.mapTopSub}>2.262 mdpl</Text>
+            {mapPreviewError ? (
+              <View style={[styles.mapImageWrap, styles.mapFallback]}>
+                <Text style={styles.mapFallbackText}>Peta tidak tersedia saat ini</Text>
+              </View>
+            ) : (
+              <ImageBackground
+                source={{ uri: mapPreviewUrl }}
+                imageStyle={styles.mapImage}
+                style={styles.mapImageWrap}
+                onError={() => {
+                  if (!mapPreviewFallback) {
+                    setMapPreviewUrl(OPENSTREETMAP_PREVIEW_URL);
+                    setMapPreviewFallback(true);
+                  } else {
+                    setMapPreviewError(true);
+                  }
+                }}
+              >
+                <View style={styles.mapTopInfo}>
+                  <FontAwesome name="tree" size={16} color="#135efd" />
+                  <View>
+                    <Text style={styles.mapTopTitle}>Gunung Pesagi</Text>
+                    <Text style={styles.mapTopSub}>2.262 mdpl</Text>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.pinMarker}>
-                <FontAwesome name="map-marker" size={30} color="#135efd" />
-              </View>
-            </ImageBackground>
+                <View style={styles.pinMarker}>
+                  <FontAwesome name="map-marker" size={30} color="#135efd" />
+                </View>
+              </ImageBackground>
+            )}
           </Pressable>
 
           <Pressable style={styles.basecampInfo} onPress={openBasecampMap}>
@@ -578,6 +600,14 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   mapButtonText: { color: '#ffffff', fontSize: 15, fontWeight: '800' },
+  mapFallback: {
+    backgroundColor: '#e5e7eb',
+    borderRadius: 12,
+    minHeight: 190,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  mapFallbackText: { color: '#475569', fontSize: 14, textAlign: 'center' },
   descriptionCard: {
     borderRadius: 16,
     borderWidth: 1,
