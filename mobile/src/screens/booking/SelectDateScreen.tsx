@@ -112,6 +112,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
     const data = sessionsByDate[toIsoDateKey(date)];
     // Tidak ada data sesi pada tanggal tersebut
     if (!data) return 'empty';
+    // Kuota sudah habis
     if (data.available <= 0) return 'full';
     return 'available';
   };
