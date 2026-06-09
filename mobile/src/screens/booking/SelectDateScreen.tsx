@@ -114,6 +114,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
     if (!data) return 'empty';
     // Kuota sudah habis
     if (data.available <= 0) return 'full';
+    // Masih tersedia kuota
     return 'available';
   };
 
