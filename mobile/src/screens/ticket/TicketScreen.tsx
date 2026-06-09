@@ -151,6 +151,7 @@ export default function TicketScreen() {
       const targetUri = `${FileSystem.documentDirectory}${filename}`;
       const pdfUrl = `${getApiBaseUrl()}/api/bookings/${ticket.bookingId}/ticket/pdf`;
 
+      // Mengunduh file PDF tiket
       setDownloadInfo('Mengunduh PDF tiket...');
       await FileSystem.downloadAsync(pdfUrl, targetUri, {
         headers: {
