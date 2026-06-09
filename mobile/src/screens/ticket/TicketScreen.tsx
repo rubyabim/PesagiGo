@@ -97,6 +97,7 @@ export default function TicketScreen() {
       setScanError('Login admin diperlukan untuk verifikasi tiket.');
       return;
     }
+    // Memastikan kode tiket telah diisi
     if (!scanCode.trim()) {
       setScanError('Masukkan kode tiket.');
       return;
