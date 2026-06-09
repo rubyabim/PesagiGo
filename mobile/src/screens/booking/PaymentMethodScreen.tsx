@@ -23,6 +23,7 @@ export default function PaymentMethodScreen({ route, navigation }: { route: any;
   const [selected, setSelected] = useState(methods[0].id);
   // State loading saat proses pembayaran
   const [busy, setBusy] = useState(false);
+  // State untuk menampilkan pesan error
   const [error, setError] = useState<string | null>(null);
   const bookingId = route.params?.bookingId as string | undefined;
 
