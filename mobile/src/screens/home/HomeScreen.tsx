@@ -225,6 +225,7 @@ export default function HomeScreen() {
     void loadBookingCount();
   }, [session?.accessToken]);
 
+  // Mengambil data prakiraan cuaca BMKG dan menyimpannya ke state
   useEffect(() => {
     const loadBmkgForecast = async () => {
       setBmkgLoading(true);
