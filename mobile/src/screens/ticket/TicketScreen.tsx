@@ -113,6 +113,7 @@ export default function TicketScreen() {
       // Menampilkan pesan kesalahan jika verifikasi gagal
       setScanError(err instanceof Error ? err.message : 'Gagal verifikasi tiket');
     } finally {
+      // Mengakhiri status loading
       setScanLoading(false);
     }
   };
