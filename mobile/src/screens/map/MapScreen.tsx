@@ -49,6 +49,7 @@ export default function MapScreen() {
         const merged = [...cmsSpots, ...mountainSpots];
         setSpots(merged.length > 0 ? merged : [fallbackSpot]);
       } catch {
+        // Jika gagal, gunakan data fallback
         setSpots([fallbackSpot]);
       }
     };
