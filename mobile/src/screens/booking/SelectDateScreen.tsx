@@ -11,6 +11,7 @@ const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Jul
 // Halaman pemilihan tanggal pendakian
 export default function SelectDateScreen({ navigation }: { navigation: any }) {
   const now = new Date();
+  // State untuk mengatur bulan dan tahun yang sedang ditampilkan pada kalender
   const [currentMonth, setCurrentMonth] = useState(now.getMonth());
   const [currentYear, setCurrentYear] = useState(now.getFullYear());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
