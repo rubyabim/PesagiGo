@@ -6,6 +6,7 @@ const guides = [
   { title: 'Syarat Administrasi', desc: 'Dokumen, biaya masuk, dan regulasi izin masuk terbaru.' },
   { title: 'Persiapan Sebelum Mendaki', desc: 'Peralatan dan fisik yang disarankan.' },
   { title: 'Selama Pendakian', desc: 'Tips aman, ritme jalan, dan manajemen air.' },
+  { title: 'Manajemen Perjalanan', desc: 'Cara mengatur waktu, bekal, dan istirahat selama pendakian.' },
   { title: 'Etika Pendakian', desc: 'Jaga alam, hormati sesama pendaki.' },
   { title: 'Keadaan Darurat', desc: 'Langkah saat cuaca buruk atau cedera.' },
   { title: 'Adat dan Kearifan Lokal', desc: 'Aturan adat, mitos, dan hal tabu yang wajib dihormati.' },
