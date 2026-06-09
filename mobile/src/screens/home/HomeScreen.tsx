@@ -220,7 +220,7 @@ export default function HomeScreen() {
             </View>
           </ImageBackground>
           <View style={styles.statRow}>
-            <Text style={styles.stat}>Ketinggian{'\n'}{'\n'}2.262 mdpl</Text>
+            <Text style={styles.stat}>Ketinggian{'\n'}{'\n'}{'\n'}2.262 mdpl</Text>
             <Text style={styles.stat}>Waktu Tempuh{'\n'}{'\n'}4-6 Jam</Text>
             <Text style={styles.stat}>Jalur Pendakian{'\n'}{'\n'}Papahan</Text>
             <Text style={styles.stat}>Tingkat Kesulitan{'\n'}{'\n'}Menengah</Text>
