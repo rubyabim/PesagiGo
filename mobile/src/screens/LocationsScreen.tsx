@@ -119,6 +119,7 @@ function mapInformation(announcements: Announcement[]): PromoCard[] {
   }));
 }
 
+// Mengonversi data aturan pendakian menjadi format kartu promosi
 function mapRules(rules: RuleItem[]): PromoCard[] {
   return rules.map((item) => ({
     id: item.id,
