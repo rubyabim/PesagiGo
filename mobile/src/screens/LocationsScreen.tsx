@@ -69,7 +69,7 @@ const fallbackRules: PromoCard[] = [
   {
     id: 'rules-fallback-5',
     title: 'Keselamatan',
-    description: 'Gunakan perlindungan diri, ikuti petunjuk ranger, dan jangan mengambil risiko berbahaya.',
+    description: 'Pastikan perlengkapan lengkap, koordinasi dengan tim, dan hindari area berbahaya saat mendaki.',
   },
   {
     id: 'rules-fallback-6',
