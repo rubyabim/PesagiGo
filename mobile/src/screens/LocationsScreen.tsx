@@ -26,6 +26,11 @@ const fallbackPromo: PromoCard[] = [
     title: 'Paket Parkir dan Penitipan',
     description: 'Pendaki bisa menitipkan kendaraan di area basecamp resmi selama periode pendakian berlangsung.',
   },
+  {
+    id: 'promo-fallback-3',
+    title: 'Ruang Istirahat dan Makanan Ringan',
+    description: 'Basecamp menyediakan ruang istirahat dengan minuman ringan dan camilan untuk persiapan sebelum pendakian.',
+  },
 ];
 
 const fallbackInfo: PromoCard[] = [
