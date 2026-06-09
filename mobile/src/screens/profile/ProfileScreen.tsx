@@ -56,6 +56,7 @@ export default function ProfileScreen() {
     );
   }
 
+  // Menampilkan halaman login jika pengguna belum terautentikasi
   if (!session) {
     return (
       <AppScaffold title="Profil">
