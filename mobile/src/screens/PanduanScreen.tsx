@@ -3,6 +3,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import AppScaffold from './common/AppScaffold';
 
 const guides = [
+  { title: 'Syarat Administrasi', desc: 'Dokumen dan persyaratan admin yang perlu dipenuhi sebelum mendaki.' },
   { title: 'Persiapan Sebelum Mendaki', desc: 'Peralatan dan fisik yang disarankan.' },
   { title: 'Selama Pendakian', desc: 'Tips aman, ritme jalan, dan manajemen air.' },
   { title: 'Etika Pendakian', desc: 'Jaga alam, hormati sesama pendaki.' },
