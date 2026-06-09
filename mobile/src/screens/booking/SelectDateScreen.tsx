@@ -83,6 +83,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
     const loadSessions = async () => {
       setLoadingSessions(true);
       try {
+        // Mengambil daftar sesi dari API
         const list = await fetchSessions();
         const next: Record<string, { available: number; total: number }> = {};
         (list as Session[]).forEach((item) => {
