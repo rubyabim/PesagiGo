@@ -17,6 +17,7 @@ type TicketData = {
   quantity: number;
 };
 
+// Data tiket cadangan yang digunakan saat data tiket utama tidak tersedia
 const fallbackTicket: TicketData = {
   ticketCode: 'PSG-DUMMY-2405',
   ticketPdfUrl: '',
