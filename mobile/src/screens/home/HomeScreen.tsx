@@ -136,6 +136,7 @@ export default function HomeScreen() {
   const { session } = useAuthContext();
   const openBasecampMap = () => Linking.openURL(basecampMapUrl).catch(() => undefined);
 
+  // Mengambil data berita terbaru dan menggunakan data fallback jika terjadi kegagalan
   useEffect(() => {
     const syncNews = async () => {
       try {
