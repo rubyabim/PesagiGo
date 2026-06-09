@@ -39,6 +39,11 @@ const fallbackPromo: PromoCard[] = [
     title: 'Layanan Informasi 24 Jam',
     description: 'Tim basecamp siap membantu informasi jalur, kondisi cuaca, dan jadwal pendakian kapan saja.',
   },
+  {
+    id: 'promo-fallback-5',
+    title: 'Area Istirahat Darurat',
+    description: 'Terdapat pos istirahat darurat dengan akses air minum dan pertolongan pertama untuk kebutuhan mendesak.',
+  },
 ];
 
 // Kartu informasi yang ditampilkan jika data belum tersedia
