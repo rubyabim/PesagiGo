@@ -104,6 +104,7 @@ const formatBmkgShort = (value?: string) => {
   });
 };
 
+// Menggabungkan seluruh data prakiraan cuaca BMKG menjadi satu array
 const flattenBmkgForecast = (response: BmkgForecastResponse | null): BmkgForecastItem[] => {
   const blocks = response?.data?.[0]?.cuaca ?? [];
   return blocks.flat();
