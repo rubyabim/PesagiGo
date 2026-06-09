@@ -55,6 +55,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
       });
     }
 
+    // Mengisi sisa grid dengan hari bulan berikutnya agar selalu kelipatan 7
     while (cells.length % 7 !== 0) {
       const day = cells.length - (firstWeekday + totalDays) + 1;
       cells.push({
