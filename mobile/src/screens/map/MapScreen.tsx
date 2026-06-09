@@ -3,6 +3,7 @@ import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-na
 import { Announcement, fetchAnnouncements, fetchMountains } from '../../api/client';
 import AppScaffold from '../common/AppScaffold';
 
+// Struktur data lokasi atau titik penting pada peta
 type MapSpot = {
   id: string;
   title: string;
