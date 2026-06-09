@@ -25,6 +25,7 @@ const BMKG_ADM4 = '16.09.13.2008';
 const CARD_GAP = 12;
 const WEATHER_HORIZONTAL_INSET = 56;
 
+// Data cadangan yang akan ditampilkan jika informasi berita atau pengumuman tidak tersedia dari sumber utama
 const fallbackInfo = [
   {
     title: 'Jalur Papahan Dibuka Normal',
