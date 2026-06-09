@@ -92,6 +92,7 @@ const parseLocalDateTime = (value?: string) => {
   return Number.isNaN(date.getTime()) ? null : date;
 };
 
+// Memformat tanggal BMKG menjadi format singkat yang mudah dibaca
 const formatBmkgShort = (value?: string) => {
   const date = parseLocalDateTime(value);
   if (!date) return value ?? '-';
