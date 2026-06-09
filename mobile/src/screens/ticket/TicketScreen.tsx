@@ -27,6 +27,7 @@ const fallbackTicket: TicketData = {
   quantity: 3,
 };
 
+// Inisialisasi state, navigasi, dan data yang digunakan pada halaman tiket
 export default function TicketScreen() {
   const route = useRoute<any>();
   const navigation = useNavigation<any>();
