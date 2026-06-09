@@ -125,6 +125,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
     setCurrentYear(next.getFullYear());
   };
 
+  // Mengambil status dan kuota dari tanggal yang dipilih
   const selectedStatus = selectedDate ? getStatus(selectedDate) : null;
   const selectedQuota = selectedIsoKey ? sessionsByDate[selectedIsoKey] : undefined;
   const canContinue = !!selectedDate && selectedStatus === 'available';
