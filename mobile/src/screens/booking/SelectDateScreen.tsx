@@ -21,6 +21,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
   // Data ketersediaan kuota per tanggal
   const [sessionsByDate, setSessionsByDate] = useState<Record<string, { available: number; total: number }>>({});
 
+  // Membuat daftar pilihan tahun untuk kalender (± beberapa tahun dari tahun sekarang)
   const yearOptions = useMemo(() => {
     const start = now.getFullYear() - 1;
     return Array.from({ length: 6 }, (_, i) => start + i);
