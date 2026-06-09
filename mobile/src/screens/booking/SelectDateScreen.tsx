@@ -128,6 +128,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
   // Mengambil status dan kuota dari tanggal yang dipilih
   const selectedStatus = selectedDate ? getStatus(selectedDate) : null;
   const selectedQuota = selectedIsoKey ? sessionsByDate[selectedIsoKey] : undefined;
+  // Menentukan apakah user bisa lanjut ke proses berikutnya
   const canContinue = !!selectedDate && selectedStatus === 'available';
 
   return (
