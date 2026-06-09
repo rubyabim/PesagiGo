@@ -9,6 +9,7 @@ const guides = [
   { title: 'Estimasi Waktu', desc: 'Durasi perjalanan 4-6 jam, waktu terbaik, dan manajemen time schedule.' },
   { title: 'Selama Pendakian', desc: 'Tips aman, ritme jalan, dan manajemen air.' },
   { title: 'Titik Sinyal HP', desc: 'Lokasi-lokasi dengan cakupan sinyal telekomunikasi di sepanjang jalur.' },
+  { title: 'Istirahat dan Hidrasi', desc: 'Waktu istirahat yang disarankan dan tips menjaga cairan tubuh selama pendakian.' },
   { title: 'Manajemen Perjalanan', desc: 'Manajemen logistik, checklist perlengkapan, dan manajemen sampah.' },
   { title: 'Etika Pendakian', desc: 'Jaga alam, hormati sesama pendaki.' },
   { title: 'Keadaan Darurat', desc: 'Langkah saat cuaca buruk atau cedera.' },
