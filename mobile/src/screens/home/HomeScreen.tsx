@@ -13,6 +13,7 @@ const toWeatherIcon = (condition: string): keyof typeof FontAwesome.glyphMap => 
   // Ubah teks kondisi menjadi huruf kapital agar pencocokan tidak sensitif terhadap kapitalisasi
   const key = condition.toUpperCase();
   // Jika kondisi mengandung kata hujan, rain, atau storm
+  // maka tampilkan ikon tetesan air
   if (key.includes('HUJAN') || key.includes('RAIN') || key.includes('STORM')) return 'tint';
   if (key.includes('BERAWAN') || key.includes('CLOUD') || key.includes('KABUT') || key.includes('FOG')) return 'cloud';
   return 'sun-o';
