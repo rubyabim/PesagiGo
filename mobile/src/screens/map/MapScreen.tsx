@@ -18,6 +18,7 @@ const fallbackSpot: MapSpot = {
   mapUrl: 'https://www.google.com/maps/search/?api=1&query=-5.0426,104.1213',
 };
 
+// Inisialisasi data lokasi yang akan ditampilkan pada halaman peta
 export default function MapScreen() {
   const [spots, setSpots] = useState<MapSpot[]>([fallbackSpot]);
 
