@@ -68,6 +68,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
     return cells;
   }, [currentMonth, currentYear]);
 
+  // Mengubah objek Date menjadi string key untuk kebutuhan mapping data (tanpa padding)
   const toDateKey = (date: Date) => `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
   const toIsoDateKey = (date: Date) =>
     `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
