@@ -10,7 +10,7 @@ export default function MountainDetailScreen({ navigation }: { navigation: any }
         <Image source={require('../../pesagi.jpg')} style={styles.heroImage} />
         <View style={styles.card}>
           <Text style={styles.title}>Gunung Pesagi via Papahan</Text>
-          <Text style={styles.desc}>Gunung Pesagi adalah gunung berapi tidak aktif dengan pemandangan alam indah dan jalur pendakian menantang.</Text>
+          <Text style={styles.desc}>Gunung Pesagi merupakan gunung tertinggi di Provinsi Lampung dengan ketinggian sekitar 2.262 meter di atas permukaan laut dan terletak di wilayah Kabupaten Lampung Barat. Gunung ini memiliki nilai sejarah dan budaya yang penting bagi masyarakat adat Lampung karena dipercaya sebagai salah satu wilayah asal-usul nenek moyang Lampung. Jalur pendakiannya didominasi oleh hutan tropis yang masih alami, vegetasi pegunungan, serta pemandangan perbukitan dan lembah yang indah. Dari puncaknya, pendaki dapat menikmati panorama wilayah Lampung Barat dan sekitarnya, menjadikan Gunung Pesagi sebagai salah satu destinasi favorit bagi pecinta alam yang ingin menikmati pendakian dengan suasana alam yang asri sekaligus mengenal kekayaan budaya lokal.</Text>
           <View style={styles.grid}>
             <Text style={styles.meta}>Ketinggian: 2.262 mdpl</Text>
             <Text style={styles.meta}>Kesulitan: Sedang</Text>
