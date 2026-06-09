@@ -64,7 +64,7 @@ const fallbackRules: PromoCard[] = [
   {
     id: 'rules-fallback-4',
     title: 'Etika Sesama Pendaki',
-    description: 'Hormati jarak, bantu yang membutuhkan, dan jangan mengganggu kelompok lain.',
+    description: 'Hormati jarak dan privasi, bantu pendaki lain yang membutuhkan, serta tetap sopan dan tenang di jalur.',
   },
   {
     id: 'rules-fallback-5',
