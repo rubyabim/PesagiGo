@@ -58,6 +58,11 @@ const fallbackInfo: PromoCard[] = [
     title: 'Pemberitahuan Arus Pendaki',
     description: 'Periksakan status arus pendakian pagi ini sebelum berangkat untuk menghindari kemacetan di jalur utama.',
   },
+  {
+    id: 'info-fallback-5',
+    title: 'Pembaruan Status Basecamp',
+    description: 'Pantau ketersediaan tempat istirahat dan fasilitas pendukung di basecamp sebelum tiba di lokasi.',
+  },
 ];
 
 // Kartu aturan yang ditampilkan jika data belum tersedia
