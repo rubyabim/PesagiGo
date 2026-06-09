@@ -63,11 +63,16 @@ const fallbackRules: PromoCard[] = [
   },
   {
     id: 'rules-fallback-4',
+    title: 'Etika Sesama Pendaki',
+    description: 'Hormati jarak, bantu yang membutuhkan, dan jangan mengganggu kelompok lain.',
+  },
+  {
+    id: 'rules-fallback-5',
     title: 'Larangan Api Unggun',
     description: 'Dilarang menyalakan api di luar area yang ditetapkan untuk mencegah kebakaran hutan.',
   },
   {
-    id: 'rules-fallback-5',
+    id: 'rules-fallback-6',
     title: 'Volume Suara',
     description: 'Jaga kebisingan agar tidak mengganggu satwa dan pendaki lain di jalur.',
   },
