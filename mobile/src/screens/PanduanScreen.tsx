@@ -22,7 +22,7 @@ export default function PanduanScreen() {
           <View key={item.title} style={styles.item}>
             <View style={styles.itemHead}>
               <View style={styles.iconWrap}>
-                <FontAwesome name="bookmark-o" size={14} color="#135efd" />
+                <FontAwesome name="exclamation" size={14} color="#135efd" />
               </View>
               <View style={styles.itemText}>
                 <Text style={styles.itemTitle}>{item.title}</Text>
