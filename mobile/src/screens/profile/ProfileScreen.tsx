@@ -61,15 +61,9 @@ export default function ProfileScreen() {
   if (!session) {
     return (
       <AppScaffold title="Profil">
-        <ScrollView style={styles.page} contentContainerStyle={styles.content}>
-          <View style={styles.card}>
-            <Text style={styles.title}>Masuk Akun</Text>
-            <Text style={styles.subtitle}>Silakan masuk untuk mengakses profil, tiket, dan riwayat booking.</Text>
-            <Pressable style={styles.loginBtn} onPress={() => navigation.navigate('Auth', { screen: 'Login' })}>
-              <Text style={styles.loginBtnText}>Masuk / Daftar</Text>
-            </Pressable>
-          </View>
-        </ScrollView>
+        <View style={styles.center}>
+          <ActivityIndicator color="#135efd" />
+        </View>
       </AppScaffold>
     );
   }
