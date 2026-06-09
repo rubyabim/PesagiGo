@@ -35,6 +35,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
     // Menyimpan semua sel kalender (prev month, current month, next month)
     const cells: Array<{ day: number; monthOffset: -1 | 0 | 1; date: Date }> = [];
 
+    // Mengisi hari dari bulan sebelumnya
     const prevMonthTotal = new Date(currentYear, currentMonth, 0).getDate();
     for (let i = firstWeekday - 1; i >= 0; i -= 1) {
       const day = prevMonthTotal - i;
