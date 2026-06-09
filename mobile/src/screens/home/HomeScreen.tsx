@@ -151,6 +151,7 @@ export default function HomeScreen() {
     void syncNews();
   }, []);
 
+  // Menggeser carousel berita secara otomatis dalam interval tertentu
   useEffect(() => {
     if (headlineNews.length <= 1) return;
     const timer = setInterval(() => {
