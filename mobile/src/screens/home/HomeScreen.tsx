@@ -163,6 +163,7 @@ export default function HomeScreen() {
     return () => clearInterval(timer);
   }, [headlineNews.length, newsCardWidth]);
 
+  // Mengambil informasi pengumuman terbaru dan menampilkan data fallback jika diperlukan
   useEffect(() => {
     const syncInfo = async () => {
       try {
