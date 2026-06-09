@@ -15,6 +15,7 @@ type LiteBooking = {
 };
 
 export default function ProfileScreen() {
+  // Inisialisasi state dan data yang digunakan pada halaman profil pengguna
   const navigation = useNavigation<any>();
   const { ready, session, logout } = useAuthContext();
   const [busy, setBusy] = useState(false);
