@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useIsFocused, useNavigation } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { fetchMyBookings } from '../../api/client';
 import { useAuthContext } from '../../context/AuthContext';
 import AppScaffold from '../common/AppScaffold';
@@ -15,27 +15,10 @@ type LiteBooking = {
 
 export default function ProfileScreen() {
   const navigation = useNavigation<any>();
-  const isFocused = useIsFocused();
   const { ready, session, logout } = useAuthContext();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [bookings, setBookings] = useState<LiteBooking[]>([]);
-
-  useEffect(() => {
-    if (ready && !session && isFocused) {
-      navigation.getParent()?.navigate('Auth', { screen: 'Login' });
-    }
-  }, [ready, session, isFocused, navigation]);
-
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('tabPress', (e: { preventDefault: () => void }) => {
-      if (ready && !session) {
-        e.preventDefault();
-        navigation.getParent()?.navigate('Auth', { screen: 'Login' });
-      }
-    });
-    return unsubscribe;
-  }, [navigation, ready, session]);
 
   useEffect(() => {
     if (!session?.accessToken) {
@@ -72,9 +55,15 @@ export default function ProfileScreen() {
   if (!session) {
     return (
       <AppScaffold title="Profil">
-        <View style={styles.center}>
-          <ActivityIndicator color="#135efd" />
-        </View>
+        <ScrollView style={styles.page} contentContainerStyle={styles.content}>
+          <View style={styles.card}>
+            <Text style={styles.title}>Login </Text>
+            <Text style={styles.subtitle}>Login diperlukan untuk melihat dashboard profil, tiket, dan riwayat booking.</Text>
+            <Pressable style={styles.loginBtn} onPress={() => navigation.navigate('Auth', { screen: 'Login' })}>
+              <Text style={styles.loginBtnText}>Masuk / Daftar</Text>
+            </Pressable>
+          </View>
+        </ScrollView>
       </AppScaffold>
     );
   }
