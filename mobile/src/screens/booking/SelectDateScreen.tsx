@@ -110,6 +110,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
   // Menentukan status ketersediaan kuota berdasarkan tanggal sesi
   const getStatus = (date: Date): 'available' | 'full' | 'empty' => {
     const data = sessionsByDate[toIsoDateKey(date)];
+    // Tidak ada data sesi pada tanggal tersebut
     if (!data) return 'empty';
     if (data.available <= 0) return 'full';
     return 'available';
