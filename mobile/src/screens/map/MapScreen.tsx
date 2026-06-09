@@ -22,6 +22,7 @@ const fallbackSpot: MapSpot = {
 export default function MapScreen() {
   const [spots, setSpots] = useState<MapSpot[]>([fallbackSpot]);
 
+  // Memuat data peta dari CMS dan data gunung, lalu menggabungkannya menjadi daftar lokasi
   useEffect(() => {
     const loadMapData = async () => {
       try {
