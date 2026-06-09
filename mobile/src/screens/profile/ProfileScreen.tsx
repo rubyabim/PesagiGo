@@ -57,7 +57,7 @@ export default function ProfileScreen() {
       <AppScaffold title="Profil">
         <ScrollView style={styles.page} contentContainerStyle={styles.content}>
           <View style={styles.card}>
-            <Text style={styles.title}>Masuk Dulu</Text>
+            <Text style={styles.title}>Login Dahulu</Text>
             <Text style={styles.subtitle}>Login diperlukan untuk melihat dashboard profil, tiket, dan riwayat booking.</Text>
             <Pressable style={styles.loginBtn} onPress={() => navigation.navigate('Auth', { screen: 'Login' })}>
               <Text style={styles.loginBtnText}>Masuk / Daftar</Text>
