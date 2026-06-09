@@ -85,6 +85,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
       try {
         // Mengambil daftar sesi dari API
         const list = await fetchSessions();
+        // Mengelompokkan data sesi berdasarkan tanggal (YYYY-MM-DD)
         const next: Record<string, { available: number; total: number }> = {};
         (list as Session[]).forEach((item) => {
           const isoKey = item.date.slice(0, 10);
