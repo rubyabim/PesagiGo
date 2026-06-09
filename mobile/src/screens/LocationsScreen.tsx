@@ -1,7 +1,7 @@
 import { useCallback, useMemo, useState } from 'react';
 import { Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { Announcement, fetchAnnouncements, fetchNews, NewsItem } from '../api/client';
+import { Announcement, fetchAnnouncements, fetchNews, fetchRules, NewsItem, RuleItem } from '../api/client';
 import AppScaffold from './common/AppScaffold';
 import Skeleton from './common/Skeleton';
 
@@ -45,6 +45,24 @@ const fallbackInfo: PromoCard[] = [
   },
 ];
 
+const fallbackRules: PromoCard[] = [
+  {
+    id: 'rules-fallback-1',
+    title: 'Aturan Dasar Pendakian',
+    description: 'Gunakan jalur resmi, jangan membuang sampah sembarangan, dan ikuti instruksi ranger.',
+  },
+  {
+    id: 'rules-fallback-2',
+    title: 'Larangan Api Unggun',
+    description: 'Dilarang menyalakan api di luar area yang ditetapkan untuk mencegah kebakaran hutan.',
+  },
+  {
+    id: 'rules-fallback-3',
+    title: 'Volume Suara',
+    description: 'Jaga kebisingan agar tidak mengganggu satwa dan pendaki lain di jalur.',
+  },
+];
+
 function mapPromo(news: NewsItem[]): PromoCard[] {
   return news.map((item) => ({
     id: item.id,
@@ -63,24 +81,37 @@ function mapInformation(announcements: Announcement[]): PromoCard[] {
   }));
 }
 
+function mapRules(rules: RuleItem[]): PromoCard[] {
+  return rules.map((item) => ({
+    id: item.id,
+    title: item.title,
+    description: item.description,
+    imageUrl: item.imageUrl,
+  }));
+}
+
 export default function LocationsScreen() {
   const [tab, setTab] = useState<PromoTab>('pengumuman');
   const [promoItems, setPromoItems] = useState<PromoCard[]>(fallbackPromo);
   const [informationItems, setInformationItems] = useState<PromoCard[]>(fallbackInfo);
+  const [ruleItems, setRuleItems] = useState<PromoCard[]>(fallbackRules);
   const [loading, setLoading] = useState(true);
 
   useFocusEffect(
     useCallback(() => {
     const syncCms = async () => {
       try {
-        const [news, announcements] = await Promise.all([fetchNews(), fetchAnnouncements()]);
+        const [news, announcements, rules] = await Promise.all([fetchNews(), fetchAnnouncements(), fetchRules()]);
         const promo = mapPromo(news);
         const info = mapInformation(announcements);
+        const ruleList = mapRules(rules);
         setPromoItems(promo.length > 0 ? promo : fallbackPromo);
         setInformationItems(info.length > 0 ? info : fallbackInfo);
+        setRuleItems(ruleList.length > 0 ? ruleList : fallbackRules);
       } catch {
         setPromoItems(fallbackPromo);
         setInformationItems(fallbackInfo);
+        setRuleItems(fallbackRules);
       } finally {
         setLoading(false);
       }
@@ -95,10 +126,10 @@ export default function LocationsScreen() {
       return informationItems;
     }
     if (tab === 'aturan') {
-      return informationItems;
+      return ruleItems;
     }
     return promoItems;
-  }, [informationItems, promoItems, tab]);
+  }, [informationItems, promoItems, ruleItems, tab]);
 
   return (
     <AppScaffold title="Informasi">
