@@ -78,6 +78,7 @@ export default function SelectDateScreen({ navigation }: { navigation: any }) {
   // Key tanggal yang dipilih (format ISO YYYY-MM-DD)
   const selectedIsoKey = selectedDate ? toIsoDateKey(selectedDate) : '';
 
+  // Memuat data sesi pendakian dan mengelompokkannya berdasarkan tanggal
   useEffect(() => {
     const loadSessions = async () => {
       setLoadingSessions(true);
