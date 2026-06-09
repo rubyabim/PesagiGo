@@ -8,7 +8,7 @@ const guides = [
   { title: 'Etika Pendakian', desc: 'Jaga alam, hormati sesama pendaki.' },
   { title: 'Keadaan Darurat', desc: 'Langkah saat cuaca buruk atau cedera.' },
   { title: 'Adat dan Kearifan Lokal', desc: 'Aturan adat, mitos, dan hal tabu yang wajib dihormati.' },
-  { title: 'Flora Fauna Khas', desc: 'Informasi tentang tanaman dan hewan lokal yang perlu diketahui.' },
+  { title: 'Flora Fauna Khas', desc: 'Mengenal ekosistem endemik di sepanjang jalur.' },
 ];
 
 export default function PanduanScreen() {
