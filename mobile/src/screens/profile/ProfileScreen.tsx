@@ -45,6 +45,7 @@ export default function ProfileScreen() {
     void load();
   }, [session?.accessToken]);
 
+  // Menampilkan indikator loading hingga data sesi selesai dimuat
   if (!ready) {
     return (
       <AppScaffold title="Profil">
