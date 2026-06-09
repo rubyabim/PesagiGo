@@ -21,6 +21,12 @@ export default function ProfileScreen() {
   const [bookings, setBookings] = useState<LiteBooking[]>([]);
 
   useEffect(() => {
+    if (ready && !session) {
+      navigation.navigate('Auth', { screen: 'Login' });
+    }
+  }, [ready, session, navigation]);
+
+  useEffect(() => {
     if (!session?.accessToken) {
       setBookings([]);
       return;
@@ -57,8 +63,8 @@ export default function ProfileScreen() {
       <AppScaffold title="Profil">
         <ScrollView style={styles.page} contentContainerStyle={styles.content}>
           <View style={styles.card}>
-            <Text style={styles.title}>Login Dahulu</Text>
-            <Text style={styles.subtitle}>Login diperlukan untuk melihat dashboard profil, tiket, dan riwayat booking.</Text>
+            <Text style={styles.title}>Masuk Akun</Text>
+            <Text style={styles.subtitle}>Silakan masuk untuk mengakses profil, tiket, dan riwayat booking.</Text>
             <Pressable style={styles.loginBtn} onPress={() => navigation.navigate('Auth', { screen: 'Login' })}>
               <Text style={styles.loginBtnText}>Masuk / Daftar</Text>
             </Pressable>
