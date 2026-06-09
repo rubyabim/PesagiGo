@@ -5,6 +5,7 @@ import AppScaffold from '../common/AppScaffold';
 
 // Label nama hari dalam bahasa Indonesia (singkatan)
 const days = ['Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab', 'Min'];
+// Label nama bulan dalam bahasa Indonesia
 const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
 export default function SelectDateScreen({ navigation }: { navigation: any }) {
