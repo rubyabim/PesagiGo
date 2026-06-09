@@ -7,6 +7,7 @@ import { getApiBaseUrl } from '../../config/api';
 import { useAuthContext } from '../../context/AuthContext';
 import AppScaffold from '../common/AppScaffold';
 
+// Struktur data tiket pendakian yang diterima dari API
 type TicketData = {
   ticketCode: string;
   ticketPdfUrl: string;
