@@ -59,6 +59,13 @@ const fallbackNews: NewsItem[] = [
     imageUrl: 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1200&q=80',
     createdAt: new Date().toISOString(),
   },
+  {
+    id: 'news-fallback-5',
+    title: 'Pelatihan Pemandu Lokal Pesagi Ditingkatkan',
+    description: 'Basecamp melakukan program sertifikasi pemandu untuk meningkatkan keselamatan pendaki.',
+    imageUrl: 'https://images.unsplash.com/photo-1552519507-da3effeff00c?auto=format&fit=crop&w=1200&q=80',
+    createdAt: new Date().toISOString(),
+  },
 ];
 
 const parseLocalDateTime = (value?: string) => {
