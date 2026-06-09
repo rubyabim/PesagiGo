@@ -36,6 +36,7 @@ const fallbackPromo: PromoCard[] = [
   },
 ];
 
+// Kartu informasi yang ditampilkan jika data belum tersedia
 const fallbackInfo: PromoCard[] = [
   {
     id: 'info-fallback-1',
