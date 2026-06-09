@@ -16,6 +16,7 @@ const methods = [
   { id: 'SHOPEEPAY', label: 'ShopeePay' },
 ];
 
+// Halaman pemilihan metode pembayaran untuk booking
 export default function PaymentMethodScreen({ route, navigation }: { route: any; navigation: any }) {
   const { session } = useAuthContext();
   const [selected, setSelected] = useState(methods[0].id);
