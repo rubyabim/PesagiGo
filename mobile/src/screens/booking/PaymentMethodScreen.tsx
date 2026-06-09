@@ -19,6 +19,7 @@ const methods = [
 // Halaman pemilihan metode pembayaran untuk booking
 export default function PaymentMethodScreen({ route, navigation }: { route: any; navigation: any }) {
   const { session } = useAuthContext();
+  // State metode pembayaran yang dipilih (default: metode pertama)
   const [selected, setSelected] = useState(methods[0].id);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
