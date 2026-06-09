@@ -106,6 +106,7 @@ export default function TicketScreen() {
     setScanError(null);
     setScanResult(null);
     try {
+      // Mengirim kode tiket untuk proses verifikasi
       const result = await scanTicketCode(session.accessToken, scanCode.trim());
       setScanResult(result);
     } catch (err) {
